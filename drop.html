@@ -1,0 +1,217 @@
+<style>
+
+/*.passport-file {
+    z-index: 1;
+    opacity: -20;
+    position: absolute;
+    width: 55px;
+    margin-left: 22px;
+    margin-top: 50px;
+}
+
+.passport-icon {
+    color: var(--primary);
+    position: absolute;
+    margin-top: 47px;
+    margin-left: 50px;
+    padding: 5px 4px 0px 4px;
+    font-size: 12px;
+    text-align: center;
+    background-color: #fff;
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.15) !important;    
+    height: 1.75rem;
+    width: 1.75rem;
+    border-radius: 50%;
+}
+
+        // async changePage(event) {
+        //     const toPage = event.currentTarget.attributes.id.value;
+        //     this.filter.page = toPage
+        //     await this.reqGuardians();
+        // },
+
+@click="$router.go(-1)"
+
+</style>
+
+<script >
+//this.$router.push({ query: Object.assign({}, this.$route.query, { newKey: 'newval' }) })
+</script>
+
+
+<line-preload :loading="loading"></line-preload>
+<div class="sb-sidenav-footer bg-white border-bottom pt-3 pb-2">
+    <a href="#" class="text-decoration-none text-dark collapse-toggler collapsed" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+        <div class="d-flex align-items-start pr-2">
+            <div class="pr-2">
+                <img src="assets/images/passport/" class="rounded-circle border border-success bg-white" height="40" width="40" alt="">
+            </div>
+            <div class="text-truncate small-xs font-weight-midi ">
+                <div class="">Inlogicstuido Academy</div>
+                <div class="text-muted text-truncate">inlogicstudio@gmail.com</div>
+            </div>
+            <div class="px-2 sb-drop-arrow">
+                <i class="fas fa-angle-up"></i>
+            </div>
+        </div>
+    </a>
+    <div class="collapse" id="collapseExample">
+        <div class="card card-body mt-2">
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+<div class="card border-0 shadow-sm">
+    <div class="card-header border-bottom-0 photo-focus" 
+         :style="{ backgroundImage: 'url(' + require('@/assets/images/bg-graduation.jpg') + ')' }">
+        <div class="">
+            <a href="#" class="text-decoration-none float-right text-white collapse-toggler collapsed" 
+               data-toggle="collapse" 
+               data-target="#collapseExample" 
+               aria-expanded="false" 
+               aria-controls="collapseExample">
+                   <i class=" fas fa-ellipsis-v"></i>
+            </a>
+        </div>
+    </div>
+    <div class="d-flex align-items-start">
+        <div class="mt-n4 mx-2">
+            <input type="file" class="passport-file text-center">
+            <span class="passport-icon"><i class="fas fa-camera fa-lg text-center"></i></span>
+            <img class="rounded-circle border-2 border-white bg-gray" src="@/assets/images/user1.png" height="80" width="80" alt="">
+        </div>
+        <div class="text-muted">
+            <small class="h7 font-weight-midi text-capitalize">
+                <a class="text-decoration-none text-muted">Balogun Samuel omotayo</a>
+            </small>
+            <div class="small font-weight-midi">JS 2 - Golden Boyz</div>
+        </div>
+    </div>
+    <div class="card-body px-0 py-1">
+        <div class="px-0 border-top">
+            <div class="row no-gutters px-0">
+                <div class="col text-left py-2 pl-3">
+                    <div class="small-xs text-muted ">Account Status</div>
+                    <div class="small font-weight-midi text-dark">Enrolled</div>
+                </div>
+                <div class="col text-left px-1 py-2 pl-2">
+                    <div class="small-xs text-muted">Admission No</div>
+                    <div class="small font-weight-midi text-dark">ADM542278</div>
+                </div>
+            </div> 
+            <div class="row no-gutters px-0 collapse" id="collapseExample">
+                <div class="col text-left py-2 pl-3">
+                    <div class="small-xs text-muted ">Due Fees</div>
+                    <div class="small font-weight-bold text-danger">&#8358; 0.0</div>
+                </div>
+                <div class="col text-left px-1 py-2 pl-2">
+                    <div class="small-xs text-muted">Age</div>
+                    <div class="small font-weight-midi text-dark">16 Years</div>
+                </div>
+            </div>
+        </div>                            
+    </div>
+</div>
+
+
+formErrors: {
+    title: '',
+    firstname: '',
+    surname: '',
+    othername: '',
+    gender: '',
+    nationality: '',
+    state_origin: '',
+    local_govt: '',
+    email: '',
+    phone: '',
+    pic: '',
+    resident: '',
+    occupation: ''
+}
+
+
+
+<!-- <div class="border rounded-top rounded-right p-2 pt-3">
+    <div class="d-flex mt-2">
+        <img src="@/assets/images/user.png" class="rounded-circle mr-2 border bg-light" width="35" height="35">
+        <div class="text-break overflow-auto"> 
+            <h6 href="#" class="small text-decoration-none text-primary">Mobolaji Johnson akinlade</h6>
+            <div class="d-flex flex-wrap">
+                <div class="d-inline-flex text-dark mr-2 mr-sm-3">
+                    <div class="mr-1"><i class="icon icon-watchlist icon-lg"></i></div>
+                    <div class="ml-1 text-break text-capitalize small">Active</div>
+                </div>
+                <div class="d-inline-flex text-dark mr-sm-3">
+                    <div class="mr-1"><i class="icon icon-badges icon-lg"></i></div>
+                    <div class="ml-1 text-break text-muted small">ADM524854</div>
+                </div>
+                <div class="d-inline-flex text-dark">
+                    <div class="mr-1"><i class="icon icon-repo icon-lg"></i></div>
+                    <div class="ml-1 text-break text-muted small">JS2</div>
+                </div> 
+            </div>
+        </div>
+    </div>
+    <div class="form-group mt-2">
+        <ValidationProvider  name="relationship" rules="required" v-slot="{ errors }" >
+            <label class="small-xs font-weight-midi m-0">Relationship<span class="text-danger"> &#42;</span></label>
+            <input type="text" class="form-control" placeholder="eg father">
+            <span class="text-danger small-xs mt-n3">{{ errors[0] }}</span>
+        </ValidationProvider>
+    </div>
+     <div class="form-group mt-2">
+         <div class="custom-control-lg custom-control custom-checkbox">
+            <input type="checkbox" class="custom-control-input"  id="1">
+            <label class="custom-control-label" for="1"><span class="small ml-n2">Emergency Contact</span></label>
+        </div>
+    </div>
+</div> -->
+
+header('Access-Control-Allow-Origin: *');
+header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS');
+header("Access-Control-Allow-Headers: X-Requested-with");
+
+
+
+
+        // async reqGuardians() {
+        //     this.reqState.modalLoading = true;
+
+        //     await Guardian.all(this.filter)
+        //     .then((res) => {
+        //         console.log(res);
+
+        //         this.guardians = res.data.data;
+
+        //         if(res.data.next_page_url === null) {
+        //             this.paging.nextPage = false;
+        //         } else {
+        //             this.paging.nextPage = res.data.next_page_url.split('=')[1]; 
+        //         }
+
+        //         if(res.data.prev_page_url === null) {
+        //             this.paging.prevPage = false;
+        //         } else {
+        //             this.paging.prevPage = res.data.prev_page_url.split('=')[1];
+        //         }
+
+        //         this.paging.currentPage = res.data.current_page;
+        //         this.paging.totalPage = res.data.last_page;
+
+        //         let pageLinks = res.data.links;
+        //         this.paging.pagesLength = pageLinks.slice(1, pageLinks.length - 1).length;
+
+        //         this.reqState.modalLoading = false;
+        //         this.reqState.modalLoaded = true;
+
+        //     })
+        //     .catch((err) => {
+        //         console.log(err.response)
+        //     })
+        // },

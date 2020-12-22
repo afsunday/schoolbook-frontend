@@ -1,0 +1,339 @@
+/*!
+ * Schoolbook styles utils
+ * 
+ * Schoolbook Management System
+**/
+
+/* ===================================================
+          @form control
+==================================================== */
+
+.form-control {
+  box-shadow:  none !important;
+}
+
+.form-control:focus {
+  border: 1px solid #0073e6 !important;
+}
+
+.dropdown-item:hover {
+  background-color: rgba(0,0,0,0.10) !important;
+}
+
+.custom-select {
+  box-shadow:  none !important;
+}
+
+.custom-select:focus {
+  border: 1px solid #0073e6 !important;
+}
+
+/*====================================================
+        @table
+====================================================== */
+
+.table-lg th,
+.table-lg td {
+  padding: 0.7rem 1rem 1.2rem 0.6rem !important;
+}
+
+.table thead th {
+  border-bottom: 1px solid #cccccc !important;
+  padding-bottom: 0.5rem !important;
+  padding-top: 1rem !important;
+}
+
+/*===================================================
+        @utils
+=====================================================*/
+
+.no-outline:focus, .no-outline:active {
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+.rounded-lg-top {
+  border-top-left-radius: 0.3rem !important;
+  border-top-right-radius: 0.3rem !important;
+}
+
+.rounded-lg-top {
+  border-top-left-radius: 0.45rem !important;
+  border-top-right-radius: 0.45rem !important;
+}
+
+.rounded-lg-right {
+  border-top-right-radius: 0.3rem !important;
+  border-bottom-right-radius: 0.3rem !important;
+}
+
+.outline-0 {
+  outline: 0 !important;
+}
+
+.border-2 {
+  border: 2px solid #cccccc;
+}
+
+.small-xs {
+  font-size: 70%;
+  font-weight: 400;
+}
+
+.font-weight-midi {
+  font-weight: 600 !important;
+}
+
+.pb-7 {
+  padding-bottom: 5rem !important;
+}
+
+.px-6 {
+   padding-left: 3.5rem !important;
+   padding-right: 3.5rem !important;
+}
+
+.h7 {
+  margin-bottom: 0.5rem;
+  font-weight: 400;
+  line-height: 1.2;
+  font-size: 0.90rem;
+}
+
+.enrolled { 
+    color:  #009900; 
+}
+
+.dropped { 
+    color: #ff3300;  
+}
+
+.graduated { 
+    color: #0066cc; 
+}
+
+/* =================================================
+       @light background
+================================================== */
+
+.bg-light-primary {
+ background-color: rgba(15,15,189, 0.10) !important;
+}
+
+.bg-light-secondary {
+  background-color: rgba(30,30,30, 0.10) !important;
+}
+
+.bg-light-danger {
+  background-color: rgba(255,0,0,0.10) !important;
+}
+
+.bg-light-info {
+  background-color: rgba(0,153,204,0.15) !important;
+}
+
+.bg-light-success {
+  background-color: rgba(0,153,0,0.15) !important;
+}
+
+/* ==================================================
+        @btn
+=================================================== */
+
+.btn-ripple {
+    border: none;
+    border-radius: .25rem;
+    cursor: pointer;
+    background-color: #2196f3;
+    box-shadow: 0 0 2px #999;
+    color: #fff !important;
+    padding-top: .7rem;
+    padding-bottom: .7rem;
+    outline: none !important;
+    box-shadow: none !important;
+}
+
+.ripple {
+    background-position: center;
+    transition: background .9s;
+}
+
+.ripple:hover {
+    background: #47a7f5 radial-gradient(circle, transparent 1%, #47a7f5 1%) center/15000%;
+    color: #fff;
+}
+
+.ripple:active {
+    background-color: #6eb9f7;
+    background-size: 100%;
+    transition: background 0s;
+}
+
+.ripple:disabled {
+    transition: unset;
+}
+
+.btn-effect {
+    transition: 0.5s;
+    font-weight: 500 !important;
+}
+
+.btn-xs {
+  padding: 0.25rem 0.4rem;
+  font-size: 0.800rem;
+  font-weight: 600 !important;
+  line-height: 1.3 !important;
+  border-radius: 2px;
+}
+
+.btn-effect:focus {
+  opacity: 0.6;
+}
+
+/* =================================================
+       @Checkboxes
+================================================== */
+
+.custom-control-lg .custom-control-label::before,
+.custom-control-lg .custom-control-label::after {
+  top: 0.1rem !important;
+  left: -2rem !important;
+  width: 1.20rem !important;
+  height:  1.20rem !important;
+  border-radius: 3px !important;
+  outline: none !important;
+  box-shadow: none !important;
+  font-size: 15px !important;
+}
+
+.custom-control-lg .custom-control-label {
+  margin-left: 0.5rem !important;
+  font-size: 1rem !important;
+}
+
+.custom-control-lg .custom-control-label::before {
+  border: 1px solid #cccccc !important;
+}
+
+.custom-control-lg .custom-control-input:checked ~ .custom-control-label::after {
+  color: #fff;
+  border-color: #007bff;
+  background-color: #007bff;
+  transition-delay: 0s !important;
+}
+
+.logic-checkbox {
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    background: #fff;
+    color: #555;
+    clear: none;
+    cursor: pointer;
+    display: inline-block;
+    line-height: 0;
+    height: 1.25rem;
+    margin: .25rem 0 0 0;
+    outline: 0;
+    padding: 0 !important;
+    text-align: center;
+    vertical-align: middle;
+    width: 1.25rem;
+    min-width: 1.25rem;
+    -webkit-appearance: none;
+    box-shadow: inset 0 1px 2px rgba(0,0,0,.1);
+    transition: .05s border-color ease-in-out;
+}
+
+.logic-checkbox:checked::before {
+    content: url(data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20viewBox%3D%270%200%2020%2020%27%3E%3Cpath%20d%3D%27M14.83%204.89l1.34.94-5.81%208.38H9.02L5.78%209.67l1.34-1.25%202.57%202.4z%27%20fill%3D%27%231e8cbe%27%2F%3E%3C%2Fsvg%3E);
+    height: 5rem;
+    width: 5rem;
+    margin-left: -.10rem;
+}
+
+.logic-checkbox:disabled{
+    background-color: #f2f2f2;
+}
+
+/*===================================================
+        @overrides nav-pills
+=====================================================*/
+
+.nav-pills .nav-link {
+  border-radius: 0px !important;
+  color: #666 !important;
+  font-weight: 600 !important;
+  font-size: 0.8rem !important;
+}
+.nav-pills .nav-link.active,
+.nav-pills .show > .nav-link {
+  color: #007bff !important;
+  background-color: unset !important;
+  font-weight: 600 !important;
+  font-size: 0.8rem !important;
+  border-bottom: 3px solid #007bff !important;
+}
+.nav-pills .nav-link:hover {
+  background-color: rgba(0,0,0,0.075) !important;
+  border-radius: 0.3rem !important;
+}
+
+.nav-pills .nav-link.active:hover {
+  background-color: unset !important;
+  border-radius: unset !important;
+}
+
+
+/* ================================================
+            Fixed Bottom nav
+================================================= */
+
+/*@media (min-width: 769px) {
+  #fixed-bottom-nav {
+    display: none !important;
+  }
+  
+}
+@media (max-width: 768px) {
+  .d-footer {
+    display: none;
+  }
+}*/
+
+/*#fixed-bottom-nav {
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 54px;
+  display: flex;
+}
+.bottom-nav-flex {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: space-around;
+  align-items: center;
+}
+.bottom-nav-flex > div {
+  margin-top: 1px;
+  margin-bottom: 0px;
+  font-size: 15px;
+}
+.bottom-nav-flex .small {
+  font-size: 11px;
+  font-weight: 600;
+}
+.bottom-nav-flex > * {
+  color: #666666;
+}
+.bottom-nav-flex > a:hover {
+  color: #666666;
+}
+.b-nav-active {
+  color: #339966;
+}
+.b-nav-active > * {
+  color: #339966;
+}*/

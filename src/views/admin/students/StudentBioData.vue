@@ -1,0 +1,174 @@
+<template>
+    <div class="rounded">
+        <div class="row">
+            <div class="col-md-6 col-lg-6 col-xl-6">
+                <div class="bg-white p-2 rounded mb-3 shadow-sm min-h200">
+                    <spin-loader class="my-3" :loading="loading" ></spin-loader>
+                    <div v-if="loaded" class="item-wrapper">
+                        <div class="d-flex align-items-start">
+                            <div class="mr-2 mr-sm-3">
+                                <img class="rounded-circle border-2 border-white bg-dark" src="@/assets/images/user1.png" height="80" width="80" alt="">
+                            </div>
+                            <div class="text-muted">
+                                <small class="h7 font-weight-midi text-capitalize">
+                                    <a class="text-decoration-none text-muted">{{ student.firstname }} {{ student.lastname }} {{ student.othername }}</a>
+                                </small>
+                                <div class="small font-weight-midi">{{student.classname}} {{student.classarm}} </div>
+                            </div>
+                        </div>
+                        <div class="card-body px-0 py-1">
+                            <div class="px-0 border-top mt-2 pl-1">
+                                <div class="row no-gutters px-0">
+                                    <div class="col text-left py-2">
+                                        <div class="small-xs text-muted ">Enrollment Status</div>
+                                        <div :class="student.status" class="small font-weight-midi text-capitalize">{{student.status}}</div>
+                                    </div>
+                                    <div class="col text-left px-1 py-2 pl-2">
+                                        <div class="small-xs text-muted">Admission No</div>
+                                        <div class="small font-weight-midi text-dark">{{student.admission_number}}</div>
+                                    </div>
+                                </div> 
+                                <div class="row no-gutters px-0" id="collapseExample">
+                                    <div class="col text-left">
+                                        <div class="small-xs text-muted ">Due Fees</div>
+                                        <div class="small font-weight-bold text-danger">&#8358; 0.0</div>
+                                    </div>
+                                    <div class="col text-left px-1 pl-2">
+                                        <div class="small-xs text-muted">Age</div>
+                                        <div class="small font-weight-midi text-dark">16 Years</div>
+                                    </div>
+                                </div>
+                            </div>                            
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white px-2 pb-2 pt-3 rounded mb-2 shadow-sm min-h200 ">
+                    <spin-loader class="my-3" :loading="loading" ></spin-loader>
+
+                    <div v-if="loaded" class="item-wrapper">
+                        <div class="text-muted small font-weight-normal mb-1">
+                            <span><i class="fas fa-user fa-sm"></i></span> 
+                            Basic Info
+                        </div>
+
+                        <div class="border rounded-top-lg rounded-right-lg pt-2 pb-1 px-2 mb-3">
+                            <div class="text-capitalize font-weight-midi h7">Firstname</div>
+                            <div class="text-capitalize small">{{student.firstname}}</div>
+                        </div>
+
+                        <div class="border rounded-top-lg rounded-right-lg pt-2 pb-1 px-2 mb-3">
+                            <div class="text-capitalize font-weight-midi h7">Lastname</div>
+                            <div class="text-capitalize small">{{student.lastname}}</div>
+                        </div>
+
+                        <div class="border rounded-top-lg rounded-right-lg pt-2 pb-1 px-2 mb-3">
+                            <div class="text-capitalize font-weight-midi h7">Othername</div>
+                            <div class="text-capitalize small">{{student.othername}}</div>
+                        </div>
+
+                        <div class="border rounded-top-lg rounded-right-lg pt-2 pb-1 px-2 mb-3">
+                            <div class="text-capitalize font-weight-midi h7">Date of Birth</div>
+                            <div class="text-capitalize small">{{student.firstname}}</div>
+                        </div> 
+
+                        <div class="border rounded-top-lg rounded-right-lg pt-2 pb-1 px-2 mb-3">
+                            <div class="text-capitalize font-weight-midi h7">Gender</div>
+                            <div class="text-capitalize small">{{student.gender}}</div>
+                        </div>
+
+                        <div class="border rounded-top-lg rounded-right-lg pt-2 pb-1 px-2 mb-3">
+                            <div class="text-capitalize font-weight-midi h7">Blood Group</div>
+                            <div class="text-capitalize small">Balogun</div>
+                        </div> 
+                    </div>                     
+                </div>
+            </div>
+
+            <div class="col-md-6 col-lg-6 col-xl-6">
+                <div class="bg-white px-2 pb-2 pt-3 rounded mb-3 shadow-sm min-h200">
+                    <spin-loader class="my-3" :loading="loading" ></spin-loader>
+
+                    <div v-if="loaded" class="item-wrapper">
+                        <div class="text-muted small font-weight-normal mb-1">
+                            <span><i class="fas fa-user fa-sm"></i></span> 
+                            Basic Info
+                        </div>
+
+                        <div class="border rounded-top-lg rounded-right-lg pt-2 pb-1 px-2 mb-3">
+                            <div class="text-capitalize font-weight-midi h7">Adm Date</div>
+                            <div class="text-capitalize small">{{student.admission_date}}</div>
+                        </div>
+
+                        <div class="border rounded-top-lg rounded-right-lg pt-2 pb-1 px-2 mb-3">
+                            <div class="text-capitalize font-weight-midi h7">Health Info</div>
+                            <div class="text-capitalize small">Balogun</div>
+                        </div>
+
+                        <div class="border rounded-top-lg rounded-right-lg pt-2 pb-1 px-2 mb-3">
+                            <div class="text-capitalize font-weight-midi h7">Phone</div>
+                            <div class="text-capitalize small">{{student.phone}}</div>
+                        </div>
+
+                        <div class="border rounded-top-lg rounded-right-lg pt-2 pb-1 px-2 mb-3">
+                            <div class="text-capitalize font-weight-midi h7">Mobile Phone</div>
+                            <div class="text-capitalize small">Balogun</div>
+                        </div>
+
+                        <div class="border rounded-top-lg rounded-right-lg pt-2 pb-1 px-2 mb-3">
+                            <div class="text-capitalize font-weight-midi h7">Email</div>
+                            <div class="text-capitalize small">{{student.email}}</div>
+                        </div>
+
+                        <div class="border rounded-top-lg rounded-right-lg pt-2 pb-1 px-2 mb-3">
+                            <div class="text-capitalize font-weight-midi h7">Home Address</div>
+                            <div class="text-capitalize small">{{student.residential_address}}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+
+<script>
+import SpinLoader from '@/components/SpinLoader';
+
+export default {
+    name: 'StudentBioData',
+    components: {
+        SpinLoader,
+    },
+
+    props: ['student', 'loading', 'loaded'],
+
+}
+</script>
+
+<style scoped>
+.rounded-right-lg {
+  border-top-right-radius: 0.3rem;
+  border-bottom-right-radius: 0.3rem;
+}
+
+.rounded-top-lg {
+  border-top-left-radius: 0.3rem;
+  border-top-right-radius: 0.3rem;
+}
+
+.enrolled { 
+    color:  #009900; 
+}
+
+.dropped { 
+    color: #ff3300;  
+}
+
+.graduated { 
+    color: #0066cc; 
+}
+
+.min-h250 {
+    min-height: 200px;
+}
+</style>

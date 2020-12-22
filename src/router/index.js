@@ -1,25 +1,61 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import Home from '../views/Home.vue'
+import routes from './routes'
+import NProgress from 'nprogress'
 
-const routes = [
-  {
-    path: '/',
-    name: 'Home',
-    component: Home
-  },
-  {
-    path: '/about',
-    name: 'About',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
-  }
-]
+NProgress.configure({
+  easing: 'ease',
+  speed: 1000,
+  trickleSpeed: 500
+})
 
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes
+})
+
+router.beforeEach(async (to, from) => {
+    const authUser = JSON.parse(localStorage.getItem('SB_USER'))
+
+    if (to.meta.requiresAuth) {
+
+        if (authUser === null || !authUser.type) {
+
+            router.push({ path: '/login', query: { redirect: 'forbidden' } })
+        } else if (to.meta.adminAuth) {
+
+            if (authUser.type !== 'admin') 
+            router.push({ path: '/403', query: { redirect: 'forbidden' } })
+
+        } else if (to.meta.staffAuth) {
+
+            if (authUser.type !== 'teacher')
+            router.push({ path: '/403', query: { redirect: 'forbidden' } })
+
+        } else if (to.meta.studentAuth) {
+
+            if (authUser.type !== 'student')
+            router.push({ path: '/403', query: { redirect: 'forbidden' } })
+
+        } else if (to.meta.guardianAuth) {
+
+            if (authUser.type !== 'guardian')
+            router.push({ path: '/403', query: { redirect: 'forbidden' } })
+
+        } 
+    } else {
+        return true
+    }
+})
+
+
+router.beforeResolve((to) => {
+    if (to.name) {
+        NProgress.start()  
+    }
+})
+
+router.afterEach((to, from) => {
+    NProgress.done()
 })
 
 export default router
