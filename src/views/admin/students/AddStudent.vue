@@ -390,9 +390,11 @@ export default {
         const schoolClasses = ref([])
 
         const fetchClasses = async () => {
-            Class.classes()
+            reqState.loading = true
+            await Class.classes()
             .then((res) => {
                 schoolClasses.value = res.data;
+                reqState.loading = false
             })
             .catch((err) => {
                 console.log(err)
@@ -489,7 +491,6 @@ export default {
         onMounted(fetchGuardians)
 
 
-
         // formdata
         let form = reactive({
             firstname: '',
@@ -527,9 +528,8 @@ export default {
             }
 
             if (selectedGuardians.value.length >= 1) {
-                formData.append('guardians', JSON.stringify(selectedGuardians))
+                formData.append('guardians', JSON.stringify(selectedGuardians.value))
             }
-
 
             Student.create(formData)
             .then((res) => {
