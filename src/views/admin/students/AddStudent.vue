@@ -42,7 +42,7 @@
                                         <span class="text-danger">&#42;</span>
                                     </label>
                                     <Field name="firstname" as="input" class="form-control form-control-lg mb-0" rules="required"
-                                           @input="updateForm('firstname', $event.target.value)" :value="form.firstname" />
+                                           @input="updateForm('firstname', $event.target.value, form)" :value="form.firstname" />
                                     <small class="text-danger small-xs mt-n3">{{ errors.firstname }}</small>
                                 </div>
 
@@ -51,7 +51,7 @@
                                         <span class="text-danger">&#42;</span>
                                     </label>
                                     <Field name="surname" as="input" class="form-control form-control-lg mb-0" rules="required"
-                                           @input="updateForm('surname', $event.target.value)" :value="form.surname" />
+                                           @input="updateForm('surname', $event.target.value, form)" :value="form.surname" />
                                     <small class="text-danger small-xs mt-n3">{{ errors.surname }}</small>
                                 </div>
 
@@ -60,7 +60,7 @@
                                         <span class="text-danger">&#42;</span>
                                     </label>
                                     <Field name="othername" as="input" class="form-control form-control-lg mb-0" rules="required"
-                                           @input="updateForm('othername', $event.target.value)" :value="form.othername" />
+                                           @input="updateForm('othername', $event.target.value, form)" :value="form.othername" />
                                     <small class="text-danger small-xs mt-n3">{{ errors.othername }}</small>
                                 </div>
                             </div>
@@ -68,7 +68,7 @@
                             <div class="form-row">
                                 <div class="form-group col-md-4">
                                     <label class="small-xs font-weight-midi m-0">GENDER <span class="text-danger">&#42;</span></label>
-                                    <select class="form-control form-control-lg mb-0" v-model="form.gender"  rules="required">
+                                    <select class="form-control form-control-lg mb-0" @change="updateForm('gender', $event.target.value, form)" v-model="form.gender">
                                         <option value="male">Male</option>
                                         <option value="female">Female</option>
                                     </select>
@@ -80,14 +80,14 @@
                                         <span class="text-danger">&#42;</span>
                                     </label>
                                     <Field name="dob" as="input" type="date" class="form-control form-control-lg mb-0" rules="required"
-                                        @input="updateForm('dob', $event.target.value)" :value="form.dob" />
+                                        @change="updateForm('dob', $event.target.value, form)" :value="form.dob" />
                                     <small class="text-danger small-xs mt-n3">{{ errors.dob }}</small>
                                 </div>
 
                                 <div class="form-group col-md-4">
                                     <label class="small-xs font-weight-midi m-0" for="firstname">BLOOD GROUP</label>
                                     <input type="text" class="form-control form-control-lg mb-0"
-                                        @input="updateForm('blood_group', $event.target.value)" :value="form.blood_group" />
+                                        @input="updateForm('blood_group', $event.target.value, form)" :value="form.blood_group">
                                 </div>
                             </div>
 
@@ -95,7 +95,7 @@
                                 <div class="form-group col-md-4">
                                     <label class="small-xs font-weight-midi m-0">RELIGION</label>
                                     <input type="text" class="form-control form-control-lg mb-0"
-                                        @input="updateForm('religion', $event.target.value)" :value="form.religion" />
+                                        @input="updateForm('religion', $event.target.value, form)" :value="form.religion">
                                 </div>
 
                                 <div class="form-group col-md-4">
@@ -108,7 +108,7 @@
                                 <div class="form-group col-md-4">
                                     <label class="small-xs font-weight-midi m-0" for="firstname">STATE OF ORIGIN </label>
                                     <input type="text" class="form-control form-control-lg mb-0"
-                                        @input="updateForm('state_origin', $event.target.value)" :value="form.state_origin" />
+                                        @input="updateForm('state_origin', $event.target.value, form)" :value="form.state_origin">
                                 </div>
                             </div>
 
@@ -116,14 +116,15 @@
                                 <div class="form-group col-md-4">
                                     <label class="small-xs font-weight-midi m-0" for="firstname">L.G.A OF ORIGIN</label>
                                     <input type="text" class="form-control form-control-lg mb-0"
-                                        @input="updateForm('local_govt', $event.target.value)" :value="form.local_govt" />
+                                        @input="updateForm('local_govt', $event.target.value, form)" :value="form.local_govt">
                                 </div>
 
                                 <div class="form-group col-md-4">
                                     <label class="small-xs font-weight-midi m-0" for="firstname">ADMISSION CLASS 
                                         <span class="text-danger">&#42;</span>
                                     </label>
-                                    <Field name="class" as="select" class="custom-select custom-select-lg" v-model="form.admission_class" rules="required">
+                                    <Field name="class" as="select" class="custom-select custom-select-lg" @change="updateForm('admission_class', $event.target.value, form)" v-model="form.admission_class" rules="required">
+                                        <option value=""></option>
                                         <option v-for="xclass in schoolClasses" :value="xclass.id">
                                             {{ xclass.class_name }} {{ xclass.arm }}
                                         </option>
@@ -137,7 +138,7 @@
                                     </label>
                                     <Field name="admission_date" as="input" type="date" 
                                         class="form-control form-control-lg mb-0" rules="required"
-                                        @input="updateForm('admission_date', $event.target.value)" :value="form.admission_date" />
+                                        @change="updateForm('admission_date', $event.target.value, form)" :value="form.admission_date" />
                                     <small class="text-danger small-xs mt-n3">{{ errors.admission_date }}</small>
                                 </div>
                             </div>
@@ -147,7 +148,7 @@
                                     <label class="small-xs font-weight-midi m-0">ADMISSION NUMBER<span class="text-danger">&#42;</span></label>
                                     <Field name="admission_number" as="input" type="text" 
                                         class="form-control form-control-lg mb-0" rules="required"
-                                        @input="updateForm('admission_number', $event.target.value)" :value="form.admission_number" />
+                                        @input="updateForm('admission_number', $event.target.value, form)" :value="form.admission_number" />
                                     <small class="text-danger small-xs mt-n3">{{ errors.admission_number }}</small>
                                 </div>
 
@@ -155,15 +156,15 @@
                                     <label class="small-xs font-weight-midi m-0" for="firstname">EMAIL</label>
                                     <Field name="email" as="input" type="text" 
                                         class="form-control form-control-lg mb-0" rules="email"
-                                        @input="updateForm('email', $event.target.value)" :value="form.email" />
+                                        @input="updateForm('email', $event.target.value, form)" :value="form.email" />
                                     <small class="text-danger small-xs mt-n3">{{ errors.email }}</small>
                                 </div>
 
                                 <div class="form-group col-md-4">
                                     <label class="small-xs font-weight-midi m-0">PHONE</label>
-                                    <Field name="phone" as="input" 
+                                    <Field name="phone" as="input" type="text"
                                         class="form-control form-control-lg mb-0" rules="digits:11"
-                                        @input="updateForm('phone', $event.target.value)" :value="form.phone" />
+                                        @input="updateForm('phone', $event.target.value, form)" :value="form.phone" />
                                     <small class="text-danger small-xs mt-n3">{{ errors.phone }}</small>
                                 </div>
                             </div>
@@ -171,14 +172,14 @@
                             <div class="form-row">
                                 <div class="form-group col-md-4">
                                     <label class="small-xs font-weight-midi m-0">HEALTH INFO/DISABILITY</label>
-                                    <textarea class="form-control" rows="2" @input="updateForm('health', $event.target.value)" :value="form.health" ></textarea>
+                                    <textarea class="form-control" rows="2" @input="updateForm('health', $event.target.value, form)" :value="form.health" ></textarea>
                                 </div>
 
                                 <div class="form-group col-md-4">
                                     <label class="small-xs font-weight-midi m-0">RESIDENTIAL ADDRESS
                                         <span class="text-danger">&#42;</span>
                                     </label>
-                                    <textarea class="form-control" rows="2" @input="updateForm('resident', $event.target.value)" :value="form.resident"></textarea>
+                                    <textarea class="form-control" rows="2" @input="updateForm('resident', $event.target.value, form)" :value="form.resident"></textarea>
                                 </div>
 
                                 <div class="form-group col-md-4">
@@ -191,7 +192,7 @@
                         </div>
                     </div>
 
-                    <!-- assign student card -->
+                    <!--::assign guardians:student::-->
                     <div class="card border-0 shadow-sm mt-3">
                         <div class="card-header bg-white d-flex align-items-start justify-content-between px-2 px-sm-3">
                             <div class="small-xs font-weight-normal mt-2">STUDENT GUARDIANS</div>
@@ -238,7 +239,7 @@
 
                                         <div class="form-group mt-2">
                                             <div class="custom-control-lg custom-control custom-checkbox">
-                                                <input type="checkbox" class="custom-control-input" :id="guardian.guardian_id" v-model="guardian.emergency" :checked="guardian.emergency" >
+                                                <input type="checkbox" class="custom-control-input" :id="guardian.guardian_id" v-model="guardian.emergency" :checked="guardian.emergency">
                                                 <label class="custom-control-label" :for="guardian.guardian_id">
                                                     <span class="small ml-n2">Emergency Contact</span>
                                                 </label>
@@ -365,8 +366,6 @@ export default {
     setup(_, context) {
         const store  = useStore()
 
-        const { updateForm, openStorage, saveStorage, removeStorage } = useFormProof(form, 'ADD_STUDENT_FORM');        
-
         // request loading state
         const reqState = reactive({
             loading: false,
@@ -492,11 +491,11 @@ export default {
 
 
         // formdata
-        let form = reactive({
+        let form = ref({
             firstname: '',
             surname: '',
             othername: '',
-            gender: '',
+            gender: 'male',
             dob: '',
             blood_group: '',
             religion: '',
@@ -513,18 +512,21 @@ export default {
             pic: '',
         });
 
+        const { updateForm, openStorage, saveStorage, removeStorage } = useFormProof(form.value, 'ADD_STUDENT_FORM');
+
         // pre populate form fields from localstorage
         if (openStorage()) {
-            form = { ...form, ...openStorage() }
+            form.value = { ...form.value, ...openStorage() }
         }
 
         const createStudent = ( _, actions) => {
-            // reqState.btnLoading = true;
+            reqState.btnLoading = true;
 
             let formData =  new FormData()
+            let formFields = form.value
 
-            for (let field in form) {
-                formData.append(field, form[field])
+            for (let field in formFields) {
+                formData.append(field, formFields[field])
             }
 
             if (selectedGuardians.value.length >= 1) {
@@ -534,10 +536,11 @@ export default {
             Student.create(formData)
             .then((res) => {
                 console.log(res);
-                // reqState.btnLoading = false;
-                // store.dispatch('general/addSnackbar', res.data.message )
+                reqState.btnLoading = false;
+                store.dispatch('general/addSnackbar', res.data.message)
             })
             .catch((err) => {
+                reqState.btnLoading = false;
                 if(err.response.status === 422) {
                     let formErrors =  err.response.data.errors
                     let errorObj = {}

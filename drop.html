@@ -119,24 +119,6 @@
 </div>
 
 
-formErrors: {
-    title: '',
-    firstname: '',
-    surname: '',
-    othername: '',
-    gender: '',
-    nationality: '',
-    state_origin: '',
-    local_govt: '',
-    email: '',
-    phone: '',
-    pic: '',
-    resident: '',
-    occupation: ''
-}
-
-
-
 <!-- <div class="border rounded-top rounded-right p-2 pt-3">
     <div class="d-flex mt-2">
         <img src="@/assets/images/user.png" class="rounded-circle mr-2 border bg-light" width="35" height="35">
@@ -173,45 +155,126 @@ formErrors: {
     </div>
 </div> -->
 
-header('Access-Control-Allow-Origin: *');
-header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS');
-header("Access-Control-Allow-Headers: X-Requested-with");
+<script>
+// import store from '../store'
+// import { useRouter } from 'vue-router'
+
+// import User from '@/apis/User'
+
+// export default () => {
+//     // const store  = useStore()
+//     const router = useRouter()
+
+//     const adminGate = async (to, from) => {
+        
+//         if (store.getters.user === null || store.getters.user.length <= 0) {
+//             await User.me().then((res) => {
+//                 store.commit('SET_USER', res.data)
+
+//                 if (store.getters.user.type === 'admin') {
+//                     // return true
+//                     return router.push({ path: '/login', query: { redirect: 'forbidden' } })
+//                 }
+
+//                 return router.push({ path: '/login', query: { redirect: 'forbidden' } })
+//             })
+//             .catch((err) => {
+//                 if(err.response.status === 401) {
+//                     return router.push({ path: '/login', query: { redirect: 'forbidden' } })
+//                 }
+                
+//                 return router.push({ path: '/login', query: { redirect: 'forbidden' } })
+//             })
+
+//         } 
+//         else if (store.getters.user.type === 'admin') {
+//             return true
+//         } 
+//         else {
+//             return router.push({ path: '/login', query: { redirect: 'forbidden' } })
+//         }
+
+//     }
+
+
+//     return { adminGate }
+// }
+
+
+// export default {
+
+//   admin (callback) {
+//     if (store.getters.user === null || store.getters.user.length <= 0) {
+//       User.me()
+//        .then((res) => {
+//              store.commit('SET_USER', res.data)
+
+//              if (store.getters.user.type === 'admin') {
+//                  return callback(true, 'admin')
+//              }
+
+//              return callback(false, store.getters.user.type)
+//        })
+//        .catch((err) => {
+//              if(err.response.status === 401) {
+//                  return callback(false, err.response.status)
+//              }
+
+//              return callback(false, err.response.status)
+
+//        })
+//     } else if (store.getters.user.type === 'admin') {
+//            return callback(true, 'admin')
+//     } else {
+//       return callback(false, store.getters.user.type)
+//     }
+//   }
+// }
 
 
 
 
-        // async reqGuardians() {
-        //     this.reqState.modalLoading = true;
+// () => gate.admin((res) => { if (res === true) return router.push(redirectPath) }),
 
-        //     await Guardian.all(this.filter)
-        //     .then((res) => {
-        //         console.log(res);
 
-        //         this.guardians = res.data.data;
 
-        //         if(res.data.next_page_url === null) {
-        //             this.paging.nextPage = false;
-        //         } else {
-        //             this.paging.nextPage = res.data.next_page_url.split('=')[1]; 
-        //         }
 
-        //         if(res.data.prev_page_url === null) {
-        //             this.paging.prevPage = false;
-        //         } else {
-        //             this.paging.prevPage = res.data.prev_page_url.split('=')[1];
-        //         }
 
-        //         this.paging.currentPage = res.data.current_page;
-        //         this.paging.totalPage = res.data.last_page;
+// for gates
+// import store from '../store'
+// import User from '@/apis/User'
 
-        //         let pageLinks = res.data.links;
-        //         this.paging.pagesLength = pageLinks.slice(1, pageLinks.length - 1).length;
+// export default {
+//   admin (callback) {
+//     if (store.getters.user === null || store.getters.user.length <= 0) {
+//       User.me()
+//           .then((res) => {
+//                 store.commit('SET_USER', res.data)
 
-        //         this.reqState.modalLoading = false;
-        //         this.reqState.modalLoaded = true;
+//                 if (store.getters.user.type === 'admin') {
+//                     return callback(true, 'admin')
+//                 }
 
-        //     })
-        //     .catch((err) => {
-        //         console.log(err.response)
-        //     })
-        // },
+//                 return callback(false, store.getters.user.type)
+//           })
+//           .catch((err) => {
+//                 if(err.response.status === 401) {
+//                     return callback(false, err.response.status)
+//                 }
+
+//                 return callback(false, err.response.status)
+
+//           })
+//     } else if (store.getters.user.type === 'admin') {
+//           return callback(true, 'admin')
+//     } else {
+//       return callback(false, store.getters.user.type)
+//     }
+//   }
+// }
+
+
+
+
+
+</script>

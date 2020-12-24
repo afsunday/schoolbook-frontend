@@ -36,7 +36,6 @@
                 <div class="card-body px-2 px-sm-3 pt-2 pb-3">
 
                     <!-- form -->
-                    <ValidationObserver ref="form" v-slot="{ handleSubmit }">
                     <form>
                         <div class="form-row mt-3">
                             <div class="form-group  col-md-4">
@@ -48,35 +47,29 @@
                             </div>
 
                             <div class="form-group col-md-4">
-                                <ValidationProvider  vid="firstname" name="firstname" rules="required" v-slot="{ errors }" >
                                     <label class="small-xs font-weight-midi m-0" for="firstname">FIRSTNAME 
                                         <span class="text-danger">&#42;</span>
                                     </label>
                                     <input type="text" class="form-control form-control-lg"  @input="updateForm('firstname', $event.target.value)" :value="form.firstname" >
-                                    <span class="text-danger small-xs mt-n3">{{ errors[0] }}</span>
-                                </ValidationProvider>
+                                    <span class="text-danger small-xs mt-n3">{{ errors }}</span>
                             </div>
 
                             <div class="form-group col-md-4">
-                                <ValidationProvider  vid="surname" name="surname" rules="required" v-slot="{ errors }" >
                                     <label class="small-xs font-weight-midi m-0">SURNAME 
                                         <span class="text-danger">&#42;</span>
                                     </label>
                                     <input type="text" class="form-control form-control-lg" @input="updateForm('surname', $event.target.value)" :value="form.surname" >
-                                    <span class="text-danger small-xs mt-n3">{{ errors[0] }}</span>
-                                </ValidationProvider>
+                                    <span class="text-danger small-xs mt-n3">{{ errors }}</span>
                             </div>
                         </div>
 
                         <div class="form-row">
                             <div class="form-group col-md-4">
-                                <ValidationProvider vid="othername" name="othername" rules="required" v-slot="{ errors }" >
                                     <label class="small-xs font-weight-midi m-0" for="firstname">OTHERNAME 
                                         <span class="text-danger">&#42;</span>
                                     </label>
                                     <input type="text" class="form-control form-control-lg" name="" @input="updateForm('othername', $event.target.value)" :value="form.othername" >
-                                    <span class="text-danger small-xs mt-n3">{{ errors[0] }}</span>
-                                </ValidationProvider>
+                                    <span class="text-danger small-xs mt-n3">{{ errors }}</span>
                             </div>
 
                             <div class="form-group col-md-4">
@@ -111,58 +104,48 @@
                             </div>
 
                             <div class="form-group col-md-4">
-                                <ValidationProvider vid="email" name="email" rules="required|email" v-slot="{ errors }" >
                                     <label class="small-xs font-weight-midi m-0" for="firstname">EMAIL 
                                         <span class="text-danger">&#42;</span>
                                     </label>
                                     <input type="email" class="form-control form-control-lg" name="" @input="updateForm('email', $event.target.value)"  :value="form.email" >
-                                    <span class="text-danger small-xs mt-n3">{{ errors[0] }}</span>
-                                </ValidationProvider>
+                                    <span class="text-danger small-xs mt-n3">{{ errors }}</span>
                             </div>
                         </div>
 
                         <div class="form-row">
                             <div class="form-group col-md-6">
-                                <ValidationProvider vid="phone" name="phone" rules="required|digits:11" v-slot="{ errors }" >
                                     <label class="small-xs font-weight-midi m-0" for="validate-phone">PHONE 
                                         <span class="text-danger">&#42;</span>
                                     </label>
                                     <input type="text" class="form-control form-control-lg" @input="updateForm('phone', $event.target.value)" :value="form.phone" >
-                                    <span class="text-danger small-xs mt-n3">{{ errors[0] }}</span>
-                                </ValidationProvider>
+                                    <span class="text-danger small-xs mt-n3">{{ errors }}</span>
                             </div>
 
                             
                             <div class="form-group col-md-6">
-                                <ValidationProvider vid="pic" name="pic" v-slot="{ errors }" >
                                     <label class="small-xs font-weight-midi m-0">PIC 
                                         <span class="text-danger">&#42;</span>
                                     </label>
-                                    <input type="file" class="form-control form-control-lg" ref="pic"  @change="form.pic = $event.target.files[0]">
-                                    <span class="text-danger small-xs mt-n3">{{ errors[0] }}</span>
-                                </ValidationProvider>
+                                    <input type="file" class="form-control form-control-lg" ref="pic"  @change="form.pic = $event.target.files">
+                                    <span class="text-danger small-xs mt-n3">{{ errors }}</span>
                             </div>                            
                         </div>
 
                         <div class="form-row">
                             <div class="form-group col-md-6">
-                                <ValidationProvider vid="resident" name="resident" rules="required" v-slot="{ errors }" >
                                     <label class="small-xs font-weight-midi m-0">RESIDENTIAL ADDRESS 
                                         <span class="text-danger">&#42;</span>
                                     </label>
                                     <textarea class="form-control" rows="2" @input="updateForm('resident', $event.target.value)" :value="form.resident" ></textarea>
-                                    <span class="text-danger small-xs mt-n3">{{ errors[0] }}</span>
-                                </ValidationProvider>
+                                    <span class="text-danger small-xs mt-n3">{{ errors }}</span>
                             </div>
 
                             <div class="form-group col-md-6">
-                                <ValidationProvider vid="occupation" name="occupation" rules="required" v-slot="{ errors }" >
                                     <label class="small-xs font-weight-midi m-0">OCCUPATION 
                                         <span class="text-danger">&#42;</span>
                                     </label>
                                     <textarea class="form-control" rows="2" @input="updateForm('occupation', $event.target.value)" :value="form.occupation" ></textarea>
-                                    <span class="text-danger small-xs mt-n3">{{ errors[0] }}</span>
-                                </ValidationProvider>
+                                    <span class="text-danger small-xs mt-n3">{{ errors }}</span>
                             </div>
                         </div>
 
@@ -172,7 +155,7 @@
                             </div>
                         </div>
                     </form>
-                    </ValidationObserver>
+                    
                 </div>                
             </div>            
 

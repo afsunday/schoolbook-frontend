@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="snackbar-container bg-dark">
+        <div class="snackbar-container">
             <button type="button mr-auto" class="ml-2 close"  @click="removeSnackbar()" aria-label="Close" >
                 <span aria-hidden="true">&times;</span>
             </button>
@@ -34,7 +34,7 @@ export default {
         }),
     },
 
-    beforeDestroy() {
+    beforeUnmount() {
         clearTimeout(this.timeout);
         this.removeSnackbar()
     },
@@ -44,6 +44,7 @@ export default {
 <style scoped>
 .snackbar-container {
     box-shadow: 0 0.25rem 0.75rem rgba(0, 0, 0, 0.1);
+    background-color: rgba(0,0,0,0.75);
     border-radius: .25rem;
     padding: .6rem .7rem .6rem .7rem;
 }

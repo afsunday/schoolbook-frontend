@@ -1,7 +1,7 @@
-export default (form = {}, keyString) => {
+export default (form, localStorageKeyName) => {
 
-	const updateForm = (field, value) => {
-        form[field] = value;
+	const updateForm = (field, value, formFields) => {
+        formFields[field] = value;
 
         let storedForm = openStorage();
         if (!storedForm) {
@@ -13,15 +13,15 @@ export default (form = {}, keyString) => {
     }
 
     const openStorage = () => {
-        return JSON.parse(localStorage.getItem(keyString))
+        return JSON.parse(localStorage.getItem(localStorageKeyName))
     }
 
-    const saveStorage = (form) => {
-        localStorage.setItem(keyString, JSON.stringify(form))
+    const saveStorage = (storedForm) => {
+        localStorage.setItem(localStorageKeyName, JSON.stringify(storedForm))
     }
 
     const removeStorage = () => {
-        localStorage.removeItem(keyString);
+        localStorage.removeItem(localStorageKeyName);
     }
 
     return { updateForm, openStorage, saveStorage, removeStorage }
