@@ -11,12 +11,14 @@ export default {
     },
 
     create (form) {
-    	return Api.post('/admin/guardians/create', form)
+    	return Api.post('/admin/guardians/create', form, { 
+            headers: { 'Content-Type': 'multipart/form-data' } 
+        })
     },
 
     update (form) {
     	return Api.post('admin/guardians/update', form, { 
-                headers: { 'Content-Type': 'multipart/form-data' } 
+            headers: { 'Content-Type': 'multipart/form-data' } 
         })
     },
 

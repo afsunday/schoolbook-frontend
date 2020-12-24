@@ -343,7 +343,7 @@ import usePaginate from '@/composables/usePaginate'
 // library:vue
 import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
-import { reactive, ref, onMounted, computed } from 'vue'
+import { reactive, ref, onMounted } from 'vue'
 import { Form as VeeForm, Field} from 'vee-validate'
 
 // apis

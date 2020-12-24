@@ -31,146 +31,160 @@
                     <a @click="resetForm()" class="text-decoration-none text-primary">clear</a>
                 </div>
 
-                <line-preload :loading="loading"></line-preload>
+                <line-preload :loading="loadingState.loading"></line-preload>
 
                 <div class="card-body px-2 px-sm-3 pt-2 pb-3">
 
                     <!-- form -->
-                    <form>
-                        <div class="form-row mt-3">
-                            <div class="form-group  col-md-4">
-                                <label class="small-xs font-weight-midi m-0">TITLE <span class="text-danger">&#42;</span></label>
-                                <select class="custom-select custom-select-lg" @change="updateForm('title', $event.target.value)">
-                                     <option value="mr" :selected="form.title === 'mr' " >Mr</option>
-                                    <option value="mrs" :selected="form.title === 'mrs' " >Mrs</option>
-                                </select>
+                    <VeeForm v-slot="{ handleSubmit, errors }" as="div">
+                        <form>
+                            <div class="form-row mt-3">
+                                <div class="form-group  col-md-4">
+                                    <label class="small-xs font-weight-midi m-0">TITLE <span class="text-danger">&#42;</span></label>
+                                    <select class="custom-select custom-select-lg" v-model="title">
+                                         <option value="mr">Mr</option>
+                                        <option value="mrs">Mrs</option>
+                                    </select>
+                                </div>
+
+                                <div class="form-group col-md-4">
+                                        <label class="small-xs font-weight-midi m-0" for="firstname">FIRSTNAME 
+                                            <span class="text-danger">&#42;</span>
+                                        </label>
+                                        <Field name="firstname" as="input" class="form-control form-control-lg mb-0" type="text" rules="required" @input="updateForm('firstname', $event.target.value, form)" :value="form.firstname" />
+                                        <span class="text-danger small-xs mt-n3">{{ errors.firstname }}</span>
+                                </div>
+
+                                <div class="form-group col-md-4">
+                                        <label class="small-xs font-weight-midi m-0">SURNAME 
+                                            <span class="text-danger">&#42;</span>
+                                        </label>
+                                        <Field name="surname" as="input" class="form-control form-control-lg mb-0" type="text" rules="required" @input="updateForm('surname', $event.target.value, form)" :value="form.surname" />
+                                        <span class="text-danger small-xs mt-n3">{{ errors.surname }}</span>
+                                </div>
                             </div>
 
-                            <div class="form-group col-md-4">
-                                    <label class="small-xs font-weight-midi m-0" for="firstname">FIRSTNAME 
+                            <div class="form-row">
+                                <div class="form-group col-md-4">
+                                        <label class="small-xs font-weight-midi m-0">OTHERNAME 
+                                            <span class="text-danger">&#42;</span>
+                                        </label>
+                                        <Field name="othername" as="input" class="form-control form-control-lg mb-0" type="text" rules="required" @input="updateForm('othername', $event.target.value, form)" :value="form.othername" />
+                                        <span class="text-danger small-xs mt-n3">{{ errors.othername }}</span>
+                                </div>
+
+                                <div class="form-group col-md-4">
+                                    <label class="small-xs font-weight-midi m-0">GENDER 
                                         <span class="text-danger">&#42;</span>
                                     </label>
-                                    <input type="text" class="form-control form-control-lg"  @input="updateForm('firstname', $event.target.value)" :value="form.firstname" >
-                                    <span class="text-danger small-xs mt-n3">{{ errors }}</span>
-                            </div>
+                                    <select class="custom-select custom-select-lg" @change="updateForm('gender', $event.target.value, form)" >
+                                        <option value="male">Male</option>
+                                        <option value="female">Female</option>
+                                    </select>
+                                </div> 
 
-                            <div class="form-group col-md-4">
-                                    <label class="small-xs font-weight-midi m-0">SURNAME 
+                                <div class="form-group col-md-4">
+                                    <label class="small-xs font-weight-midi m-0">NATIONALITY 
                                         <span class="text-danger">&#42;</span>
                                     </label>
-                                    <input type="text" class="form-control form-control-lg" @input="updateForm('surname', $event.target.value)" :value="form.surname" >
-                                    <span class="text-danger small-xs mt-n3">{{ errors }}</span>
-                            </div>
-                        </div>
-
-                        <div class="form-row">
-                            <div class="form-group col-md-4">
-                                    <label class="small-xs font-weight-midi m-0" for="firstname">OTHERNAME 
-                                        <span class="text-danger">&#42;</span>
-                                    </label>
-                                    <input type="text" class="form-control form-control-lg" name="" @input="updateForm('othername', $event.target.value)" :value="form.othername" >
-                                    <span class="text-danger small-xs mt-n3">{{ errors }}</span>
+                                    <select class="custom-select custom-select-lg" @change="updateForm('nationality', $event.target.value, form)" >
+                                        <option value="nigerian">NIGERIAN</option>
+                                    </select>
+                                </div>                                             
                             </div>
 
-                            <div class="form-group col-md-4">
-                                <label class="small-xs font-weight-midi m-0">GENDER 
-                                    <span class="text-danger">&#42;</span>
-                                </label>
-                                <select class="custom-select custom-select-lg" @change="updateForm('gender', $event.target.value)" >
-                                    <option value="male" :selected="form.gender === 'male' ">Male</option>
-                                    <option value="female" :selected="form.gender === 'female' ">Female</option>
-                                </select>
-                            </div> 
+                            <div class="form-row">
+                                <div class="form-group col-md-4">
+                                    <label class="small-xs font-weight-midi m-0">STATE OF ORIGIN</label>
+                                    <input type="text" class="form-control form-control-lg" @input="updateForm('state_origin', $event.target.value, form)" :value="form.state_origin">
+                                </div>
 
-                            <div class="form-group col-md-4">
-                                <label class="small-xs font-weight-midi m-0">NATIONALITY 
-                                    <span class="text-danger">&#42;</span>
-                                </label>
-                                <select class="custom-select custom-select-lg" @change="updateForm('nationality', $event.target.value)" >
-                                    <option value="nigerian" :selected="form.nationality === 'nigerian' ">NIGERIAN</option>
-                                </select>
-                            </div>                                             
-                        </div>
+                                <div class="form-group col-md-4">
+                                    <label class="small-xs font-weight-midi m-0" for="firstname">L.G.A OF ORIGIN</label>
+                                    <input type="text" class="form-control form-control-lg" name="" @input="updateForm('local_govt', $event.target.value, form)" :value="form.local_govt" >
+                                </div>
 
-                        <div class="form-row">
-                            <div class="form-group col-md-4">
-                                <label class="small-xs font-weight-midi m-0">STATE OF ORIGIN</label>
-                                <input type="text" class="form-control form-control-lg" @input="updateForm('state_origin', $event.target.value)" :value="form.state_origin" >
+                                <div class="form-group col-md-4">
+                                        <label class="small-xs font-weight-midi m-0" for="firstname">EMAIL 
+                                            <span class="text-danger">&#42;</span>
+                                        </label>
+                                        <Field name="email" as="input" class="form-control form-control-lg mb-0" type="email" rules="email" @input="updateForm('email', $event.target.value, form)" :value="form.email" />
+                                        <span class="text-danger small-xs mt-n3">{{ errors.email }}</span>
+                                </div>
                             </div>
 
-                            <div class="form-group col-md-4">
-                                <label class="small-xs font-weight-midi m-0" for="firstname">L.G.A OF ORIGIN</label>
-                                <input type="text" class="form-control form-control-lg" name="" @input="updateForm('local_govt', $event.target.value)" :value="form.local_govt" >
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                        <label class="small-xs font-weight-midi m-0" for="validate-phone">PHONE 
+                                            <span class="text-danger">&#42;</span>
+                                        </label>
+                                        <Field name="phone" as="input" class="form-control form-control-lg mb-0" type="text" rules="digits:11" @input="updateForm('phone', $event.target.value, form)" :value="form.phone" />
+                                        <span class="text-danger small-xs mt-n3">{{ errors.phone }}</span>
+                                </div>
+
+                                
+                                <div class="form-group col-md-6">
+                                        <label class="small-xs font-weight-midi m-0">PIC 
+                                            <span class="text-danger">&#42;</span>
+                                        </label>
+                                        <input type="file" class="form-control form-control-lg" @change="form.pic = $event.target.files">
+                                        <span class="text-danger small-xs mt-n3">{{ errors }}</span>
+                                </div>                            
                             </div>
 
-                            <div class="form-group col-md-4">
-                                    <label class="small-xs font-weight-midi m-0" for="firstname">EMAIL 
-                                        <span class="text-danger">&#42;</span>
-                                    </label>
-                                    <input type="email" class="form-control form-control-lg" name="" @input="updateForm('email', $event.target.value)"  :value="form.email" >
-                                    <span class="text-danger small-xs mt-n3">{{ errors }}</span>
-                            </div>
-                        </div>
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                        <label class="small-xs font-weight-midi m-0">RESIDENTIAL ADDRESS 
+                                            <span class="text-danger">&#42;</span>
+                                        </label>
+                                        <Field name="resident" as="textarea" class="form-control form-control-lg mb-0" type="text" rules="required" rows="2" @input="updateForm('resident', $event.target.value, form)" :value="form.resident"></Field>
+                                        <span class="text-danger small-xs mt-n3">{{ errors.resident }}</span>
+                                </div>
 
-                        <div class="form-row">
-                            <div class="form-group col-md-6">
-                                    <label class="small-xs font-weight-midi m-0" for="validate-phone">PHONE 
-                                        <span class="text-danger">&#42;</span>
-                                    </label>
-                                    <input type="text" class="form-control form-control-lg" @input="updateForm('phone', $event.target.value)" :value="form.phone" >
-                                    <span class="text-danger small-xs mt-n3">{{ errors }}</span>
+                                <div class="form-group col-md-6">
+                                        <label class="small-xs font-weight-midi m-0">OCCUPATION</label>
+                                        <textarea class="form-control" rows="2" @input="updateForm('occupation', $event.target.value, form)" :value="form.occupation" ></textarea>
+                                </div>
                             </div>
 
-                            
-                            <div class="form-group col-md-6">
-                                    <label class="small-xs font-weight-midi m-0">PIC 
-                                        <span class="text-danger">&#42;</span>
-                                    </label>
-                                    <input type="file" class="form-control form-control-lg" ref="pic"  @change="form.pic = $event.target.files">
-                                    <span class="text-danger small-xs mt-n3">{{ errors }}</span>
-                            </div>                            
-                        </div>
-
-                        <div class="form-row">
-                            <div class="form-group col-md-6">
-                                    <label class="small-xs font-weight-midi m-0">RESIDENTIAL ADDRESS 
-                                        <span class="text-danger">&#42;</span>
-                                    </label>
-                                    <textarea class="form-control" rows="2" @input="updateForm('resident', $event.target.value)" :value="form.resident" ></textarea>
-                                    <span class="text-danger small-xs mt-n3">{{ errors }}</span>
+                            <div class="form-row justify-content-center mt-3">
+                                <div class="col-md-3">
+                                    <loading-button class="btn btn-ripple ripple btn-block" :loading="loadingState.btnLoading" @btnEvent.prevent="handleSubmit(createGuardian)" >Create Guardian</loading-button>
+                                </div>
                             </div>
-
-                            <div class="form-group col-md-6">
-                                    <label class="small-xs font-weight-midi m-0">OCCUPATION 
-                                        <span class="text-danger">&#42;</span>
-                                    </label>
-                                    <textarea class="form-control" rows="2" @input="updateForm('occupation', $event.target.value)" :value="form.occupation" ></textarea>
-                                    <span class="text-danger small-xs mt-n3">{{ errors }}</span>
-                            </div>
-                        </div>
-
-                        <div class="form-row justify-content-center mt-3">
-                            <div class="col-md-3">
-                                <loading-button class="btn btn-ripple ripple btn-block" :loading="btnLoading" @btnEvent.prevent="handleSubmit(createGuardian)" >Create Guardian</loading-button>
-                            </div>
-                        </div>
-                    </form>
+                        </form>
+                    </VeeForm>
                     
                 </div>                
             </div>            
-
         </template>
 
     </base-admin>
 </template>
 
 <script>
+// components
+
 import BaseAdmin from '@/views/layouts/BaseAdmin.vue';
 import LinePreload from '@/components/LinePreload';
 import LoadingButton from '@/components/LoadingButton';
 
-import Guardian from '@/apis/Guardian';
-import { mapActions } from 'vuex'
+// composables
+import useFormProof from '@/composables/useFormProof'
+import useFormReset from '@/composables/useFormReset'
+
+
+// library:vue
+import { useStore } from 'vuex'
+import { useRouter } from 'vue-router'
+import { reactive, ref, onMounted, computed } from 'vue'
+import { Form as VeeForm, Field} from 'vee-validate'
+
+// apis
+import Class from '@/apis/Class';
+import Guardian from '@/apis/Guardian'
+import Student from '@/apis/Student'
+
 
 export default {
     name: 'AddGuardian',
@@ -178,125 +192,89 @@ export default {
         BaseAdmin,
         LinePreload,
         LoadingButton,
+        VeeForm,
+        Field
     },
 
-    data () {
-        return {
+    setup() {
+        const store  = useStore()
+
+        const loadingState = reactive({
             loading: false,
             loaded: false,
             btnLoading: false,
-            form: {
-                title: 'mr',
-                firstname: '',
-                surname: '',
-                othername: '',
-                gender: 'male',
-                nationality: 'nigerian',
-                state_origin: '',
-                local_govt: '',
-                email: '',
-                phone: '',
-                pic: '',
-                resident: '',
-                occupation: ''
-            },
-            formErrors: {
-                title: '',
-                firstname: '',
-                surname: '',
-                othername: '',
-                gender: '',
-                nationality: '',
-                state_origin: '',
-                local_govt: '',
-                email: '',
-                phone: '',
-                pic: '',
-                resident: '',
-                occupation: ''
-            }
+        })
+
+        
+        const form = ref({
+            title: 'mr',
+            firstname: '',
+            surname: '',
+            othername: '',
+            gender: 'male',
+            nationality: 'nigerian',
+            state_origin: '',
+            local_govt: '',
+            email: '',
+            phone: '',
+            pic: '',
+            resident: '',
+            occupation: ''
+        })
+         
+        const { resetForm } = useFormReset(form.value, {
+            title: 'mr',
+            gender: 'male',
+            nationality: 'nigerian'  
+        })
+
+        const { updateForm, openStorage, saveStorage, removeStorage } = useFormProof(form.value, 'ADD_GUARDIAN_FORM');
+
+        // pre populate form fields from localstorage
+        if (openStorage()) {
+            form.value = { ...form.value, ...openStorage() }
         }
-    },
 
-    created () {
-        const storedForm = this.openStorage();
-        if(storedForm) {
-            this.form = {
-                ...this.form,
-                ...storedForm
-            }
-        }
-    },
+        // create an new guardian record in db
+        const createGuardian = (_, actions) => {
+            // loadingState.loading = loadingState.btnLoading = true
+            let formFields = form.value
+            let formData = new FormData()
 
-    methods: {
-        ...mapActions('general', {
-            setSnackbar: 'addSnackbar'
-        }),
-
-        updateForm(field, value) {
-            this.form[field] = value;
-
-            let storedForm = this.openStorage();
-            if (!storedForm) {
-                storedForm = {}
-            }
-
-            storedForm[field] = value;
-
-            this.saveStorage(storedForm);
-        },
-
-        openStorage() {
-            return JSON.parse(localStorage.getItem('ADD_GUARDIAN_FORM'))
-        },
-
-        saveStorage (form) {
-            localStorage.setItem('ADD_GUARDIAN_FORM', JSON.stringify(form))
-        },
-
-        createGuardian() {
-            this.loading = this.btnLoading = true;
-
-            let form = this.form;
-            let formData = new FormData();
             for (const field in form) {
-                formData.append(field, form[field]);
+                formData.append(field, formFields[field])
             }
 
-            Guardian.create(formData, { 
-                headers: { 'Content-Type': 'multipart/form-data' } 
-            })
+            Guardian.create(formData)
             .then((res) => {
-                this.resetForm();
-                this.loading = this.btnLoading = false;
-                this.setSnackbar(res.data.message);
+                loadingState.loading = loadingState.btnLoading = false
+                store.dispatch('general/addSnackbar', res.data.message)
+
+                resetForm('ADD_GUARDIAN_FORM', (res) => form.value = { ...form.value, ...res })
             })
             .catch((err) => {
-                this.loading = false;
-                this.btnLoading = false;
+                loadingState.loading = loadingState.btnLoading = false
                 if(err.response.status === 422) {
-                    let errors = this.formErrors;
-                    this.$refs.form.setErrors({
-                        ...errors,
-                        ...err.response.data.errors
-                    });
+                    let formErrors =  err.response.data.errors
+                    let errorBag = {}
+
+                    for (let error in formErrors) {
+                        errorBag[err] = formErrors[error][0]
+                    }
+
+                    actions.setErrors({
+                        ...errorBag
+                    })
                 }
+
             })
-        },
-
-        resetForm() {
-            let form = this.form;
-
-            for (let field in form) {
-                form[field] = '';
-            }
-
-            this.form.title = 'mr';
-            this.form.gender = 'male';  
-            this.form.nationality = 'nigerian';  
-            localStorage.removeItem("ADD_GUARDIAN_FORM");        
         }
-    }
+
+        return {
+            form, updateForm, removeStorage, loadingState,
+            createGuardian
+        }
+    }        
 }
 
 </script>
