@@ -39,12 +39,6 @@ export default {
         'ListNextPage',
         'ListPagesLength'
     ],
-
-    data() {
-        return {
-            //
-        }
-    }
 }
 </script>
 

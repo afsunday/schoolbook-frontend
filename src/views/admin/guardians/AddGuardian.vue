@@ -28,7 +28,7 @@
             <div class="card border-0 shadow-sm mt-2 pb-3">
                 <div class="card-header bg-white d-flex align-items-start justify-content-between px-2 px-sm-3">
                     <div class="small-xs font-weight-normal mt-2">STUDENT INFORMATION</div>
-                    <a @click="resetForm()" class="text-decoration-none text-primary">clear</a>
+                    <a @click="handleFormReset()" class="text-decoration-none text-primary">clear</a>
                 </div>
 
                 <line-preload :loading="loadingState.loading"></line-preload>
@@ -36,12 +36,12 @@
                 <div class="card-body px-2 px-sm-3 pt-2 pb-3">
 
                     <!-- form -->
-                    <VeeForm v-slot="{ handleSubmit, errors }" as="div">
-                        <form>
+                    <VeeForm v-slot="{ handleSubmit, errors }">
+                        <!-- <form> -->
                             <div class="form-row mt-3">
                                 <div class="form-group  col-md-4">
                                     <label class="small-xs font-weight-midi m-0">TITLE <span class="text-danger">&#42;</span></label>
-                                    <select class="custom-select custom-select-lg" v-model="title">
+                                    <select class="custom-select custom-select-lg" v-model="form.title">
                                          <option value="mr">Mr</option>
                                         <option value="mrs">Mrs</option>
                                     </select>
@@ -51,7 +51,7 @@
                                         <label class="small-xs font-weight-midi m-0" for="firstname">FIRSTNAME 
                                             <span class="text-danger">&#42;</span>
                                         </label>
-                                        <Field name="firstname" as="input" class="form-control form-control-lg mb-0" type="text" rules="required" @input="updateForm('firstname', $event.target.value, form)" :value="form.firstname" />
+                                        <Field name="firstname" as="input" class="form-control form-control-lg mb-0" type="text" rules="required" @input="updateForm('firstname', $event.target.value, form)" v-model="form.firstname" />
                                         <span class="text-danger small-xs mt-n3">{{ errors.firstname }}</span>
                                 </div>
 
@@ -59,7 +59,7 @@
                                         <label class="small-xs font-weight-midi m-0">SURNAME 
                                             <span class="text-danger">&#42;</span>
                                         </label>
-                                        <Field name="surname" as="input" class="form-control form-control-lg mb-0" type="text" rules="required" @input="updateForm('surname', $event.target.value, form)" :value="form.surname" />
+                                        <Field name="surname" as="input" class="form-control form-control-lg mb-0" type="text" rules="required" @input="updateForm('surname', $event.target.value, form)" v-model="form.surname" />
                                         <span class="text-danger small-xs mt-n3">{{ errors.surname }}</span>
                                 </div>
                             </div>
@@ -69,7 +69,7 @@
                                         <label class="small-xs font-weight-midi m-0">OTHERNAME 
                                             <span class="text-danger">&#42;</span>
                                         </label>
-                                        <Field name="othername" as="input" class="form-control form-control-lg mb-0" type="text" rules="required" @input="updateForm('othername', $event.target.value, form)" :value="form.othername" />
+                                        <Field name="othername" as="input" class="form-control form-control-lg mb-0" type="text" rules="required" @input="updateForm('othername', $event.target.value, form)" v-model="form.othername" />
                                         <span class="text-danger small-xs mt-n3">{{ errors.othername }}</span>
                                 </div>
 
@@ -77,7 +77,7 @@
                                     <label class="small-xs font-weight-midi m-0">GENDER 
                                         <span class="text-danger">&#42;</span>
                                     </label>
-                                    <select class="custom-select custom-select-lg" @change="updateForm('gender', $event.target.value, form)" >
+                                    <select class="custom-select custom-select-lg" v-model="form.gender">
                                         <option value="male">Male</option>
                                         <option value="female">Female</option>
                                     </select>
@@ -88,7 +88,7 @@
                                         <span class="text-danger">&#42;</span>
                                     </label>
                                     <select class="custom-select custom-select-lg" @change="updateForm('nationality', $event.target.value, form)" >
-                                        <option value="nigerian">NIGERIAN</option>
+                                        <option value="nigerian" selected>NIGERIAN</option>
                                     </select>
                                 </div>                                             
                             </div>
@@ -96,19 +96,19 @@
                             <div class="form-row">
                                 <div class="form-group col-md-4">
                                     <label class="small-xs font-weight-midi m-0">STATE OF ORIGIN</label>
-                                    <input type="text" class="form-control form-control-lg" @input="updateForm('state_origin', $event.target.value, form)" :value="form.state_origin">
+                                    <input type="text" class="form-control form-control-lg" @input="updateForm('state_origin', $event.target.value, form)" v-model="form.state_origin">
                                 </div>
 
                                 <div class="form-group col-md-4">
-                                    <label class="small-xs font-weight-midi m-0" for="firstname">L.G.A OF ORIGIN</label>
-                                    <input type="text" class="form-control form-control-lg" name="" @input="updateForm('local_govt', $event.target.value, form)" :value="form.local_govt" >
+                                    <label class="small-xs font-weight-midi m-0">L.G.A OF ORIGIN</label>
+                                    <input type="text" class="form-control form-control-lg" @input="updateForm('local_govt', $event.target.value, form)" v-model="form.local_govt" >
                                 </div>
 
                                 <div class="form-group col-md-4">
-                                        <label class="small-xs font-weight-midi m-0" for="firstname">EMAIL 
+                                        <label class="small-xs font-weight-midi m-0">EMAIL 
                                             <span class="text-danger">&#42;</span>
                                         </label>
-                                        <Field name="email" as="input" class="form-control form-control-lg mb-0" type="email" rules="email" @input="updateForm('email', $event.target.value, form)" :value="form.email" />
+                                        <Field name="email" as="input" class="form-control form-control-lg mb-0" type="email" rules="email" @input="updateForm('email', $event.target.value, form)" v-model="form.email" />
                                         <span class="text-danger small-xs mt-n3">{{ errors.email }}</span>
                                 </div>
                             </div>
@@ -118,17 +118,15 @@
                                         <label class="small-xs font-weight-midi m-0" for="validate-phone">PHONE 
                                             <span class="text-danger">&#42;</span>
                                         </label>
-                                        <Field name="phone" as="input" class="form-control form-control-lg mb-0" type="text" rules="digits:11" @input="updateForm('phone', $event.target.value, form)" :value="form.phone" />
+                                        <Field name="phone" as="input" class="form-control form-control-lg mb-0" type="text" rules="digits:11" @input="updateForm('phone', $event.target.value, form)" v-model="form.phone" />
                                         <span class="text-danger small-xs mt-n3">{{ errors.phone }}</span>
                                 </div>
 
                                 
                                 <div class="form-group col-md-6">
-                                        <label class="small-xs font-weight-midi m-0">PIC 
-                                            <span class="text-danger">&#42;</span>
-                                        </label>
-                                        <input type="file" class="form-control form-control-lg" @change="form.pic = $event.target.files">
-                                        <span class="text-danger small-xs mt-n3">{{ errors }}</span>
+                                        <label class="small-xs font-weight-midi m-0">PIC</label>
+                                        <Field name="pic" as="input"  type="file" class="form-control form-control-lg" @change="form.pic = $event.target.files" />
+                                        <span class="text-danger small-xs mt-n3">{{ errors.pic }}</span>
                                 </div>                            
                             </div>
 
@@ -137,22 +135,22 @@
                                         <label class="small-xs font-weight-midi m-0">RESIDENTIAL ADDRESS 
                                             <span class="text-danger">&#42;</span>
                                         </label>
-                                        <Field name="resident" as="textarea" class="form-control form-control-lg mb-0" type="text" rules="required" rows="2" @input="updateForm('resident', $event.target.value, form)" :value="form.resident"></Field>
+                                        <Field name="resident" as="textarea" class="form-control form-control-lg mb-0" rules="required" rows="2" @input="updateForm('resident', $event.target.value, form)" v-model="form.resident"></Field>
                                         <span class="text-danger small-xs mt-n3">{{ errors.resident }}</span>
                                 </div>
 
                                 <div class="form-group col-md-6">
                                         <label class="small-xs font-weight-midi m-0">OCCUPATION</label>
-                                        <textarea class="form-control" rows="2" @input="updateForm('occupation', $event.target.value, form)" :value="form.occupation" ></textarea>
+                                        <textarea class="form-control" rows="2" @input="updateForm('occupation', $event.target.value, form)" v-model="form.occupation" ></textarea>
                                 </div>
                             </div>
 
                             <div class="form-row justify-content-center mt-3">
                                 <div class="col-md-3">
-                                    <loading-button class="btn btn-ripple ripple btn-block" :loading="loadingState.btnLoading" @btnEvent.prevent="handleSubmit(createGuardian)" >Create Guardian</loading-button>
+                                    <loading-button class="btn btn-ripple ripple btn-block" :loading="loadingState.btnLoading" @btnEvent.prevent="handleSubmit($event, createGuardian)">Create Guardian</loading-button>
                                 </div>
                             </div>
-                        </form>
+                        <!-- </form> -->
                     </VeeForm>
                     
                 </div>                
@@ -164,7 +162,6 @@
 
 <script>
 // components
-
 import BaseAdmin from '@/views/layouts/BaseAdmin.vue';
 import LinePreload from '@/components/LinePreload';
 import LoadingButton from '@/components/LoadingButton';
@@ -173,18 +170,13 @@ import LoadingButton from '@/components/LoadingButton';
 import useFormProof from '@/composables/useFormProof'
 import useFormReset from '@/composables/useFormReset'
 
-
 // library:vue
 import { useStore } from 'vuex'
-import { useRouter } from 'vue-router'
-import { reactive, ref, onMounted, computed } from 'vue'
+import { reactive, ref } from 'vue'
 import { Form as VeeForm, Field} from 'vee-validate'
 
 // apis
-import Class from '@/apis/Class';
 import Guardian from '@/apis/Guardian'
-import Student from '@/apis/Student'
-
 
 export default {
     name: 'AddGuardian',
@@ -204,7 +196,6 @@ export default {
             loaded: false,
             btnLoading: false,
         })
-
         
         const form = ref({
             title: 'mr',
@@ -222,12 +213,6 @@ export default {
             occupation: ''
         })
          
-        const { resetForm } = useFormReset(form.value, {
-            title: 'mr',
-            gender: 'male',
-            nationality: 'nigerian'  
-        })
-
         const { updateForm, openStorage, saveStorage, removeStorage } = useFormProof(form.value, 'ADD_GUARDIAN_FORM');
 
         // pre populate form fields from localstorage
@@ -235,21 +220,32 @@ export default {
             form.value = { ...form.value, ...openStorage() }
         }
 
-        // create an new guardian record in db
+        const { resetForm } = useFormReset(form.value, {
+            title: 'mr',
+            gender: 'male',
+            nationality: 'nigerian'  
+        })
+
+        const handleFormReset  = () => {
+           resetForm('ADD_GUARDIAN_FORM', (res) => form.value = { ...form.value, ...res }) 
+        }
+
+        // create new guardian record in db
         const createGuardian = (_, actions) => {
-            // loadingState.loading = loadingState.btnLoading = true
+            loadingState.loading = loadingState.btnLoading = true
+
             let formFields = form.value
             let formData = new FormData()
 
-            for (const field in form) {
+            for (const field in formFields) {
                 formData.append(field, formFields[field])
             }
 
             Guardian.create(formData)
             .then((res) => {
                 loadingState.loading = loadingState.btnLoading = false
-                store.dispatch('general/addSnackbar', res.data.message)
 
+                store.dispatch('general/addSnackbar', res.data.message)
                 resetForm('ADD_GUARDIAN_FORM', (res) => form.value = { ...form.value, ...res })
             })
             .catch((err) => {
@@ -259,20 +255,19 @@ export default {
                     let errorBag = {}
 
                     for (let error in formErrors) {
-                        errorBag[err] = formErrors[error][0]
+                        errorBag[error] = formErrors[error][0]
                     }
 
                     actions.setErrors({
                         ...errorBag
                     })
                 }
-
             })
         }
 
         return {
             form, updateForm, removeStorage, loadingState,
-            createGuardian
+            createGuardian, handleFormReset
         }
     }        
 }
@@ -315,5 +310,3 @@ export default {
 }
 
 </style>
-
-

@@ -10,8 +10,9 @@ export default (form, initialFields) => {
         	form[field] = initialFields[field]
         }
 
-        if (localStorageKeyName.length  > 0) 
+        if (localStorageKeyName.length  > 0) {
             localStorage.removeItem(localStorageKeyName) 
+        }
 
         return callback(form)      
     }

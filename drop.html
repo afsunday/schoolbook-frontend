@@ -1,5 +1,5 @@
 <style>
-
+167 -274
 /*.passport-file {
     z-index: 1;
     opacity: -20;
@@ -292,5 +292,67 @@
 // }
 
 
+    data () {
+        return {
+          classes: null
+        }
+    },
+
+  // onMounted () {
+  //   this.localCheckBoxes();
+  // },
+
+  methods: {
+    
+
+
+    // localCheckBoxes() {
+    //     let checkBoxes = JSON.parse(localStorage.getItem('SB_SBOX'));
+    //     if (checkBoxes) this.selectedCheckBox = checkBoxes;
+    // },
+
+    // checkedToLocal(event) {
+    //     let checkBox = event.target.getAttribute('id');
+    //     if (event.currentTarget.checked) {
+    //        this.selectedCheckBox.push(checkBox);
+    //        localStorage.setItem('SB_SBOX', JSON.stringify(this.selectedCheckBox));
+    //     } else {
+
+    //         let index =  this.selectedCheckBox.indexOf(checkBox);
+    //         if (index > -1) {
+    //             this.selectedCheckBox.splice(index, 1);
+    //             localStorage.setItem('SB_SBOX', JSON.stringify(this.selectedCheckBox));
+    //         }
+    //     } 
+    // },
+
+    // selectAll(event) {
+    //     let boxes = this.$refs.xbox;
+
+    //     if(event.currentTarget.checked) {
+    //         boxes.forEach((item) => {
+    //             let checkbox = item.getAttribute('id');
+
+    //             let index =  this.selectedCheckBox.indexOf(checkbox);
+    //             if (index <= -1) {
+    //                 this.selectedCheckBox.push(checkbox);
+    //                 localStorage.setItem('SB_SBOX', JSON.stringify(this.selectedCheckBox));
+    //             } 
+
+    //         })
+    //     } else {
+    //         boxes.forEach((item) => {
+    //             let checkbox = item.getAttribute('id');
+
+    //             let index =  this.selectedCheckBox.indexOf(checkbox);
+    //             if (index > -1) {
+    //                 this.selectedCheckBox.splice(index, 1);
+    //                 localStorage.setItem('SB_SBOX', JSON.stringify(this.selectedCheckBox));
+    //             }
+    //         })
+    //     }
+    // }
+
+  }
 
 </script>

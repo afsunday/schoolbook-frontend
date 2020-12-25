@@ -27,9 +27,9 @@
 
         <template v-slot:default>
 
-            <div v-if="selectedCheckBox.length > 0" class="d-flex justify-content-between">
+            <div v-if="selectedCheckBoxes.length > 0" class="d-flex justify-content-between">
                 <div class="text-dark small font-weight-midi d-inline-flex mt-2">
-                    {{selectedCheckBox.length}} guardians(s) selected
+                    {{selectedCheckBoxes.length}} guardians(s) selected
                 </div>
                 <div class="dropdown">
                     <a class="btn btn-secondary btn-sm font-weight-midi small-xs text-nowrap mb-1" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Actions</a>
@@ -52,7 +52,7 @@
             <modal-center :modalBadge="'staticFilterForm'">
                 <div class="form-group mb-1">
                     <label class="small-xs font-weight-midi mb-0">ACCOUNT STATUS</label>
-                    <select class="custom-select" v-model="filter.account_status">
+                    <select class="custom-select" v-model="fetchGuardianParams.account_status">
                         <option value="all">All Status</option>
                         <option value="active">Active</option>
                         <option value="blocked">Blocked</option>
@@ -60,7 +60,7 @@
                 </div>
                 <div class="form-group mb-1">
                     <label class="small-xs font-weight-midi mb-0">STATUS</label>
-                    <select class="custom-select" v-model="filter.status">
+                    <select class="custom-select" v-model="fetchGuardianParams.status">
                         <option value="all">All Status</option>
                         <option value="listed">Listed</option>
                         <option value="delist">Delist</option>
@@ -68,7 +68,7 @@
                 </div>
                 <div class="form-group mb-1">
                     <label class="small-xs mb-0">GENDER</label>
-                    <select class="custom-select" v-model="filter.gender">
+                    <select class="custom-select" v-model="fetchGuardianParams.gender">
                         <option value="all">All Genders</option>
                         <option value="male">Male</option>
                         <option value="female">Female</option>
@@ -76,7 +76,7 @@
                 </div>
                 <div class="form-group mb-2 mt-2">
                     <button class="btn btn-outline-primary btn-sm" 
-                    data-dismiss="modal" aria-label="close" @click="applyFilter()" type="submit">Apply Filter</button>
+                    data-dismiss="modal" aria-label="close" @click="filterGuardians()" type="submit">Apply Filter</button>
                 </div>
             </modal-center>
             <!--/filter-modal -->
@@ -92,21 +92,21 @@
                                     </a>
                                 </div>
                             </div>
-                            <input class="form-control bg-light" type="search" @keyup.enter="applyFilter()" v-model="filter.search" placeholder="Search" aria-label="Search">
+                            <input class="form-control bg-light" type="search" @keyup.enter="filterGuardians()" v-model="fetchGuardianParams.search" placeholder="Search" aria-label="Search">
                         </div>
                     </div>
                 </div>
                 <div>
-                    <line-preload :loading="loading"></line-preload>
+                    <line-preload :loading="loadingState.loading"></line-preload>
                 </div>
                 <div class="card-body px-0 pt-0">
-                    <div v-show="loaded" id="toggle-table">
+                    <div v-show="loadingState.loaded" id="toggle-table">
                         <table class="table table-striped">
                             <thead class="small-xs font-weight-midi text-muted bg-white">
                                 <tr>
                                     <th class="wd-30">
                                         <div class="custom-control-lg custom-control custom-checkbox">
-                                            <input type="checkbox" @click="selectAll($event)" class="custom-control-input" id="sb-checkall">
+                                            <input type="checkbox" @click="checkAll($event)" class="custom-control-input" id="sb-checkall">
                                             <label class="custom-control-label" for="sb-checkall"></label>
                                         </div>
                                     </th>
@@ -123,8 +123,8 @@
                                     <th>
                                         <div class="custom-control-lg custom-control custom-checkbox">
                                             <input type="checkbox" class="custom-control-input" 
-                                                   ref="xbox" :checked="selectedCheckBox.includes(guardian.guardian_id.toString())" 
-                                                   @click="checkedToLocal($event)" :id="guardian.guardian_id">
+                                                   ref="checkboxElements" :checked="selectedCheckBoxes.includes(guardian.guardian_id.toString())" 
+                                                   @click="checkOne($event)" :id="guardian.guardian_id">
                                             <label class="custom-control-label" :for="guardian.guardian_id"></label>
                                         </div>
                                     </th>
@@ -135,7 +135,7 @@
                                                 <router-link class="text-decoration-none text-primary" :to="{ name: 'GuardianProfile', params: { guardianId: guardian.guardian_id }}">{{guardian.firstname}} {{guardian.surname}} {{guardian.othername}}</router-link>
                                             </span>
                                         </div>
-                                        <a class="row-toggle text-decoration-none" @click="collapseRow($event)"></a>
+                                        <a class="row-toggle text-decoration-none" @click="tableRowToggle($event)"></a>
                                     </td>
                                     <td data-colname="EMAIL">{{ guardian.email }}</td>
                                     <td data-colname="PHONE">{{ guardian.phone }}</td>
@@ -164,14 +164,15 @@
                     </div><!--/table-wrapper -->
 
                     <!-- Pagination -->
-                    <pagination-links 
-                    :list-total-page="totalPage"
-                    :list-current-page="currentPage"
-                    :list-prev-page="prevPage"
-                    :list-next-page="nextPage"
-                    :list-pages-length="pagesLength"
-                    @changePage="changePage($event)">
-                    </pagination-links>                    
+                    <pagination-links
+                    :ListTotalPage="paginate.totalPage"
+                    :ListCurrentPage="paginate.currentPage"
+                    :ListPrevPage="paginate.prevPage"
+                    :ListNextPage="paginate.nextPage"
+                    :ListPagesLength="paginate.pagesLength"
+                    @changePage="navigate($event)">
+                    </pagination-links>   
+
                 </div>
             </div>
         </template>
@@ -180,164 +181,171 @@
 </template>
 
 <script>
-import { onMounted } from 'vue'
+// components
+import BaseAdmin from '@/views/layouts/BaseAdmin.vue'
+import LinePreload from '@/components/LinePreload'
+import PaginationLinks from '@/components/PaginationLinks'
+import ModalCenter from '@/components/ModalCenter'
 
-import BaseAdmin from '@/views/layouts/BaseAdmin.vue';
-import LinePreload from '@/components/LinePreload';
-import PaginationLinks from '@/components/PaginationLinks';
+// composables
+import useFormProof from '@/composables/useFormProof'
+import usePaginate from '@/composables/usePaginate'
+import useFormReset from '@/composables/useFormReset'
 
-const ModalCenter = () => import(/* webpackChunkName: "Modalcenter" */ '@/components/ModalCenter');
+// library:vue
+import { useStore } from 'vuex'
+import { useRouter, useRoute } from 'vue-router'
+import { reactive, ref, onMounted, watch } from 'vue'
 
-import { mapActions, mapState, mapMutations } from 'vuex';
+// apis
 import Guardian from '@/apis/Guardian';
 
 export default {
-  name: 'GuardianList',
-  components: {
-    BaseAdmin,
-    LinePreload,
-    ModalCenter,
-    PaginationLinks
-  },
-  data () {
-    return {
-      loading: false,
-      loaded: false,
-      currentPage: null,
-      nextPage: false,
-      prevPage: false,
-      totalPage: null,
-      pagesLength: null,
-      guardians: null,
-      selectedCheckBox: [],
-      filter: {
-        search: '',
-        status: 'all',
-        account_status: 'all',
-        gender: 'all',
-        page: 1,
-      },
-      classes: null
-    }
-  },
-
-  created () {
-    this.reqGuardians();
-  },
-
-  onMounted () {
-    this.localCheckBoxes();
-  },
-
-  methods: {
-    collapseRow (event) {
-      event.target.closest('.table-row').classList.toggle('is-expanded')
+    name: 'GuardianList',
+        components: {
+        BaseAdmin,
+        LinePreload,
+        ModalCenter,
+        PaginationLinks
     },
 
-    async reqGuardians() {
-        this.loading = true;
+    setup () {
+        const store  = useStore()
+        const route = useRoute()
+        const router = useRouter()
 
-        if ( this.$route.query.page !== undefined || this.$route.query.page !== null ) {
-            this.filter.page = this.$route.query.page;
+        const loadingState = reactive({
+            loading: false,
+            loaded: false,
+        })
+
+        // paginate guardians resource
+        const paginate = ref({
+            currentPage: null,
+            nextPage: false,
+            prevPage: false,
+            totalPage: null,
+            pagesLength: null,
+        })
+
+        // guardian fetch api request params
+        let fetchGuardianParams = reactive({
+            search: '',
+            status: 'all',
+            account_status: 'all',
+            gender: 'all',
+            page: 1
+        })
+
+        // navigate the guardian reseult list on modal
+        const navigate = (event) => {
+            let toPage = event.currentTarget.attributes.id.value;
+            fetchGuardianParams.page = toPage;
+            router.push({ query: { page : toPage } });
         }
 
-        await Guardian.all(this.filter)
-        .then((res) => {
+        const guardians = ref([]);
 
-            this.guardians = res.data.data;
+        const fetchGuardians = () => {
+            loadingState.loading = true;
 
-            if(res.data.next_page_url === null) {
-                this.nextPage = false;
-            } else {
-                this.nextPage = res.data.next_page_url.split('=')[1]; 
+            if (typeof route.query.page !== 'undefined' && route.query.page !== null ) {
+                fetchGuardianParams.page = route.query.page;
             }
 
-            if(res.data.prev_page_url === null) {
-                this.prevPage = false;
-            } else {
-                this.prevPage = res.data.prev_page_url.split('=')[1];
-            }
+            Guardian.all(fetchGuardianParams)
+            .then((res) => {
+                guardians.value = res.data.data
 
-            this.currentPage = res.data.current_page;
-            this.totalPage = res.data.last_page;
-
-            let pageLinks = res.data.links;
-            this.pagesLength = pageLinks.slice(1, pageLinks.length - 1).length;
-
-            this.loading = false;
-            this.loaded = true;
-
-        })
-        .catch((err) => {
-            console.log(err.response)
-        })
-    },
-
-    async changePage(event) {
-
-        const toPage = event.currentTarget.attributes.id.value;
-        this.$router.push({ query: { page : toPage } });
-        await this.reqGuardian();
-    },
-
-    async applyFilter() {
-        if ( this.$route.query.page !== '1') {
-            this.$router.push({ query: { page : 1 } });
-        }
-
-        await this.reqGuardian();  
-    },
-
-    localCheckBoxes() {
-        let checkBoxes = JSON.parse(localStorage.getItem('SB_SBOX'));
-        if (checkBoxes) this.selectedCheckBox = checkBoxes;
-    },
-
-    checkedToLocal(event) {
-        let checkBox = event.target.getAttribute('id');
-        if (event.currentTarget.checked) {
-           this.selectedCheckBox.push(checkBox);
-           localStorage.setItem('SB_SBOX', JSON.stringify(this.selectedCheckBox));
-        } else {
-
-            let index =  this.selectedCheckBox.indexOf(checkBox);
-            if (index > -1) {
-                this.selectedCheckBox.splice(index, 1);
-                localStorage.setItem('SB_SBOX', JSON.stringify(this.selectedCheckBox));
-            }
-        } 
-    },
-
-    selectAll(event) {
-        let boxes = this.$refs.xbox;
-
-        if(event.currentTarget.checked) {
-            boxes.forEach((item) => {
-                let checkbox = item.getAttribute('id');
-
-                let index =  this.selectedCheckBox.indexOf(checkbox);
-                if (index <= -1) {
-                    this.selectedCheckBox.push(checkbox);
-                    localStorage.setItem('SB_SBOX', JSON.stringify(this.selectedCheckBox));
-                } 
-
+                const { paging } = usePaginate(res);
+                paginate.value = { ...paginate.value, ...paging }
+                
+                loadingState.loading = false;
+                loadingState.loaded = true;
             })
-        } else {
-            boxes.forEach((item) => {
-                let checkbox = item.getAttribute('id');
+            .catch((err) => {
+                console.log(err.response)
+            })
+        }
 
-                let index =  this.selectedCheckBox.indexOf(checkbox);
+        onMounted(async () => await fetchGuardians())
+        watch(() => route.query.page, async () => await fetchGuardians());
+
+
+        // search guardian result
+        const filterGuardians = async () => {
+            if (route.query.page !== 1) {
+                router.push({ query: { page : 1 } });
+            }
+            await fetchGuardians(); 
+        }
+
+
+        // here we deifne selected checbkoxes and
+        // get the checkbox elements then we ma
+        // define the selected checkboxes
+        const selectedCheckBoxes = ref([])
+        const checkBoxElements = ref(null)
+
+        const mapCheckBoxes = () => {
+            let storageCheckBoxes = JSON.parse(localStorage.getItem('SB_SBOX'));
+            if (storageCheckBoxes) selectedCheckBoxes.value = storageCheckBoxes;
+        }
+        onMounted(mapCheckBoxes)
+
+        const checkAll = () => {
+            if (event.currentTarget.checked) {
+                checkBoxElements.value.forEach((item) => {
+
+                    let checkBox = item.getAttribute('id');
+                    let index = selectedCheckBoxes.value.indexOf(checkBox);
+
+                    if (index <= -1) {
+                        selectedCheckBoxes.value.push(checkBox);
+                        localStorage.setItem('STUDENTS_SELECT', JSON.stringify(selectedCheckBoxes.value));
+                    } 
+                })
+            } else {
+                checkBoxElements.value.forEach((item) => {
+
+                    let checkBox = item.getAttribute('id');
+                    let index = selectedCheckBoxes.value.indexOf(checkBox);
+
+                    if (index > -1) {
+                        selectedCheckBoxes.value.splice(index, 1);
+                        localStorage.setItem('STUDENTS_SELECT', JSON.stringify(selectedCheckBoxes.value));
+                    }
+                })
+            }
+        }
+
+        const checkOne = (event) => {
+
+            let checkBox = event.target.getAttribute('id')
+            if (event.currentTarget.checked) {
+               selectedCheckBoxes.value.push(checkBox);
+               localStorage.setItem('STUDENTS_SELECT', JSON.stringify(selectedCheckBoxes.value));
+            } else {
+
+                let index = selectedCheckBoxes.value.indexOf(checkBox);
                 if (index > -1) {
-                    this.selectedCheckBox.splice(index, 1);
-                    localStorage.setItem('SB_SBOX', JSON.stringify(this.selectedCheckBox));
+                    selectedCheckBoxes.value.splice(index, 1);
+                    localStorage.setItem('STUDENTS_SELECT', JSON.stringify(selectedCheckBoxes.value));
                 }
-            })
+            } 
+        }
+
+        const tableRowToggle = (event) => {
+            event.target.closest('.table-row').classList.toggle('is-expanded');
+        }
+
+        return {
+            loadingState, paginate, navigate, guardians, fetchGuardianParams, filterGuardians,
+            selectedCheckBoxes, checkAll, checkOne, tableRowToggle
         }
     }
-
-  }
-
 }
+
 </script>
 
 <style scoped>
