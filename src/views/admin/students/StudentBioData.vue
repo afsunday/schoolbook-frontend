@@ -99,7 +99,6 @@ export default {
     },
 
     props: ['student', 'loading', 'loaded'],
-
 }
 </script>
 

@@ -11,7 +11,7 @@
                             <a class="btn btn-light btn-sm small-xs border" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Options</a>
                             <div class="dropdown-menu dropdown-menu-right border-0 shadow py-3" aria-labelledby="dropdownMenuLink">
 
-                                <router-link class="dropdown-item small font-weight-midi py-2" @click.stop :to="'/admin/guardians/edit/' + $route.params.guardianId">Edit Guardian</router-link>
+                                <router-link class="dropdown-item small font-weight-midi py-2" @click.stop :to="'/admin/guardians/edit/' + $route.params.guardianId">Edit Student</router-link>
 
                                 <a class="dropdown-item small font-weight-midi py-2" @click.stop data-backdrop="static" data-keyboard="false"
                                  data-toggle="modal" data-target="#deactivate-modal" href="#">Mail Guardian</a>
@@ -48,7 +48,7 @@
                         </div>
                     </div>
 
-                    <div class="border-top mt-2 p-0" style="overflow-x: auto;">
+                    <div class="border-top mt-2 p-0" style="overflow-x: auto; scrollbar-width:thin;">
                         <ul class="nav nav-pills mt-2" id="pills-tab" role="tablist" style="flex-wrap: unset;">
                             <li class="nav-item" role="presentation">
                                 <a class="nav-link pl-1 pb-sm-3 pb-3 active" id="pills-bio-tab" data-toggle="pill" href="#pills-bio" role="tab" aria-controls="pills-bio" aria-selected="true">BioData</a>
@@ -108,7 +108,7 @@ import StudentBatchHistory from '@/views/admin/students/StudentBatchHistory';
 
 // library:vue
 import { reactive, ref, onMounted, watch } from 'vue'
-import { useRoute } from 'vue-router'
+import { useRoute, onBeforeRouteUpdate } from 'vue-router'
 
 // apis
 import Student from '@/apis/Student';
@@ -137,7 +137,6 @@ export default {
         const fetchStudentBioData = () => {
             loadingState.loading = true
             let studentId = route.params.studentId
-            console.log(studentId)
 
             Student.me(studentId).then((res) => {
                 student.value = res.data[0]
@@ -149,7 +148,10 @@ export default {
             })
         }
 
+        onBeforeRouteUpdate( async (to, from) => console.log('before route enter'))
+
         onMounted(async () => await fetchStudentBioData() )
+
         // watch(() =>  route.params.studentId, async () => await fetchStudentBioData())
 
         return {

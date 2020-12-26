@@ -2,108 +2,110 @@
 	<div>
 		<line-preload :loading="loadingState.loading"></line-preload>
 
-		<div v-if="loadingState.loaded && activeFees.length <= 0" class="text-center mb-3 mt-3">
-            <div class="mr-2 mr-sm-3 text-muted p-0 m-0" style="font-size:47px;">
-                <i class="icon icon-assignment icon-lg p-0 m-0"></i>
-            </div>
-            <div class="h7 text-center text-muted mt-n1">No active fee for student</div>
-        </div>
-
-        <div v-show="activeFees.length >= 1">
-			<div v-if="selectedActiveFees.length > 0" class="d-flex justify-content-between px-2 mt-2 mb-2">
-				<div class="text-dark small font-weight-midi d-inline-flex mt-1">
-	                {{selectedActiveFees.length}} fee(s) selected
+        <div class="min-100">
+			<div v-if="loadingState.loaded && activeFees.length <= 0" class="text-center mb-3 mt-3">
+	            <div class="mr-2 mr-sm-3 text-muted p-0 m-0" style="font-size:47px;">
+	                <i class="icon icon-assignment icon-lg p-0 m-0"></i>
 	            </div>
-
-				<div class="dropdown">
-	                <a class="btn btn-secondary btn-sm small-xs text-nowrap mb-1 mr-0 mr-sm-1" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Actions</a>
-	                <div class="dropdown-menu dropdown-menu-right  border-0 shadow py-3" aria-labelledby="dropdownMenuLink">
-
-	                    <a class="dropdown-item small font-weight-midi py-2" data-backdrop="static" data-keyboard="false"
-	                     data-toggle="modal" data-target="#deactivate-modal" href="#">Pay Selected</a>
-
-	                    <a class="dropdown-item small font-weight-midi py-2" data-backdrop="static" data-keyboard="false"
-	                     data-toggle="modal" data-target="#email-modal"
-	                     href="#">Unassign</a>                    
-	                </div>
-	            </div>            
+	            <div class="h7 text-center text-muted mt-n1">No active fee for student</div>
 	        </div>
 
-			<div id="toggle-table">
-		        <table class="table table-striped">
-		            <thead class="small-xs font-weight-midi text-muted bg-white">
-		                <tr>
-		                    <th class="wd-30">
-		                        <div class="custom-control-lg custom-control custom-checkbox">
-	                                <input type="checkbox" ref="checkAllCheckBox" @click="checkAll($event)" class="custom-control-input" id="sb-checkall" />
-	                                <label class="custom-control-label" for="sb-checkall"></label>
-	                            </div>
-		                    </th>
-		                    <th>FEE HEAD/DESC</th>
-		                    <th>AMOUNT</th>
-		                    <th>DISCOUNT</th>
-		                    <th>PAYBASIS</th>
-		                    <th>PAID</th>
-		                    <th>DUE</th>
-		                    <th>DATE</th>
-		                    <th></th>
-		                </tr>
-		            </thead>
-		            <tbody>
-		                <tr v-for="(fee, key) in activeFees" :key="key" class="table-row">
-		                    <th class="wd-30">
-				                <div class="custom-control-lg custom-control custom-checkbox">
-	                                <input type="checkbox" class="custom-control-input" 
-	                                    :ref="el => checkBoxElements[key] = el" 
-	                                    :checked="selectedActiveFees.includes(fee.invoiced_fee_id.toString())" 
-	                                    @click="checkOne($event)" :id="fee.invoiced_fee_id">
-	                                <label class="custom-control-label" :for="fee.invoiced_fee_id"></label>
-	                            </div>
-		                    </th>
-		                    <td>
-		                        <div class="d-flex justify-content-between">
-		                            <div class="mr-4">
-		                                <span><a href="#" class="h7 text-decoration-none text-dark font-weight-midi">{{ fee.fee_headname }}</a></span>
-		                                <div class="small text-muted text-wrap">{{ fee.description }}</div>
+	        <div v-show="activeFees.length >= 1">
+				<div v-if="selectedActiveFees.length > 0" class="d-flex justify-content-between px-2 mt-2 mb-2">
+					<div class="text-dark small font-weight-midi d-inline-flex mt-1">
+		                {{selectedActiveFees.length}} fee(s) selected
+		            </div>
+
+					<div class="dropdown">
+		                <a class="btn btn-secondary btn-sm small-xs text-nowrap mb-1 mr-0 mr-sm-1" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Actions</a>
+		                <div class="dropdown-menu dropdown-menu-right  border-0 shadow py-3" aria-labelledby="dropdownMenuLink">
+
+		                    <a class="dropdown-item small font-weight-midi py-2" data-backdrop="static" data-keyboard="false"
+		                     data-toggle="modal" data-target="#deactivate-modal" href="#">Pay Selected</a>
+
+		                    <a class="dropdown-item small font-weight-midi py-2" data-backdrop="static" data-keyboard="false"
+		                     data-toggle="modal" data-target="#email-modal"
+		                     href="#">Unassign</a>                    
+		                </div>
+		            </div>            
+		        </div>
+
+				<div id="toggle-table">
+			        <table class="table table-striped">
+			            <thead class="small-xs font-weight-midi text-muted bg-white">
+			                <tr>
+			                    <th class="wd-30">
+			                        <div class="custom-control-lg custom-control custom-checkbox">
+		                                <input type="checkbox" ref="checkAllCheckBox" @click="checkAll($event)" class="custom-control-input" id="sb-checkall" />
+		                                <label class="custom-control-label" for="sb-checkall"></label>
 		                            </div>
-		                            <a class="row-toggle text-decoration-none ml-2" @click="tableRowToggle($event)"></a>
-		                        </div>
-		                    </td>
-		                    <td class="h7 font-weight-midi" data-colname="AMOUNT:">{{ fee.amount }}</td>
-		                    <td class="h7 font-weight-midi" data-colname="DISCOUNT:">{{ fee.discount }}</td>
-		                    <td class="h7 font-weight-midi" data-colname="PAYBASIS:">{{ fee.pay_basis }}</td>
-		                    <td class="h7 font-weight-midi" data-colname="PAID:">{{ fee.paid_amount }}</td>
-		                    <td class="h7 font-weight-midi" data-colname="DUE:">{{ fee.due_amount }}</td>
-		                    <td class="h7 font-weight-midi text-capitalize enrolled" data-colname="DATE:">20/05/2020</td>
-		                    <td>
-		                        <div class="dropdown">
-		                            <a class="btn btn-outline-secondary btn-xs rounded" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Action</a>
-		                            <div class="dropdown-menu dropdown-menu-right border-0 shadow py-3 " aria-labelledby="dropdownMenuLink">
-
-		                                <a class="dropdown-item small font-weight-midi py-2" data-backdrop="static" data-keyboard="false"
-		                                 data-toggle="modal" data-target="#deactivate-modal" href="#">Block</a>
-
-		                                <a class="dropdown-item small font-weight-midi py-2" data-backdrop="static" data-keyboard="false"
-		                                 data-toggle="modal" data-target="#email-modal"
-		                                 href="#">Email</a>                                            
+			                    </th>
+			                    <th>FEE HEAD/DESC</th>
+			                    <th>AMOUNT</th>
+			                    <th>DISCOUNT</th>
+			                    <th>PAYBASIS</th>
+			                    <th>PAID</th>
+			                    <th>DUE</th>
+			                    <th>DATE</th>
+			                    <th></th>
+			                </tr>
+			            </thead>
+			            <tbody>
+			                <tr v-for="(fee, key) in activeFees" :key="key" class="table-row">
+			                    <th class="wd-30">
+					                <div class="custom-control-lg custom-control custom-checkbox">
+		                                <input type="checkbox" class="custom-control-input" 
+		                                    :ref="el => checkBoxElements[key] = el" 
+		                                    :checked="selectedActiveFees.includes(fee.invoiced_fee_id.toString())" 
+		                                    @click="checkOne($event)" :id="fee.invoiced_fee_id">
+		                                <label class="custom-control-label" :for="fee.invoiced_fee_id"></label>
 		                            </div>
-		                        </div>
-		                    </td>
-		                </tr>
-		            </tbody>
-		        </table>
-		    </div><!--/table-wrapper -->
+			                    </th>
+			                    <td>
+			                        <div class="d-flex justify-content-between">
+			                            <div class="mr-4">
+			                                <span><a href="#" class="h7 text-decoration-none text-dark font-weight-midi">{{ fee.fee_headname }}</a></span>
+			                                <div class="small text-muted text-wrap">{{ fee.description }}</div>
+			                            </div>
+			                            <a class="row-toggle text-decoration-none ml-2" @click="tableRowToggle($event)"></a>
+			                        </div>
+			                    </td>
+			                    <td class="h7 font-weight-midi" data-colname="AMOUNT:">{{ fee.amount }}</td>
+			                    <td class="h7 font-weight-midi" data-colname="DISCOUNT:">{{ fee.discount }}</td>
+			                    <td class="h7 font-weight-midi" data-colname="PAYBASIS:">{{ fee.pay_basis }}</td>
+			                    <td class="h7 font-weight-midi" data-colname="PAID:">{{ fee.paid_amount }}</td>
+			                    <td class="h7 font-weight-midi" data-colname="DUE:">{{ fee.due_amount }}</td>
+			                    <td class="h7 font-weight-midi text-capitalize enrolled" data-colname="DATE:">20/05/2020</td>
+			                    <td>
+			                        <div class="dropdown">
+			                            <a class="btn btn-outline-secondary btn-xs rounded" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Action</a>
+			                            <div class="dropdown-menu dropdown-menu-right border-0 shadow py-3 " aria-labelledby="dropdownMenuLink">
 
-		    <!-- Pagination -->
-	        <pagination-links
-		        :ListTotalPage="paginate.totalPage"
-		        :ListCurrentPage="paginate.currentPage"
-		        :ListPrevPage="paginate.prevPage"
-		        :ListNextPage="paginate.nextPage"
-		        :ListPagesLength="paginate.pagesLength"
-		        @changePage="navigate($event)">
-	        </pagination-links>
-        </div>
+			                                <a class="dropdown-item small font-weight-midi py-2" data-backdrop="static" data-keyboard="false"
+			                                 data-toggle="modal" data-target="#deactivate-modal" href="#">Block</a>
+
+			                                <a class="dropdown-item small font-weight-midi py-2" data-backdrop="static" data-keyboard="false"
+			                                 data-toggle="modal" data-target="#email-modal"
+			                                 href="#">Email</a>                                            
+			                            </div>
+			                        </div>
+			                    </td>
+			                </tr>
+			            </tbody>
+			        </table>
+			    </div><!--/table-wrapper -->
+
+			    <!-- Pagination -->
+		        <pagination-links
+			        :ListTotalPage="paginate.totalPage"
+			        :ListCurrentPage="paginate.currentPage"
+			        :ListPrevPage="paginate.prevPage"
+			        :ListNextPage="paginate.nextPage"
+			        :ListPagesLength="paginate.pagesLength"
+			        @changePage="navigate($event)">
+		        </pagination-links>
+	        </div>
+	    </div>
 	</div>
 </template>
 
@@ -162,7 +164,7 @@ export default {
         	loadingState.loading = true
         	const studentId = route.params.studentId;
 
-        	Student.studentFees({ id: studentId, page: activeFeesToPage })
+        	Student.studentFees({ id: studentId, page: activeFeesToPage.value })
         	.then((res) => {
                 activeFees.value = res.data.data
 
@@ -202,6 +204,10 @@ export default {
 
 .table tr:last-child {
     border-bottom: 1px solid #dee2e6;
+}
+
+.min-100 {
+	min-height: 100px;
 }
 
 #toggle-table .table thead > tr > th:first-child,
