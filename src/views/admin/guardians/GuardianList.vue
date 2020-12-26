@@ -27,9 +27,9 @@
 
         <template v-slot:default>
 
-            <div v-if="selectedCheckBoxes.length > 0" class="d-flex justify-content-between">
+            <div v-if="selectedGuardians.length > 0" class="d-flex justify-content-between">
                 <div class="text-dark small font-weight-midi d-inline-flex mt-2">
-                    {{selectedCheckBoxes.length}} guardians(s) selected
+                    {{selectedGuardians.length}} guardians(s) selected
                 </div>
                 <div class="dropdown">
                     <a class="btn btn-secondary btn-sm font-weight-midi small-xs text-nowrap mb-1" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Actions</a>
@@ -106,7 +106,7 @@
                                 <tr>
                                     <th class="wd-30">
                                         <div class="custom-control-lg custom-control custom-checkbox">
-                                            <input type="checkbox" @click="checkAll($event)" class="custom-control-input" id="sb-checkall">
+                                            <input type="checkbox" ref="checkAllCheckBox" @click="checkAll($event)" class="custom-control-input" id="sb-checkall">
                                             <label class="custom-control-label" for="sb-checkall"></label>
                                         </div>
                                     </th>
@@ -119,12 +119,12 @@
                                 </tr>
                             </thead>
                             <tbody class="small font-weight-midi">
-                                <tr v-for="guardian in guardians" :key="guardian.guardian_id" class="table-row">
+                                <tr v-for="(guardian, i) in guardians" :key="guardian.guardian_id" class="table-row">
                                     <th>
                                         <div class="custom-control-lg custom-control custom-checkbox">
                                             <input type="checkbox" class="custom-control-input" 
-                                                   ref="checkboxElements" :checked="selectedCheckBoxes.includes(guardian.guardian_id.toString())" 
-                                                   @click="checkOne($event)" :id="guardian.guardian_id">
+                                                   :ref="el => checkBoxElements[i] = el" :checked="selectedGuardians.includes(guardian.guardian_id.toString())" 
+                                                   @click="checkOne($event,)" :id="guardian.guardian_id">
                                             <label class="custom-control-label" :for="guardian.guardian_id"></label>
                                         </div>
                                     </th>
@@ -188,9 +188,9 @@ import PaginationLinks from '@/components/PaginationLinks'
 import ModalCenter from '@/components/ModalCenter'
 
 // composables
-import useFormProof from '@/composables/useFormProof'
 import usePaginate from '@/composables/usePaginate'
-import useFormReset from '@/composables/useFormReset'
+import useCheckBox from '@/composables/useCheckBox'
+
 
 // library:vue
 import { useStore } from 'vuex'
@@ -240,7 +240,6 @@ export default {
         // navigate the guardian reseult list on modal
         const navigate = (event) => {
             let toPage = event.currentTarget.attributes.id.value;
-            fetchGuardianParams.page = toPage;
             router.push({ query: { page : toPage } });
         }
 
@@ -268,72 +267,19 @@ export default {
             })
         }
 
+        const filterGuardians = async () => {
+            router.push({ query: { page : 1 } });
+            await fetchStudents()
+        }
+
         onMounted(async () => await fetchGuardians())
         watch(() => route.query.page, async () => await fetchGuardians());
 
-
-        // search guardian result
-        const filterGuardians = async () => {
-            if (route.query.page !== 1) {
-                router.push({ query: { page : 1 } });
-            }
-            await fetchGuardians(); 
-        }
-
-
-        // here we deifne selected checbkoxes and
-        // get the checkbox elements then we ma
-        // define the selected checkboxes
-        const selectedCheckBoxes = ref([])
-        const checkBoxElements = ref(null)
-
-        const mapCheckBoxes = () => {
-            let storageCheckBoxes = JSON.parse(localStorage.getItem('SB_SBOX'));
-            if (storageCheckBoxes) selectedCheckBoxes.value = storageCheckBoxes;
-        }
-        onMounted(mapCheckBoxes)
-
-        const checkAll = () => {
-            if (event.currentTarget.checked) {
-                checkBoxElements.value.forEach((item) => {
-
-                    let checkBox = item.getAttribute('id');
-                    let index = selectedCheckBoxes.value.indexOf(checkBox);
-
-                    if (index <= -1) {
-                        selectedCheckBoxes.value.push(checkBox);
-                        localStorage.setItem('STUDENTS_SELECT', JSON.stringify(selectedCheckBoxes.value));
-                    } 
-                })
-            } else {
-                checkBoxElements.value.forEach((item) => {
-
-                    let checkBox = item.getAttribute('id');
-                    let index = selectedCheckBoxes.value.indexOf(checkBox);
-
-                    if (index > -1) {
-                        selectedCheckBoxes.value.splice(index, 1);
-                        localStorage.setItem('STUDENTS_SELECT', JSON.stringify(selectedCheckBoxes.value));
-                    }
-                })
-            }
-        }
-
-        const checkOne = (event) => {
-
-            let checkBox = event.target.getAttribute('id')
-            if (event.currentTarget.checked) {
-               selectedCheckBoxes.value.push(checkBox);
-               localStorage.setItem('STUDENTS_SELECT', JSON.stringify(selectedCheckBoxes.value));
-            } else {
-
-                let index = selectedCheckBoxes.value.indexOf(checkBox);
-                if (index > -1) {
-                    selectedCheckBoxes.value.splice(index, 1);
-                    localStorage.setItem('STUDENTS_SELECT', JSON.stringify(selectedCheckBoxes.value));
-                }
-            } 
-        }
+        const { 
+            selectedCheckBoxes: selectedGuardians, 
+            checkAll, checkOne, checkBoxElements, 
+            checkAllCheckBox
+        } = useCheckBox('GUARDIANS_SELECT');
 
         const tableRowToggle = (event) => {
             event.target.closest('.table-row').classList.toggle('is-expanded');
@@ -341,7 +287,7 @@ export default {
 
         return {
             loadingState, paginate, navigate, guardians, fetchGuardianParams, filterGuardians,
-            selectedCheckBoxes, checkAll, checkOne, tableRowToggle
+            selectedGuardians, checkAll, checkOne, checkBoxElements, checkAllCheckBox, tableRowToggle
         }
     }
 }

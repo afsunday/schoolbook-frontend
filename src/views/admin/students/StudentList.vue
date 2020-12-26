@@ -26,9 +26,9 @@
         </template>
 
         <template v-slot:default>
-            <div v-if="selectedCheckBox.length > 0" class="d-flex justify-content-between">
+            <div v-if="selectedStudents.length > 0" class="d-flex justify-content-between">
                 <div class="text-dark small font-weight-midi d-inline-flex mt-2">
-                    {{ selectedCheckBox.length }} student(s) selected
+                    {{ selectedStudents.length }} student(s) selected
                 </div>
                 <div class="dropdown">
                     <a class="btn btn-secondary btn-sm font-weight-midi small-xs text-nowrap mb-1" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Actions</a>
@@ -44,7 +44,7 @@
             <modal-center :modalBadge="'staticFilterForm'">
                 <div class="form-group mb-1">
                     <label class="small-xs font-weight-midi mb-0">STATUS</label>
-                    <select class="custom-select" v-model="filter.status" name="status-filter">
+                    <select class="custom-select" v-model="fetchStudentParams.status" name="status-filter">
                         <option value="all">All Status</option>
                         <option value="enrolled">Enrolled</option>
                         <option value="dropped">Dropped</option>
@@ -53,7 +53,7 @@
                 </div>
                 <div class="form-group mb-1">
                     <label class="small-xs mb-0">CLASS</label>
-                    <select class="custom-select" v-model="filter.class" name="class-filter">
+                    <select class="custom-select" v-model="fetchStudentParams.class" name="class-filter">
                         <option value="all">All Classes</option>
                         <option v-for="(xclass, key) in classes" :key="key" :value="xclass.id">
                             {{ xclass.class_name }} {{ xclass.arm }}
@@ -62,14 +62,14 @@
                 </div>
                 <div class="form-group mb-1">
                     <label class="small-xs mb-0">GENDER</label>
-                    <select class="custom-select" v-model="filter.gender" name="gender-filter">
+                    <select class="custom-select" v-model="fetchStudentParams.gender" name="gender-filter">
                         <option value="all">All Genders</option>
                         <option value="Male">Male</option>
                         <option value="Female">Female</option>
                     </select>
                 </div>
                 <div class="form-group mb-1 mt-2">
-                    <button class="btn btn-outline-primary btn-sm" @click="applyFilter()" type="submit">
+                    <button class="btn btn-outline-primary btn-sm" @click="filterStudents()" type="submit">
                         Filter
                     </button>
                 </div>
@@ -86,21 +86,21 @@
                                     </a>
                                 </div>
                             </div>
-                            <input class="form-control bg-light" type="search" @keyup.enter="applyFilter()" v-model="filter.search" placeholder="Search" aria-label="Search" />
+                            <input class="form-control bg-light" type="search" @keyup.enter="filterStudents()" v-model="fetchStudentParams.search" placeholder="Search" aria-label="Search" />
                         </div>
                     </div>
                 </div>
 
-                <line-preload :loading="loading"></line-preload>
+                <line-preload :loading="loadingState.loading"></line-preload>
 
                 <div class="card-body px-0 pt-0">
-                    <div v-show="toggleTable" id="toggle-table">
+                    <div v-show="loadingState.loaded" id="toggle-table">
                         <table class="table table-striped">
                             <thead class="small-xs font-weight-midi text-muted bg-white">
                                 <tr>
                                     <th class="wd-30">
                                         <div class="custom-control-lg custom-control custom-checkbox">
-                                            <input type="checkbox" @click="selectAll($event)" class="custom-control-input" id="sb-checkall" />
+                                            <input type="checkbox" ref="checkAllCheckBox" @click="checkAll($event)" class="custom-control-input" id="sb-checkall" />
                                             <label class="custom-control-label" for="sb-checkall"></label>
                                         </div>
                                     </th>
@@ -113,10 +113,13 @@
                                 </tr>
                             </thead>
                             <tbody class="small font-weight-midi">
-                                <tr v-for="student in students" :key="student.student_id" class="table-row">
+                                <tr v-for="(student, i) in students" :key="student.student_id" class="table-row">
                                     <th>
                                         <div class="custom-control-lg custom-control custom-checkbox">
-                                            <input type="checkbox" class="custom-control-input" ref="xbox" :checked="selectedCheckBox.includes(student.student_id.toString())" @click="checkedToLocal($event)" :id="student.student_id">
+                                            <input type="checkbox" class="custom-control-input" 
+                                                :ref="el => checkBoxElements[i] = el" 
+                                                :checked="selectedStudents.includes(student.student_id.toString())" 
+                                                @click="checkOne($event)" :id="student.student_id">
                                             <label class="custom-control-label" :for="student.student_id"></label>
                                         </div>
                                     </th>
@@ -128,7 +131,7 @@
                                                 </router-link>
                                             </span>
                                         </div>
-                                        <a class="row-toggle text-decoration-none" @click="collapseRow($event)"></a>
+                                        <a class="row-toggle text-decoration-none" @click="tableRowToggle($event)"></a>
                                     </td>
                                     <td data-colname="ADM NO">{{ student.admission_number }}</td>
                                     <td data-colname="CLASS">{{ student.classname }} {{ student.classarm }}</td>
@@ -149,11 +152,16 @@
                         </table>
                     </div><!--/table-->
 
-                    <!--Pagination-->
-                    <pagination-links :ListTotalPage="totalPage" :ListCurrentPage="currentPage" 
-                          :ListPrevPage="prevPage" :ListNextPage="nextPage" 
-                          :ListPagesLength="pagesLength" @changePage="changePage($event)">
+                    <!-- Pagination -->
+                    <pagination-links
+                    :ListTotalPage="paginate.totalPage"
+                    :ListCurrentPage="paginate.currentPage"
+                    :ListPrevPage="paginate.prevPage"
+                    :ListNextPage="paginate.nextPage"
+                    :ListPagesLength="paginate.pagesLength"
+                    @changePage="navigate($event)">
                     </pagination-links>
+
                 </div>
             </div>
         </template>
@@ -162,16 +170,24 @@
 </template>
 
 <script>
-import { onMounted } from "vue";
+// components
+import BaseAdmin from '@/views/layouts/BaseAdmin.vue'
+import LinePreload from '@/components/LinePreload'
+import PaginationLinks from '@/components/PaginationLinks'
+import ModalCenter from '@/components/ModalCenter'
 
-import BaseAdmin from "@/views/layouts/BaseAdmin.vue";
-import LinePreload from "@/components/LinePreload";
-import PaginationLinks from "@/components/PaginationLinks";
-import ModalCenter from "@/components/ModalCenter";
+// composables
+import usePaginate from '@/composables/usePaginate'
+import useCheckBox from '@/composables/useCheckBox'
 
-import { mapActions } from "vuex";
-import Student from "@/apis/Student";
-import Class from "@/apis/Class";
+// library:vue
+import { useStore } from 'vuex'
+import { useRouter, useRoute } from 'vue-router'
+import { reactive, ref, onMounted, watch } from 'vue'
+
+// apis
+import Student from "@/apis/Student"
+import Class from "@/apis/Class"
 
 export default {
     name: "StudentList",
@@ -182,156 +198,100 @@ export default {
         PaginationLinks,
     },
 
-    data() {
-        return {
+    setup() {
+        const store  = useStore()
+        const route = useRoute()
+        const router = useRouter()
+
+        let loadingState = reactive({
             loading: false,
-            toggleTable: false,
+            loaded: false
+        })
+
+        // paginate fetched data
+        const paginate = ref({
             currentPage: null,
             nextPage: false,
             prevPage: false,
             totalPage: null,
             pagesLength: null,
-            students: null,
-            selectedCheckBox: [],
-            filter: {
-                search: "",
-                status: "all",
-                class: "all",
-                gender: "all",
-                page: 1,
-            },
-            classes: null,
-        };
-    },
+        })
 
-    created() {
-        this.reqStudent();
-        this.fetchClasses();
-    },
+        // student fetch request params
+        let fetchStudentParams = reactive({
+            search: '',
+            status: 'all',
+            class: 'all',
+            gender: 'all',
+            page: 1
+        })
 
-    onMounted() {
-        this.localCheckBoxes();
-    },
+        // navigate the guardian reseult list on modal
+        const navigate = (event) => {
+            let toPage = event.currentTarget.attributes.id.value;
+            router.push({ query: { page : toPage } });
+        }
 
-    methods: {
-        collapseRow(event) {
-            event.target.closest(".table-row").classList.toggle("is-expanded");
-        },
+        const students = ref([])
 
-        async reqStudent() {
-            this.loading = true;
+        const fetchStudents = () => {
+            loadingState.loading = true;
 
-            if (this.$route.query.page !== undefined || this.$route.query.page !== null) {
-                this.filter.page = this.$route.query.page;
+            if (typeof route.query.page !== 'undefined' && route.query.page !== null ) {
+                fetchStudentParams.page = route.query.page;
             }
 
-            await Student.all(this.filter)
+            Student.all(fetchStudentParams)
             .then((res) => {
-                this.students = res.data.data;
+                students.value = res.data.data
 
-                if (res.data.next_page_url === null) {
-                this.nextPage = false;
-                } else {
-                this.nextPage = res.data.next_page_url.split("=")[1];
-                }
-
-                if (res.data.prev_page_url === null) {
-                this.prevPage = false;
-                } else {
-                this.prevPage = res.data.prev_page_url.split("=")[1];
-                }
-
-                this.currentPage = res.data.current_page;
-                this.totalPage = res.data.last_page;
-
-                let pageLinks = res.data.links;
-                this.pagesLength = pageLinks.slice(1, pageLinks.length - 1).length;
-
-                this.loading = false;
-                this.toggleTable = true;
-
-                console.log(res);
+                const { paging } = usePaginate(res);
+                paginate.value = { ...paginate.value, ...paging }
+                
+                loadingState.loading = false;
+                loadingState.loaded = true;
             })
             .catch((err) => {
-                console.log(err.response);
-            });
-        },
-
-        async changePage(event) {
-            const toPage = event.currentTarget.attributes.id.value;
-            this.$router.push({ query: { page: toPage } });
-            await this.reqStudent();
-        },
-
-        async fetchClasses() {
-            await Class.classes()
-            .then((res) => {
-                this.classes = res.data;
+                console.log(err.response)
             })
+        }
+
+        onMounted(async () => await fetchStudents())
+        watch(() => route.query.page, async () => await filterStudents())
+
+
+        const classes = ref([])
+        const fetchClasses = () => {
+            Class.classes().then(res => classes.value = res.data)
             .catch((err) => {
-                if (err.response.status === "401") {
-                    this.$router.push({ path: "/login", query: { redirect: "forbidden" } });
-                }
-            });
-        },
+                //
+            })
+        }
 
-        async applyFilter() {
-            if (this.$route.query.page !== "1") {
-                this.$router.push({ query: { page: 1 } });
-            }
+        onMounted(async () => await fetchClasses())
 
-            await this.reqStudent();
-        },
+        const filterStudents = async () => {
+            router.push({ query: { page : 1 } });
+            await fetchStudents()
+        }        
 
-        localCheckBoxes() {
-            let checkBoxes = JSON.parse(localStorage.getItem("SB_SBOX"));
-            if (checkBoxes) this.selectedCheckBox = checkBoxes;
-        },
+        const { 
+            selectedCheckBoxes: selectedStudents, 
+            checkAll, checkOne, checkBoxElements, 
+            checkAllCheckBox
+        } = useCheckBox('STUDENTS_SELECT');
 
-        checkedToLocal(event) {
-            let checkBox = event.target.getAttribute("id");
+        const tableRowToggle = (event) => {
+            event.target.closest('.table-row').classList.toggle('is-expanded');
+        }
 
-            if (event.currentTarget.checked) {
-                this.selectedCheckBox.push(checkBox);
-                localStorage.setItem("SB_SBOX", JSON.stringify(this.selectedCheckBox));
-            } else {
-                let index = this.selectedCheckBox.indexOf(checkBox);
-                if (index > -1) {
-                      this.selectedCheckBox.splice(index, 1);
-                      localStorage.setItem("SB_SBOX", JSON.stringify(this.selectedCheckBox));
-                }
-            }
-        },
+        return {
+            loadingState, paginate, navigate, students, classes, fetchStudentParams, filterStudents,
+            selectedStudents, checkAll, checkOne, checkBoxElements, checkAllCheckBox, tableRowToggle
+        }
+    }
+}
 
-        selectAll(event) {
-            let boxes = this.$refs.xbox;
-
-            if (event.currentTarget.checked) {
-
-                boxes.forEach((item) => {
-                    let checkbox = item.getAttribute("id");
-
-                    let index = this.selectedCheckBox.indexOf(checkbox);
-                    if (index <= -1) {
-                        this.selectedCheckBox.push(checkbox);
-                        localStorage.setItem( "SB_SBOX", JSON.stringify(this.selectedCheckBox));
-                    }
-                });
-
-            } else {
-                boxes.forEach((item) => {
-                    let checkbox = item.getAttribute("id");
-
-                    let index = this.selectedCheckBox.indexOf(checkbox);
-                    if (index > -1) {
-                        this.selectedCheckBox.splice(index, 1);
-                        localStorage.setItem("SB_SBOX", JSON.stringify(this.selectedCheckBox));
-                    }
-                });
-            }
-        },
-    },
-};
 </script>
 
 <style scoped>

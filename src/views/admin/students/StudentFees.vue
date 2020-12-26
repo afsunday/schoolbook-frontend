@@ -36,6 +36,7 @@
 </template>
 
 <script>
+// components
 import StudentActiveFee from '@/views/admin/students/StudentActiveFee';
 import StudentSettledFee from '@/views/admin/students/StudentSettledFee';
 import StudentFeeTransaction from '@/views/admin/students/StudentFeeTransaction';
@@ -46,19 +47,7 @@ export default {
         StudentActiveFee,
         StudentSettledFee,
         StudentFeeTransaction,
-    },
-
-    props: {},
-    
-    data() {
-        return {
-            //
-        }
-    },
-
-    methods: {
     }
-        
 }
 </script>
 

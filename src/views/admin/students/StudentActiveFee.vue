@@ -1,104 +1,126 @@
 <template>
 	<div>
-		<line-preload :loading="loading"></line-preload>
+		<line-preload :loading="loadingState.loading"></line-preload>
 
-		<div class="card-header pb-2 bg-white d-flex justify-content-between px-2">
-            <div class="mr-auto">
-                <div class="input-group">
-                    <input class="form-control" type="search" @keyup.enter="applyFilter()" v-model="filter.search" placeholder="Search">
-                </div>
+		<div v-if="loadingState.loaded && activeFees.length <= 0" class="text-center mb-3 mt-3">
+            <div class="mr-2 mr-sm-3 text-muted p-0 m-0" style="font-size:47px;">
+                <i class="icon icon-assignment icon-lg p-0 m-0"></i>
             </div>
+            <div class="h7 text-center text-muted mt-n1">No active fee for student</div>
         </div>
 
-		<div v-if="selectedCheckBox.length > 0" class="d-flex justify-content-between px-2 mt-2 mb-2">
-			<div class="text-dark small font-weight-midi d-inline-flex mt-1">
-                {{selectedCheckBox.length}} fee(s) selected
-            </div>
+        <div v-show="activeFees.length >= 1">
+			<div v-if="selectedActiveFees.length > 0" class="d-flex justify-content-between px-2 mt-2 mb-2">
+				<div class="text-dark small font-weight-midi d-inline-flex mt-1">
+	                {{selectedActiveFees.length}} fee(s) selected
+	            </div>
 
-			<div class="dropdown">
-                <a class="btn btn-secondary btn-sm small-xs text-nowrap mb-1 mr-0 mr-sm-1" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Actions</a>
-                <div class="dropdown-menu dropdown-menu-right  border-0 shadow py-3" aria-labelledby="dropdownMenuLink">
+				<div class="dropdown">
+	                <a class="btn btn-secondary btn-sm small-xs text-nowrap mb-1 mr-0 mr-sm-1" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Actions</a>
+	                <div class="dropdown-menu dropdown-menu-right  border-0 shadow py-3" aria-labelledby="dropdownMenuLink">
 
-                    <a class="dropdown-item small font-weight-midi py-2" data-backdrop="static" data-keyboard="false"
-                     data-toggle="modal" data-target="#deactivate-modal" href="#">Pay Selected</a>
+	                    <a class="dropdown-item small font-weight-midi py-2" data-backdrop="static" data-keyboard="false"
+	                     data-toggle="modal" data-target="#deactivate-modal" href="#">Pay Selected</a>
 
-                    <a class="dropdown-item small font-weight-midi py-2" data-backdrop="static" data-keyboard="false"
-                     data-toggle="modal" data-target="#email-modal"
-                     href="#">Unassign</a>                    
-                </div>
-            </div>            
+	                    <a class="dropdown-item small font-weight-midi py-2" data-backdrop="static" data-keyboard="false"
+	                     data-toggle="modal" data-target="#email-modal"
+	                     href="#">Unassign</a>                    
+	                </div>
+	            </div>            
+	        </div>
+
+			<div id="toggle-table">
+		        <table class="table table-striped">
+		            <thead class="small-xs font-weight-midi text-muted bg-white">
+		                <tr>
+		                    <th class="wd-30">
+		                        <div class="custom-control-lg custom-control custom-checkbox">
+	                                <input type="checkbox" ref="checkAllCheckBox" @click="checkAll($event)" class="custom-control-input" id="sb-checkall" />
+	                                <label class="custom-control-label" for="sb-checkall"></label>
+	                            </div>
+		                    </th>
+		                    <th>FEE HEAD/DESC</th>
+		                    <th>AMOUNT</th>
+		                    <th>DISCOUNT</th>
+		                    <th>PAYBASIS</th>
+		                    <th>PAID</th>
+		                    <th>DUE</th>
+		                    <th>DATE</th>
+		                    <th></th>
+		                </tr>
+		            </thead>
+		            <tbody>
+		                <tr v-for="(fee, key) in activeFees" :key="key" class="table-row">
+		                    <th class="wd-30">
+				                <div class="custom-control-lg custom-control custom-checkbox">
+	                                <input type="checkbox" class="custom-control-input" 
+	                                    :ref="el => checkBoxElements[key] = el" 
+	                                    :checked="selectedActiveFees.includes(fee.invoiced_fee_id.toString())" 
+	                                    @click="checkOne($event)" :id="fee.invoiced_fee_id">
+	                                <label class="custom-control-label" :for="fee.invoiced_fee_id"></label>
+	                            </div>
+		                    </th>
+		                    <td>
+		                        <div class="d-flex justify-content-between">
+		                            <div class="mr-4">
+		                                <span><a href="#" class="h7 text-decoration-none text-dark font-weight-midi">{{ fee.fee_headname }}</a></span>
+		                                <div class="small text-muted text-wrap">{{ fee.description }}</div>
+		                            </div>
+		                            <a class="row-toggle text-decoration-none ml-2" @click="tableRowToggle($event)"></a>
+		                        </div>
+		                    </td>
+		                    <td class="h7 font-weight-midi" data-colname="AMOUNT:">{{ fee.amount }}</td>
+		                    <td class="h7 font-weight-midi" data-colname="DISCOUNT:">{{ fee.discount }}</td>
+		                    <td class="h7 font-weight-midi" data-colname="PAYBASIS:">{{ fee.pay_basis }}</td>
+		                    <td class="h7 font-weight-midi" data-colname="PAID:">{{ fee.paid_amount }}</td>
+		                    <td class="h7 font-weight-midi" data-colname="DUE:">{{ fee.due_amount }}</td>
+		                    <td class="h7 font-weight-midi text-capitalize enrolled" data-colname="DATE:">20/05/2020</td>
+		                    <td>
+		                        <div class="dropdown">
+		                            <a class="btn btn-outline-secondary btn-xs rounded" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Action</a>
+		                            <div class="dropdown-menu dropdown-menu-right border-0 shadow py-3 " aria-labelledby="dropdownMenuLink">
+
+		                                <a class="dropdown-item small font-weight-midi py-2" data-backdrop="static" data-keyboard="false"
+		                                 data-toggle="modal" data-target="#deactivate-modal" href="#">Block</a>
+
+		                                <a class="dropdown-item small font-weight-midi py-2" data-backdrop="static" data-keyboard="false"
+		                                 data-toggle="modal" data-target="#email-modal"
+		                                 href="#">Email</a>                                            
+		                            </div>
+		                        </div>
+		                    </td>
+		                </tr>
+		            </tbody>
+		        </table>
+		    </div><!--/table-wrapper -->
+
+		    <!-- Pagination -->
+	        <pagination-links
+		        :ListTotalPage="paginate.totalPage"
+		        :ListCurrentPage="paginate.currentPage"
+		        :ListPrevPage="paginate.prevPage"
+		        :ListNextPage="paginate.nextPage"
+		        :ListPagesLength="paginate.pagesLength"
+		        @changePage="navigate($event)">
+	        </pagination-links>
         </div>
-
-		<div id="toggle-table">
-	        <table class="table table-striped">
-	            <thead class="small-xs font-weight-midi text-muted bg-white">
-	                <tr>
-	                    <th class="wd-30">
-	                        <input type="checkbox" @click="selectAll($event)" class="logic-checkbox" name="">
-	                    </th>
-	                    <th>FEE HEAD/DESC</th>
-	                    <th>AMOUNT</th>
-	                    <th>DISCOUNT</th>
-	                    <th>PAYBASIS</th>
-	                    <th>PAID</th>
-	                    <th>DUE</th>
-	                    <th>DATE</th>
-	                    <th></th>
-	                </tr>
-	            </thead>
-	            <tbody>
-	                <tr v-for="(fee, key) in activeFees" :key="key" class="table-row">
-	                    <th class="wd-30">
-	                        <input type="checkbox" 
-			                       :id="key" ref="activeFeeCheckBox" 
-			                       @click="checked($event)" 
-			                       :checked="selectedCheckBox.includes(key.toString())" 
-			                       class="logic-checkbox" name="">
-	                    </th>
-	                    <td>
-	                        <div class="d-flex justify-content-between">
-	                            <div class="mr-4">
-	                                <span><a href="#" class="h7 text-decoration-none text-dark font-weight-midi">{{ fee.fee_headname }}</a></span>
-	                                <div class="small text-muted text-wrap">{{ fee.description }}</div>
-	                            </div>
-	                            <a class="row-toggle text-decoration-none ml-2" @click="collapseRow($event)"></a>
-	                        </div>
-	                    </td>
-	                    <td class="h7 font-weight-midi" data-colname="AMOUNT:">{{ fee.amount }}</td>
-	                    <td class="h7 font-weight-midi" data-colname="DISCOUNT:">{{ fee.discount }}</td>
-	                    <td class="h7 font-weight-midi" data-colname="PAYBASIS:">{{ fee.pay_basis }}</td>
-	                    <td class="h7 font-weight-midi" data-colname="PAID:">{{ fee.paid_amount }}</td>
-	                    <td class="h7 font-weight-midi" data-colname="DUE:">{{ fee.due_amount }}</td>
-	                    <td class="h7 font-weight-midi text-capitalize enrolled" data-colname="DATE:">20/05/2020</td>
-	                    <td>
-	                        <div class="dropdown">
-	                            <a class="btn btn-outline-secondary btn-xs rounded" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Action</a>
-	                            <div class="dropdown-menu dropdown-menu-right border-0 shadow py-3 " aria-labelledby="dropdownMenuLink">
-
-	                                <a class="dropdown-item small font-weight-midi py-2" data-backdrop="static" data-keyboard="false"
-	                                 data-toggle="modal" data-target="#deactivate-modal" href="#">Block</a>
-
-	                                <a class="dropdown-item small font-weight-midi py-2" data-backdrop="static" data-keyboard="false"
-	                                 data-toggle="modal" data-target="#email-modal"
-	                                 href="#">Email</a>                                            
-	                            </div>
-	                        </div>
-	                    </td>
-	                </tr>
-	            </tbody>
-	        </table>
-	    </div><!--/table-wrapper -->
-
-	    <!-- pagination -->
-	    <pagination-links :list-total-page="totalPage" :list-current-page="currentPage" :list-prev-page="prevPage" :list-next-page="nextPage" 
-	    :list-pages-length="pagesLength" @changePage="changePage($event)"></pagination-links>
-
 	</div>
 </template>
 
 <script>
+// components
 import PaginationLinks from '@/components/PaginationLinks';
 import LinePreload from '@/components/LinePreload';
+
+// library:vue
+import { reactive, ref, onMounted, watch } from 'vue'
+import { useRoute } from 'vue-router'
+
+// composables
+import usePaginate from '@/composables/usePaginate'
+import useCheckBox from '@/composables/useCheckBox'
+
+// apis
 import Student from '@/apis/Student';
 
 export default {
@@ -108,113 +130,70 @@ export default {
 		LinePreload
 	},
 
-	data() {
-		return {
-			loading: false,
-			loaded: false,
-			selectedCheckBox: [],
-			activeFees: [],
-			currentPage: null,
-		    nextPage: false,
-		    prevPage: false,
-		    totalPage: null,
-		    pagesLength: null,
-		    filter: {
-		    	search: ''
-		    }
-		}
-	},
+	setup() {
+		const route = useRoute()
 
-	created () {
-		this.reqStudentFee();
-	},
+		const loadingState = reactive({
+			loading: false, loaded: false,
+		})
 
-	methods: {
-		collapseRow (event) {
-            event.target.closest('.table-row').classList.toggle('is-expanded')
-        },
+		// paginate fetched data
+        const paginate = ref({
+            currentPage: null,
+            nextPage: false,
+            prevPage: false,
+            totalPage: null,
+            pagesLength: null,
+        })
 
-        async reqStudentFee() {
-        	this.loading = true;
-            const studentId = this.$route.params.studentId;
+        // navigate the fees list
+        const activeFeesToPage = ref('')
 
-            await Student.studentFees({ id: studentId  })
-            .then((res) => {
+        const navigate = async (event) => {
+            let toPage = event.currentTarget.attributes.id.value;
+            activeFeesToPage.value = toPage;
+            await fetchGuardians();
+        }
 
-                this.activeFees = res.data.data;
+        // fetch fees related to student
+        const activeFees = ref([])
 
-	            if(res.data.next_page_url === null) {
-	                this.nextPage = false;
-	            } else {
-	                this.nextPage = res.data.next_page_url.split('=')[1]; 
-	            }
+        const fetchActiveFees = () => {
+        	loadingState.loading = true
+        	const studentId = route.params.studentId;
 
-	            if(res.data.prev_page_url === null) {
-	                this.prevPage = false;
-	            } else {
-	                this.prevPage = res.data.prev_page_url.split('=')[1];
-	            }
+        	Student.studentFees({ id: studentId, page: activeFeesToPage })
+        	.then((res) => {
+                activeFees.value = res.data.data
 
-	            this.currentPage = res.data.current_page;
-	            this.totalPage = res.data.last_page;
-
-	            let pageLinks = res.data.links;
-	            this.pagesLength = pageLinks.slice(1, pageLinks.length - 1).length;
-
-	            this.loading = false;
-	            this.loaded = true;
-
-	            console.log(res);
+                const { paging } = usePaginate(res);
+                paginate.value = { ...paginate.value, ...paging }
+                
+                loadingState.loading = false;
+                loadingState.loaded = true;
             })
             .catch((err) => {
-                console.log(err);
+                console.log(err.response)
             })
-        },
+        }
 
-        async changePage(event) {
-	        const toPage = event.currentTarget.attributes.id.value;
-	        this.$router.push({ query: { page : toPage } });
-	        await this.reqStudentFee();
-	    },
+        onMounted(async () => await fetchActiveFees())
 
-        checked(event) {
-            let checkBox = event.currentTarget.getAttribute('id');
-	        if (event.currentTarget.checked) {
-	            this.selectedCheckBox.push(checkBox);
-	        } else {
-	            let index =  this.selectedCheckBox.indexOf(checkBox);
-	            if (index > -1) {
-	                this.selectedCheckBox.splice(index, 1);
-	            }
-	        } 
-        },
+        const tableRowToggle = (event) => {
+            event.target.closest('.table-row').classList.toggle('is-expanded');
+        }
 
-        selectAll(event) {
-	        let boxes = this.$refs.activeFeeCheckBox;
+        const { 
+            selectedCheckBoxes: selectedActiveFees, 
+            checkAll, checkOne, checkBoxElements, 
+            checkAllCheckBox
+        } = useCheckBox();
 
-	        if(event.currentTarget.checked) {
-	            boxes.forEach((item) => {
-	                let checkbox = item.getAttribute('id');
-	                let index =  this.selectedCheckBox.indexOf(checkbox);
-	                if (index <= -1) {
-	                    this.selectedCheckBox.push(checkbox);
-	                } 
-	            })
-	        } else {
-	            boxes.forEach((item) => {
-	                let checkbox = item.getAttribute('id');
-	                let index =  this.selectedCheckBox.indexOf(checkbox);
-	                if (index > -1) {
-	                    this.selectedCheckBox.splice(index, 1);
-	                }
-	            })
-	        }
-	    },
-
-	    applyFilter() {
-	    	//
-	    }
-
+		return {
+			loadingState, paginate, navigate, activeFees, 
+			selectedActiveFees, checkAll, checkOne, 
+			checkBoxElements, checkAllCheckBox, tableRowToggle
+		}
 	}
 }
 </script>
@@ -223,6 +202,12 @@ export default {
 
 .table tr:last-child {
     border-bottom: 1px solid #dee2e6;
+}
+
+#toggle-table .table thead > tr > th:first-child,
+#toggle-table .table tbody > tr > th {
+    padding-right: 0px;
+    width: 0px !important;
 }
 
 @media only screen and (max-width: 700px) {
