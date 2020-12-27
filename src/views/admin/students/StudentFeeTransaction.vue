@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<line-preload :loading="loadingState.loading"></line-preload>
-		
+
         <div class="min-100">
 			<div v-if="loadingState.loaded && feeTransactions.length <= 0" class="text-center mb-3 mt-3">
 	            <div class="mr-2 mr-sm-3 text-muted p-0 m-0" style="font-size:47px;">
@@ -44,8 +44,8 @@
 			                <tr>
 			                    <th class="wd-30">
 			                        <div class="custom-control-lg custom-control custom-checkbox">
-		                                <input type="checkbox" ref="checkAllCheckBox" @click="checkAll($event)" class="custom-control-input" id="sb-checkall" />
-		                                <label class="custom-control-label" for="sb-checkall"></label>
+		                                <input type="checkbox" ref="checkAllCheckBox" @click="checkAll($event)" class="custom-control-input" id="sb-checkall-44" />
+		                                <label class="custom-control-label" for="sb-checkall-44"></label>
 		                            </div>
 			                    </th>
 			                    <th>FEE RECEIPT/NAME</th>
@@ -224,7 +224,7 @@ export default {
 #toggle-table .table thead > tr > th:first-child,
 #toggle-table .table tbody > tr > th {
     padding-right: 0px;
-    width: 10px !important;
+    width: 10px;
 }
 
 @media only screen and (max-width: 700px) {

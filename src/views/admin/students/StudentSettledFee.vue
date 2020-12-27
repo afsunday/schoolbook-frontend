@@ -36,8 +36,8 @@
 			                <tr>
 			                    <th class="wd-30">
 			                        <div class="custom-control-lg custom-control custom-checkbox">
-		                                <input type="checkbox" ref="checkAllCheckBox" @click="checkAll($event)" class="custom-control-input" id="sb-checkall" />
-		                                <label class="custom-control-label" for="sb-checkall"></label>
+		                                <input type="checkbox" ref="checkAllCheckBox" @click="checkAll($event)" class="custom-control-input" id="sb-checkall-22" />
+		                                <label class="custom-control-label" for="sb-checkall-22"></label>
 		                            </div>
 			                    </th>
 			                    <th>FEE HEAD/DESC</th>
@@ -55,16 +55,20 @@
 			                        <div class="custom-control-lg custom-control custom-checkbox">
 		                                <input type="checkbox" class="custom-control-input" 
 		                                    :ref="el => checkBoxElements[key] = el" 
-		                                    :checked="selectedActiveFees.includes(fee.invoiced_fee_id.toString())" 
+		                                    :checked="selectedSettledFees.includes(fee.invoiced_fee_id.toString())" 
 		                                    @click="checkOne($event)" :id="fee.invoiced_fee_id">
 		                                <label class="custom-control-label" :for="fee.invoiced_fee_id"></label>
 		                            </div>
 			                    </th>
 			                    <td>
 			                        <div class="d-flex justify-content-between">
-			                            <div class="mr-4">
-			                                <span><a href="#" class="h7 text-decoration-none text-dark font-weight-midi">Tuition Fee</a></span>
-			                                <div class="small text-muted text-wrap">John tuition Fee 2019/2020 First Term</div>
+			                            <div class="mr-4 p-0">
+			                                <span>
+			                                	<a href="#" class="h7 mt-n3 text-decoration-none text-dark text-break font-weight-midi">
+				                                	Tuition Fee
+				                                </a>
+			                                </span>
+			                                <div class="small text-muted text-wrap text-break">John tuition Fee 2019/2020 First Term</div>
 			                            </div>
 			                            <a class="row-toggle text-decoration-none ml-2" @click="tableRowToggle($event)"></a>
 			                        </div>

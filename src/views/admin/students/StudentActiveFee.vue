@@ -36,8 +36,8 @@
 			                <tr>
 			                    <th class="wd-30">
 			                        <div class="custom-control-lg custom-control custom-checkbox">
-		                                <input type="checkbox" ref="checkAllCheckBox" @click="checkAll($event)" class="custom-control-input" id="sb-checkall" />
-		                                <label class="custom-control-label" for="sb-checkall"></label>
+		                                <input type="checkbox" ref="checkAllCheckBox" @click="checkAll($event)" class="custom-control-input" id="sb-checkall-33" />
+		                                <label class="custom-control-label" for="sb-checkall-33"></label>
 		                            </div>
 			                    </th>
 			                    <th>FEE HEAD/DESC</th>
@@ -64,8 +64,12 @@
 			                    <td>
 			                        <div class="d-flex justify-content-between">
 			                            <div class="mr-4">
-			                                <span><a href="#" class="h7 text-decoration-none text-dark font-weight-midi">{{ fee.fee_headname }}</a></span>
-			                                <div class="small text-muted text-wrap">{{ fee.description }}</div>
+			                                <span>
+			                                	<a href="#" class="h7 text-decoration-none text-dark text-break font-weight-midi">
+				                                	{{ fee.fee_headname }}
+				                                </a>
+			                                </span>
+			                                <div class="small text-muted text-wrap text-break">{{ fee.description }}</div>
 			                            </div>
 			                            <a class="row-toggle text-decoration-none ml-2" @click="tableRowToggle($event)"></a>
 			                        </div>
@@ -75,7 +79,7 @@
 			                    <td class="h7 font-weight-midi" data-colname="PAYBASIS:">{{ fee.pay_basis }}</td>
 			                    <td class="h7 font-weight-midi" data-colname="PAID:">{{ fee.paid_amount }}</td>
 			                    <td class="h7 font-weight-midi" data-colname="DUE:">{{ fee.due_amount }}</td>
-			                    <td class="h7 font-weight-midi text-capitalize enrolled" data-colname="DATE:">20/05/2020</td>
+			                    <td class="h7 font-weight-midi" data-colname="DATE:">20/05/2020</td>
 			                    <td>
 			                        <div class="dropdown">
 			                            <a class="btn btn-outline-secondary btn-xs rounded" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Action</a>
@@ -213,7 +217,7 @@ export default {
 #toggle-table .table thead > tr > th:first-child,
 #toggle-table .table tbody > tr > th {
     padding-right: 0px;
-    width: 0px !important;
+    width: 10px;
 }
 
 @media only screen and (max-width: 700px) {
@@ -231,10 +235,10 @@ export default {
        border-top: 0px !important;
     }
 
-    #toggle-table  .table tr > th:first-child,
-    #toggle-table  .table tr > td:first-child {
-       padding-right: 1.5rem;
-    }
+    #toggle-table .table thead > tr > th:first-child,
+	#toggle-table .table tbody > tr > th {
+	    padding-right: 1.5rem;
+	}
 
     #toggle-table  .table tbody tr.is-expanded > td:not(:nth-child(1)) {
         display: block;

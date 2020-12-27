@@ -13,7 +13,7 @@ export default (storageKey = '') => {
 
     onMounted(checkPatch)
 
-    onUpdated(() => checkAllCheckBox.value.checked = false)
+    // onUpdated(() => checkAllCheckBox.value.checked = false)
 
     const checkAll = () => {
         let elements = checkBoxElements.value

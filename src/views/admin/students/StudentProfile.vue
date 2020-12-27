@@ -11,7 +11,7 @@
                             <a class="btn btn-light btn-sm small-xs border" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Options</a>
                             <div class="dropdown-menu dropdown-menu-right border-0 shadow py-3" aria-labelledby="dropdownMenuLink">
 
-                                <router-link class="dropdown-item small font-weight-midi py-2" @click.stop :to="'/admin/guardians/edit/' + $route.params.guardianId">Edit Student</router-link>
+                                <router-link class="dropdown-item small font-weight-midi py-2" @click.stop :to="'/admin/students/edit/' + $route.params.guardianId">Edit Student</router-link>
 
                                 <a class="dropdown-item small font-weight-midi py-2" @click.stop data-backdrop="static" data-keyboard="false"
                                  data-toggle="modal" data-target="#deactivate-modal" href="#">Mail Guardian</a>
@@ -108,7 +108,7 @@ import StudentBatchHistory from '@/views/admin/students/StudentBatchHistory';
 
 // library:vue
 import { reactive, ref, onMounted, watch } from 'vue'
-import { useRoute, onBeforeRouteUpdate } from 'vue-router'
+import { useRoute } from 'vue-router'
 
 // apis
 import Student from '@/apis/Student';
@@ -147,8 +147,6 @@ export default {
                // 
             })
         }
-
-        onBeforeRouteUpdate( async (to, from) => console.log('before route enter'))
 
         onMounted(async () => await fetchStudentBioData() )
 
