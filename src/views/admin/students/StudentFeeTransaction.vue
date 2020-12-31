@@ -3,12 +3,14 @@
 		<line-preload :loading="loadingState.loading"></line-preload>
 
         <div class="min-100">
-			<div v-if="loadingState.loaded && feeTransactions.length <= 0" class="text-center mb-3 mt-3">
-	            <div class="mr-2 mr-sm-3 text-muted p-0 m-0" style="font-size:47px;">
-	                <i class="icon icon-assignment icon-lg p-0 m-0"></i>
-	            </div>
-	            <div class="h7 text-center text-muted mt-n1">No fee transaction for student</div>
-	        </div>
+			
+	        <error-reload :hasError="errState.hasError" :netError="errState.netError" :reqError="errState.reqError" 
+				@retry="e => {errState.reqError = errState.netError = errState.hasError = false; fetchActiveFees()}">
+			</error-reload>
+
+        	<empty-list :loaded="loadingState.loaded" :items="feeTransactions" :errState="errState.hasError">
+        		This Student doesnt have fee transaction 
+        	</empty-list>
 
 	        <div v-show="feeTransactions.length >= 1">
 				<div class="card-header bg-white d-flex justify-content-between px-2">
@@ -117,6 +119,8 @@
 // components
 import PaginationLinks from '@/components/PaginationLinks'
 import LinePreload from '@/components/LinePreload'
+import ErrorReload from '@/components/ErrorReload'
+import EmptyList from '@/components/EmptyList'
 
 // library:vue
 import { reactive, ref, onMounted, watch } from 'vue'
@@ -125,6 +129,7 @@ import { useRoute } from 'vue-router'
 // composables
 import usePaginate from '@/composables/usePaginate'
 import useCheckBox from '@/composables/useCheckBox'
+import useErrorReloadState from '@/composables/useErrorReloadState'
 
 // apis
 import Student from '@/apis/Student';
@@ -133,7 +138,9 @@ export default {
 	name: 'StudentFeeTransaction',
 	components: {
 		PaginationLinks,
-		LinePreload
+		LinePreload,
+		ErrorReload,
+		EmptyList
 	},
 
 	setup() {
@@ -142,6 +149,8 @@ export default {
 		const loadingState = reactive({
 			loading: false, loaded: false,
 		})
+
+		const { errState, setReloadStates } = useErrorReloadState()
 
 		// paginate fetched data
         const paginate = ref({
@@ -157,16 +166,16 @@ export default {
 
         const navigate = async (event) => {
             let toPage = event.currentTarget.attributes.id.value;
-            settledFeesToPage.value = toPage;
-            await fetchGuardians();
+            settledFeesToPage.value = toPage
+            await fetchGuardians()
         }
 
-        // fetch settled fees related to student
+        // fetch fee transactions related to student
         const feeTransactions = ref([])
 
         const feeSearch = ref('')
 
-        const fetchFeeTransactions = () => {
+        const fetchFeeTransactions = async () => {
         	loadingState.loading = true
         	const studentId = route.params.studentId;
 
@@ -175,7 +184,7 @@ export default {
         	if (feeSearch.value.length > 0)
         		request['search'] = feeSearch.value
 
-        	Student.studentFees(request)
+        	await Student.studentFees(request)
         	.then((res) => {
                 feeTransactions.value = res.data.data
 
@@ -190,7 +199,8 @@ export default {
             })
         }
 
-        onMounted(async () => await fetchFeeTransactions())
+        // on created fetch fee transaction
+        fetchFeeTransactions()
 
         const searchFeeTransaction = async () => await fetchFeeTransactions()
 
@@ -205,7 +215,7 @@ export default {
         } = useCheckBox();
 
         return {
-        	loadingState, paginate, navigate, feeTransactions, feeSearch, searchFeeTransaction,
+        	loadingState, errState, paginate, navigate, feeTransactions, fetchFeeTransactions, feeSearch, searchFeeTransaction,
         	selectedFeeTransactions, checkAll, checkOne, checkBoxElements, checkAllCheckBox, tableRowToggle
         }
 	}

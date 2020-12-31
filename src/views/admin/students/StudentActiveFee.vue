@@ -3,12 +3,13 @@
 		<line-preload :loading="loadingState.loading"></line-preload>
 
         <div class="min-100">
-			<div v-if="loadingState.loaded && activeFees.length <= 0" class="text-center mb-3 mt-3">
-	            <div class="mr-2 mr-sm-3 text-muted p-0 m-0" style="font-size:47px;">
-	                <i class="icon icon-assignment icon-lg p-0 m-0"></i>
-	            </div>
-	            <div class="h7 text-center text-muted mt-n1">No active fee for student</div>
-	        </div>
+        	<error-reload :hasError="errState.hasError" :netError="errState.netError" :reqError="errState.reqError" 
+				@retry="e => {errState.reqError = errState.netError = errState.hasError = false; fetchActiveFees()}">
+			</error-reload>
+
+        	<empty-list :loaded="loadingState.loaded" :items="activeFees" :errState="errState.hasError">
+        		This student doesn't have an active fee.
+        	</empty-list>
 
 	        <div v-show="activeFees.length >= 1">
 				<div v-if="selectedActiveFees.length > 0" class="d-flex justify-content-between px-2 mt-2 mb-2">
@@ -115,8 +116,10 @@
 
 <script>
 // components
-import PaginationLinks from '@/components/PaginationLinks';
-import LinePreload from '@/components/LinePreload';
+import PaginationLinks from '@/components/PaginationLinks'
+import LinePreload from '@/components/LinePreload'
+import ErrorReload from '@/components/ErrorReload'
+import EmptyList from '@/components/EmptyList'
 
 // library:vue
 import { reactive, ref, onMounted, watch } from 'vue'
@@ -125,6 +128,7 @@ import { useRoute } from 'vue-router'
 // composables
 import usePaginate from '@/composables/usePaginate'
 import useCheckBox from '@/composables/useCheckBox'
+import useErrorReloadState from '@/composables/useErrorReloadState'
 
 // apis
 import Student from '@/apis/Student';
@@ -133,7 +137,9 @@ export default {
 	name: 'StudentActiveFee',
 	components: {
 		PaginationLinks,
-		LinePreload
+		LinePreload,
+		ErrorReload,
+		EmptyList
 	},
 
 	setup() {
@@ -142,6 +148,8 @@ export default {
 		const loadingState = reactive({
 			loading: false, loaded: false,
 		})
+
+		const { errState, setReloadStates } = useErrorReloadState()
 
 		// paginate fetched data
         const paginate = ref({
@@ -164,12 +172,13 @@ export default {
         // fetch fees related to student
         const activeFees = ref([])
 
-        const fetchActiveFees = () => {
+        const fetchActiveFees = async () => {
         	loadingState.loading = true
         	const studentId = route.params.studentId;
 
-        	Student.studentFees({ id: studentId, page: activeFeesToPage.value })
-        	.then((res) => {
+        	await Student.studentFees({ 
+        		id: studentId, page: activeFeesToPage.value 
+        	}).then((res) => {
                 activeFees.value = res.data.data
 
                 const { paging } = usePaginate(res);
@@ -179,11 +188,13 @@ export default {
                 loadingState.loaded = true;
             })
             .catch((err) => {
-                console.log(err.response)
+                setReloadStates(err)
+                loadingState.loading = false
             })
         }
 
-        onMounted(async () => await fetchActiveFees())
+        // oncreate make request
+        fetchActiveFees()
 
         const tableRowToggle = (event) => {
             event.target.closest('.table-row').classList.toggle('is-expanded');
@@ -196,9 +207,9 @@ export default {
         } = useCheckBox();
 
 		return {
-			loadingState, paginate, navigate, activeFees, 
-			selectedActiveFees, checkAll, checkOne, 
-			checkBoxElements, checkAllCheckBox, tableRowToggle
+			loadingState, paginate, navigate, fetchActiveFees, activeFees, 
+			selectedActiveFees, checkAll, checkOne, checkAllCheckBox, errState,
+			checkBoxElements, tableRowToggle
 		}
 	}
 }
@@ -290,6 +301,5 @@ export default {
         text-overflow: ellipsis;
         white-space: nowrap;
     }
-
 }
 </style>

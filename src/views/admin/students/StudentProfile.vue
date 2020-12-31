@@ -134,11 +134,11 @@ export default {
 
         const student = ref([])
 
-        const fetchStudentBioData = () => {
+        const fetchStudentBioData = async () => {
             loadingState.loading = true
             let studentId = route.params.studentId
 
-            Student.me(studentId).then((res) => {
+            await Student.me(studentId).then((res) => {
                 student.value = res.data[0]
                 loadingState.loading = false;
                 loadingState.loaded = true;
@@ -148,7 +148,9 @@ export default {
             })
         }
 
-        onMounted(async () => await fetchStudentBioData() )
+        fetchStudentBioData()
+
+        // onMounted(async () => await fetchStudentBioData() )
 
         // watch(() =>  route.params.studentId, async () => await fetchStudentBioData())
 
