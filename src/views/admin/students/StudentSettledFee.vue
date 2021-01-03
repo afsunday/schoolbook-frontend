@@ -202,15 +202,6 @@ export default {
 </script>
 
 <style scoped>
-
-.table tr:last-child {
-    border-bottom: 1px solid #dee2e6;
-}
-
-.min-100 {
-	min-height: 100px;
-}
-
 .settled { 
     color:  #009900; 
 }
@@ -219,13 +210,27 @@ export default {
     color: #ff3300;  
 }
 
+.min-100 {
+    min-height: 100px;
+}
+
+.table tr:last-child {
+    border-bottom: 1px solid #dee2e6;
+}
+
+.table tr > td,
+.table tr > td {
+    word-break: break-word !important;
+    word-wrap: break-word !important;
+}
+
 #toggle-table .table thead > tr > th:first-child,
 #toggle-table .table tbody > tr > th {
     padding-right: 0px;
-    width: 10px !important;
+    width: 10px;
 }
 
-@media only screen and (max-width: 700px) {
+@media only screen and (max-width: 768px) {
 
     #toggle-table .table {
         table-layout: fixed;
@@ -240,9 +245,9 @@ export default {
        border-top: 0px !important;
     }
 
-    #toggle-table  .table tr > th:first-child,
-    #toggle-table  .table tr > td:first-child {
-       padding-right: 1.5rem;
+    #toggle-table .table thead > tr > th:first-child,
+    #toggle-table .table tbody > tr > th {
+        padding-right: 1.5rem;
     }
 
     #toggle-table  .table tbody tr.is-expanded > td:not(:nth-child(1)) {
@@ -282,7 +287,7 @@ export default {
         padding-top: 5px;
     }
 
-    #toggle-table .table tbody > tr > td:not(:nth-child(1)):not(:nth-child(2)):not(:nth-child(7)):before {
+    #toggle-table .table tbody > tr > td:not(:nth-child(1)):not(:nth-child(2)):not(:nth-child(8)):before {
         content: attr(data-colname);
         display: -ms-inline-flexbox !important;
         display: inline-flex !important;
@@ -295,6 +300,5 @@ export default {
         text-overflow: ellipsis;
         white-space: nowrap;
     }
-
 }
 </style>

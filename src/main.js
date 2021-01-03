@@ -10,10 +10,9 @@ import { defineRule } from 'vee-validate';
 
 import '@fortawesome/fontawesome-free/css/all.min.css'
 import 'bootstrap/dist/css/bootstrap.min.css'
-import '@/assets/scss/styles.css'
 import '@/assets/scss/utils.css'
 import '@/assets/scss/nprogress.css'
-import '@/assets/gaxon-icon/styles.css'
+import '@/assets/gaxon/styles.css'
 
 defineRule('required', value => {
 	if (!value || !value.length) {

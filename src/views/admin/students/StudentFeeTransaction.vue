@@ -5,7 +5,9 @@
         <div class="min-100">
 			
 	        <error-reload :hasError="errState.hasError" :netError="errState.netError" :reqError="errState.reqError" 
-				@retry="e => {errState.reqError = errState.netError = errState.hasError = false; fetchActiveFees()}">
+				@retry="e => {
+                    errState.reqError = errState.netError = errState.hasError = false; fetchFeeTransactions()
+                }">
 			</error-reload>
 
         	<empty-list :loaded="loadingState.loaded" :items="feeTransactions" :errState="errState.hasError">
@@ -50,9 +52,9 @@
 		                                <label class="custom-control-label" for="sb-checkall-44"></label>
 		                            </div>
 			                    </th>
-			                    <th>FEE RECEIPT/NAME</th>
-		                        <th>TRANX AMOUNT</th>
-		                        <th>PAY METHOD</th>
+			                    <th>RECEIPT/NAME</th>
+		                        <th>AMOUNT</th>
+		                        <th>MODE</th>
 			                    <th>RECORD BY</th>
 			                    <th>DATE</th>
 			                    <th></th>
@@ -71,16 +73,18 @@
 			                    </th>
 			                    <td>
 			                        <div class="d-flex justify-content-between">
-			                            <div class="mr-4">
-			                                <span><a href="#" class="h7 text-decoration-none text-primary text-uppercase font-weight-midi">RSB4521782</a></span>
-			                                <div class="small text-muted text-wrap text-capitalize">John tuition Fee 2019/2020 First Term</div>
+			                            <div class="mr-4 mr-sm-0">
+			                                <span>
+                                                <a href="#" class="h7 text-decoration-none text-primary text-uppercase font-weight-midi">RSB4521782</a>
+                                            </span>
+			                                <div class="small text-muted text-wrap text-break text-capitalize">John tuition Fee 2019/2020 First Term</div>
 			                            </div>
 			                            <a class="row-toggle text-decoration-none ml-2" @click="tableRowToggle($event)"></a>
 			                        </div>
 			                    </td>
 			                    <td class="h7 font-weight-midi" data-colname="AMOUNT:">20000</td>
-			                    <td class="h7 font-weight-midi text-capitalize" data-colname="PAY METHOD:">Webpay</td>
-			                    <td class="h7 font-weight-midi text-capitalize" data-colname="RECORD BY:">Pay System</td>
+			                    <td class="h7 font-weight-midi text-lowercase" data-colname="PAY METHOD:">Webpay</td>
+			                    <td class="h7 font-weight-midi text-lowercase" data-colname="RECORD BY:">Pay System</td>
 			                    <td class="h7 font-weight-midi" data-colname="DATE:">20/05/2020</td>
 			                    <td>
 			                        <div class="dropdown">
@@ -195,11 +199,12 @@ export default {
                 loadingState.loaded = true;
             })
             .catch((err) => {
-                console.log(err.response)
+                setReloadStates(err)
+                loadingState.loading = false
             })
         }
 
-        // on created fetch fee transaction
+        // oncreated fetch fee transaction
         fetchFeeTransactions()
 
         const searchFeeTransaction = async () => await fetchFeeTransactions()
@@ -215,8 +220,12 @@ export default {
         } = useCheckBox();
 
         return {
-        	loadingState, errState, paginate, navigate, feeTransactions, fetchFeeTransactions, feeSearch, searchFeeTransaction,
-        	selectedFeeTransactions, checkAll, checkOne, checkBoxElements, checkAllCheckBox, tableRowToggle
+        	loadingState, errState, paginate, navigate, 
+            feeTransactions, fetchFeeTransactions, 
+            feeSearch, searchFeeTransaction,
+        	selectedFeeTransactions, checkAll, 
+            checkOne, checkBoxElements, 
+            checkAllCheckBox, tableRowToggle
         }
 	}
 }
@@ -224,11 +233,17 @@ export default {
 
 <style scoped>
 .min-100 {
-	min-height: 100px;
+    min-height: 100px;
 }
 
 .table tr:last-child {
     border-bottom: 1px solid #dee2e6;
+}
+
+.table tr > td,
+.table tr > td {
+    word-break: break-word !important;
+    word-wrap: break-word !important;
 }
 
 #toggle-table .table thead > tr > th:first-child,
@@ -237,7 +252,7 @@ export default {
     width: 10px;
 }
 
-@media only screen and (max-width: 700px) {
+@media only screen and (max-width: 768px) {
 
     #toggle-table .table {
         table-layout: fixed;
@@ -252,9 +267,9 @@ export default {
        border-top: 0px !important;
     }
 
-    #toggle-table  .table tr > th:first-child,
-    #toggle-table  .table tr > td:first-child {
-       padding-right: 1.5rem;
+    #toggle-table .table thead > tr > th:first-child,
+    #toggle-table .table tbody > tr > th {
+        padding-right: 1.5rem;
     }
 
     #toggle-table  .table tbody tr.is-expanded > td:not(:nth-child(1)) {
@@ -289,12 +304,12 @@ export default {
         margin-top: -1px !important;
     }
 
-    #toggle-table .table tbody > tr.is-expanded > td:not(:nth-child(1)):not(:nth-child(2)):not(:nth-child(6)) {
+    #toggle-table .table tbody > tr.is-expanded > td:not(:nth-child(1)):not(:nth-child(2)):not(:nth-child(7)) {
         padding-bottom: 5px;
         padding-top: 5px;
     }
 
-    #toggle-table .table tbody > tr > td:not(:nth-child(1)):not(:nth-child(2)):not(:nth-child(6)):before {
+    #toggle-table .table tbody > tr > td:not(:nth-child(1)):not(:nth-child(2)):not(:nth-child(7)):before {
         content: attr(data-colname);
         display: -ms-inline-flexbox !important;
         display: inline-flex !important;
@@ -307,6 +322,5 @@ export default {
         text-overflow: ellipsis;
         white-space: nowrap;
     }
-
 }
 </style>

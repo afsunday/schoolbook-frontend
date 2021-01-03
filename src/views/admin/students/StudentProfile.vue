@@ -11,7 +11,7 @@
                             <a class="btn btn-light btn-sm small-xs border" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Options</a>
                             <div class="dropdown-menu dropdown-menu-right border-0 shadow py-3" aria-labelledby="dropdownMenuLink">
 
-                                <router-link class="dropdown-item small font-weight-midi py-2" @click.stop :to="'/admin/students/edit/' + $route.params.guardianId">Edit Student</router-link>
+                                <router-link class="dropdown-item small font-weight-midi py-2" @click.stop :to="'/admin/students/edit/' + $route.params.studentId">Edit Student</router-link>
 
                                 <a class="dropdown-item small font-weight-midi py-2" @click.stop data-backdrop="static" data-keyboard="false"
                                  data-toggle="modal" data-target="#deactivate-modal" href="#">Mail Guardian</a>
@@ -27,24 +27,22 @@
                     </div>
 
                     <div class="d-flex mt-3 mt-sm-3">
-                        <img class="rounded-lg border bg-light mr-2 mr-sm-3" src="@/assets/images/user1.png" height="65" width="65" alt="">
-                        <div class="">
-                            <div class="d-flex flex-wrap">
-                                <div class="d-inline-flex text-decoration-none text-dark mr-sm-4 mr-3">
-                                    <div class="mr-1"><i class="icon icon-users2 icon-lg"></i></div>
-                                    <div class="ml-1 font-weight-midi text-truncate h7">{{ student.firstname }} {{ student.surname }} {{ student.othername }}</div>
-                                </div>
+                        <img class="rounded-lg border bg-light mr-2 mr-sm-3" src="@/assets/images/user1.png" height="70" width="70" alt="">
+                        <div class="d-flex flex-column align-item-start">
+                            <div class="d-inline-flex">
+                                <span class=""><i class="icon icon-users2 icon-lg"></i></span>
+                                <h6 class="h7 text-break font-weight-midi ml-1">
+                                    {{ student.firstname }} {{ student.surname }} <span class="d-none d-xs-inline">{{ student.othername }}</span>
+                                </h6>
                             </div>
-                            <div class="d-flex flex-wrap">
-                                <div class="d-inline-flex text-decoration-none text-dark mr-2 mr-sm-2">
-                                    <div class="mr-1"><i class="icon icon-mail icon-lg"></i></div>
-                                    <div class="ml-1 font-weight-midi text-break h7">{{ student.email }}</div>
-                                </div>
-                                 <div class="d-inline-flex text-decoration-none text-dark mr-1 mr-sm-2">
-                                    <div class="mr-1"><i class="icon icon-leads1 icon-lg"></i></div>
-                                    <div class="ml-1 font-weight-midi text-break h7">{{ student.username }}</div>
-                                </div> 
+                            <div class="d-inline-flex">
+                                <span class=""><i class="icon icon-mail icon-lg"></i></span>
+                                <h6 class="h7 text-break font-weight-midi ml-1">{{ student.email }}</h6>
                             </div>
+                            <div class="d-inline-flex">
+                                <span class=""><i class="icon icon-leads1 icon-lg"></i></span>
+                                <h6 class="h7 text-break font-weight-midi ml-1">{{ student.username }}</h6>
+                            </div>                           
                         </div>
                     </div>
 
@@ -148,11 +146,8 @@ export default {
             })
         }
 
+        //onCreated fetch student bio data
         fetchStudentBioData()
-
-        // onMounted(async () => await fetchStudentBioData() )
-
-        // watch(() =>  route.params.studentId, async () => await fetchStudentBioData())
 
         return {
             loadingState, student
@@ -160,3 +155,17 @@ export default {
     }
 }
 </script>
+
+<style lang="scss" scoped>
+.container-lg {
+  padding-left: 1.875rem;
+  padding-right: 1.875rem;
+}
+
+@media (max-width: 768px) {
+    .container-lg {
+        padding-left: 0.9rem;
+        padding-right: 0.9rem;
+    }
+}
+</style>

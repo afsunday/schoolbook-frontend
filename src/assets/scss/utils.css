@@ -112,6 +112,12 @@
     color: #0066cc; 
 }
 
+@media (min-width: 400px) {
+   .d-xs-inline {
+      display: inline !important;
+   }
+}
+
 /* =================================================
        @light background
 ================================================== */
