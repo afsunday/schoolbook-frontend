@@ -216,5 +216,5 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '@/assets/scss/themeone'
+@import '@/assets/scss/theme/themeone'
 </style>

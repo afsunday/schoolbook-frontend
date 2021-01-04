@@ -117,18 +117,6 @@ export default {
   border-bottom-right-radius: .35rem;
 }
 
-.enrolled { 
-    color:  #009900; 
-}
-
-.dropped { 
-    color: #ff3300;  
-}
-
-.graduated { 
-    color: #0066cc; 
-}
-
 .min-h250 {
     min-height: 200px;
 }

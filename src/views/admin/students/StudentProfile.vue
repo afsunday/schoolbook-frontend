@@ -157,15 +157,4 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.container-lg {
-  padding-left: 1.875rem;
-  padding-right: 1.875rem;
-}
-
-@media (max-width: 768px) {
-    .container-lg {
-        padding-left: 0.9rem;
-        padding-right: 0.9rem;
-    }
-}
 </style>
