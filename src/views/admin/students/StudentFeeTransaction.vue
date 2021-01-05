@@ -232,9 +232,33 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.min-100 {
-    min-height: 100px;
+@import '@/assets/scss/table/table768';
+
+.table tr > td,
+.table tr > td {
+    word-break: break-word !important;
+    word-wrap: break-word !important;
 }
 
-@import '@/assets/scss/table/table-sft'
+@media (max-width: 768px) {
+    #toggle-table .table tbody > tr.is-expanded > td:not(:nth-child(1)):not(:nth-child(2)):not(:nth-child(7)) {
+        padding-bottom: 5px;
+        padding-top: 5px;
+    }
+
+    #toggle-table .table tbody > tr > td:not(:nth-child(1)):not(:nth-child(2)):not(:nth-child(7)):before {
+        content: attr(data-colname);
+        display: -ms-inline-flexbox !important;
+        display: inline-flex !important;
+        margin-right: 15px;
+        font-size: 11px;
+        font-weight: 700;
+        color: #666;
+        overflow: hidden;
+        width: 32%;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+}
+
 </style>

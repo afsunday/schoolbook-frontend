@@ -14,9 +14,9 @@
                                 <a class="btn btn-light btn-sm border" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Options</a>
                                 <div class="dropdown-menu dropdown-menu-right border-0 shadow py-3" aria-labelledby="dropdownMenuLink">
                                     <router-link class="dropdown-item small font-weight-midi py-2" to="/admin/Students/achives">
-                                        Achived Students</router-link>
+                                    Students Achived</router-link>
                                     <router-link class="dropdown-item small font-weight-midi py-2" to="/admin/students/add">
-                                        Add Student</router-link>
+                                    Add Student</router-link>
                                 </div>
                             </div>
                         </div>
@@ -76,7 +76,7 @@
             </modal-center>
 
             <div class="card border-0 shadow-sm mt-1 mt-sm-2">
-                <div class="card-header bg-white d-flex justify-content-between rounded-top-lg px-2">
+                <div class="card-header bg-white d-flex justify-content-between rounded-top px-2">
                     <div class="mr-auto">
                         <div class="input-group input-group-solid">
                             <div class="input-group-prepend">
@@ -93,7 +93,7 @@
 
                 <line-preload :loading="loadingState.loading"></line-preload>
 
-                <div class="card-body px-0 pt-0">
+                <div class="card-body px-0 pt-0 min-100">
                     <div v-show="loadingState.loaded" id="toggle-table">
                         <table class="table table-striped">
                             <thead class="small-xs font-weight-midi text-muted bg-white">
@@ -233,15 +233,14 @@ export default {
         }
 
         const students = ref([])
-
-        const fetchStudents = () => {
+        const fetchStudents = async () => {
             loadingState.loading = true;
 
             if (typeof route.query.page !== 'undefined' && route.query.page !== null ) {
                 fetchStudentParams.page = route.query.page;
             }
 
-            Student.all(fetchStudentParams)
+            await Student.all(fetchStudentParams)
             .then((res) => {
                 students.value = res.data.data
 
@@ -256,10 +255,12 @@ export default {
             })
         }
 
-        onMounted(async () => await fetchStudents())
+        // onCreated fetch students
+        fetchStudents()
         watch(() => route.query.page, async () => await filterStudents())
 
 
+        // onMounted fetch classes
         const classes = ref([])
         const fetchClasses = () => {
             Class.classes().then(res => classes.value = res.data)
@@ -267,9 +268,9 @@ export default {
                 //
             })
         }
-
         onMounted(async () => await fetchClasses())
 
+        
         const filterStudents = async () => {
             router.push({ query: { page : 1 } });
             await fetchStudents()
@@ -295,14 +296,26 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.rounded-top-lg {
-    border-top-left-radius: 0.3rem !important;
-    border-top-right-radius: 0.3rem !important;
-}
+@import '@/assets/scss/table/table768';
 
-.card-body {
-    min-height: 50px;
-}
+@media (max-width: 768px) {
+    #toggle-table .table tbody > tr.is-expanded > td:not(:nth-child(1)):not(:nth-child(2)):not(:nth-child(7)) {
+        padding-bottom: 5px;
+        padding-top: 5px;
+    }
 
-@import '@/assets/scss/table/student-list'
+    #toggle-table .table tbody > tr > td:not(:nth-child(1)):not(:nth-child(2)):not(:nth-child(7)):before {
+        content: attr(data-colname);
+        display: -ms-inline-flexbox !important;
+        display: inline-flex !important;
+        margin-right: 15px;
+        font-size: 85%;
+        font-weight: 700;
+        color: #666;
+        overflow: hidden;
+        width: 32%;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+}
 </style>

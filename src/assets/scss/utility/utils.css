@@ -96,6 +96,10 @@ a {
   border: 2px solid #cccccc;
 }
 
+.min-100 {
+    min-height: 100px;
+}
+
 .small-xs {
   font-size: 70%;
   font-weight: 400;
@@ -166,7 +170,6 @@ a {
 /* ==================================================
         Button
 =================================================== */
-
 .btn-ripple {
     border: none;
     border-radius: .25rem;

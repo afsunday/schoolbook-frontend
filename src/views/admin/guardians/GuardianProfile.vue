@@ -11,44 +11,37 @@
                             <a class="btn btn-light btn-sm small-xs border" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Options</a>
                             <div class="dropdown-menu dropdown-menu-right border-0 shadow py-3" aria-labelledby="dropdownMenuLink">
 
-                                <router-link class="dropdown-item small font-weight-midi py-2" @click.stop :to="'/admin/guardians/edit/' + $route.params.guardianId">Edit Guardian</router-link>
+                                <router-link class="dropdown-item small font-weight-midi py-2" :to="'/admin/guardians/edit/' + route.params.guardianId">Edit Guardian</router-link>
 
-                                <a class="dropdown-item small font-weight-midi py-2" @click.stop data-backdrop="static" data-keyboard="false"
-                                 data-toggle="modal" data-target="#deactivate-modal" href="#">Mail Guardian</a>
-
-                                <a class="dropdown-item small font-weight-midi py-2" @click.stop data-backdrop="static" data-keyboard="false"
-                                 data-toggle="modal" data-target="#deactivate-modal" href="#">Achive Guardian</a>
-
-                                <a class="dropdown-item small font-weight-midi py-2" @click.stop data-backdrop="static" data-keyboard="false"
-                                 data-toggle="modal" data-target="#deactivate-modal" href="#">Delete Guardian</a>
+                                <a class="dropdown-item small font-weight-midi py-2" href="#">Mail Guardian</a>
+                                <a class="dropdown-item small font-weight-midi py-2"  href="#">Achive Guardian</a>
+                                <a class="dropdown-item small font-weight-midi py-2" href="#">Delete Guardian</a>
 
                             </div>
                         </div>
                     </div>
 
                     <div class="d-flex mt-3 mt-sm-3">
-                        <img class="rounded-lg border bg-light mr-2 mr-sm-3" src="@/assets/images/user1.png" height="65" width="65" alt="">
-                        <div class="">
-                            <div class="d-flex flex-wrap">
-                                <div class="d-inline-flex text-decoration-none text-dark mr-sm-4 mr-3">
-                                    <div class="mr-1"><i class="icon icon-users2 icon-lg"></i></div>
-                                    <div class="ml-1 font-weight-midi text-truncate h7">{{ guardian.firstname }} {{ guardian.surname }} {{ guardian.othername }}</div>
-                                </div>
+                        <img class="rounded-lg border bg-light mr-2 mr-sm-3" src="@/assets/images/user1.png" height="70" width="70" alt="">
+                        <div class="d-flex flex-column align-item-start">
+                            <div class="d-inline-flex">
+                                <span class=""><i class="icon icon-users2 icon-lg"></i></span>
+                                <h6 class="h7 text-break font-weight-midi ml-1">
+                                    {{ guardian.firstname }} {{ guardian.surname }} <span class="d-none d-xs-inline">{{ guardian.othername }}</span>
+                                </h6>
                             </div>
-                            <div class="d-flex flex-wrap">
-                                <div class="d-inline-flex text-decoration-none text-dark mr-3">
-                                    <div class="mr-1"><i class="icon icon-mail icon-lg"></i></div>
-                                    <div class="ml-1 font-weight-midi text-break h7">{{ guardian.email }}</div>
-                                </div>
-                                 <div class="d-inline-flex text-decoration-none text-dark mr-3">
-                                    <div class="mr-1"><i class="icon icon-leads1 icon-lg"></i></div>
-                                    <div class="ml-1 font-weight-midi text-break h7">{{ guardian.username }}</div>
-                                </div> 
+                            <div class="d-inline-flex">
+                                <span class=""><i class="icon icon-mail icon-lg"></i></span>
+                                <h6 class="h7 text-break font-weight-midi ml-1">{{ guardian.email }}</h6>
                             </div>
+                            <div class="d-inline-flex">
+                                <span class=""><i class="icon icon-leads1 icon-lg"></i></span>
+                                <h6 class="h7 text-break font-weight-midi ml-1">{{ guardian.username }}</h6>
+                            </div>                           
                         </div>
                     </div>
 
-                    <div class="border-top mt-3 p-0" style="overflow-x: auto;">
+                    <div class="border-top mt-2 p-0" style="overflow-x: auto;">
                         <ul class="nav nav-pills mt-2" id="pills-tab" role="tablist" style="flex-wrap: unset;">
                             <li class="nav-item" role="presentation">
                                 <a class="nav-link pl-1 pb-sm-3 pb-3 active" id="pills-bio-tab" data-toggle="pill" href="#pills-bio" role="tab" aria-controls="pills-bio" aria-selected="true">BioData</a>
@@ -83,12 +76,20 @@
 </template>
 
 <script>
+// components
 import BaseAdmin from '@/views/layouts/BaseAdmin.vue';
 import LinePreload from '@/components/LinePreload';
 import GuardianBioData from '@/views/admin/guardians/GuardianBioData'
 import GuardianWards from '@/views/admin/guardians/GuardianWards'
 import GuardianFees from '@/views/admin/guardians/GuardianFees'
 
+// composables
+
+// library:vue
+import { useRouter, useRoute } from 'vue-router'
+import { reactive, ref, onMounted, watch } from 'vue'
+
+// apis
 import Guardian from '@/apis/Guardian';
 
 export default {
@@ -99,6 +100,15 @@ export default {
         GuardianBioData,
         GuardianWards,
         GuardianFees
+    },
+
+    setup() {
+        const route = useRoute()
+        const router = useRouter()
+
+        return {
+            route
+        }
     },
 
     data () {

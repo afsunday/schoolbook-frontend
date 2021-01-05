@@ -140,64 +140,11 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 
-.table tr:last-child {
-    border-bottom: 1px solid #dee2e6;
-}
+@import '@/assets/scss/table/table700';
 
-@media only screen and (max-width: 700px) {
-
-    #toggle-table .table {
-        table-layout: fixed;
-    }
-
-    #toggle-table  .table thead tr > th:not(:nth-child(1)):not(:nth-child(2)),
-    #toggle-table  .table tbody tr > td:not(:nth-child(1)):not(:nth-child(2)) {
-        display: none;
-    }
-
-    #toggle-table  .table tbody tr:first-child > td:nth-child(2) {
-       border-top: 0px !important;
-    }
-
-    #toggle-table  .table tr > th:first-child,
-    #toggle-table  .table tr > td:first-child {
-       padding-right: 1.5rem;
-    }
-
-    #toggle-table  .table tbody tr.is-expanded > td:not(:nth-child(1)) {
-        display: block;
-    }
-
-    #toggle-table .table tbody > tr.table-row .row-toggle:before {
-        display: inline-block;
-        float: right;
-        position: absolute;
-        content: '+';
-        font-size: 22px;
-        text-decoration: none;
-        font-weight: 600;
-        color: #4d4d4d;
-        margin-top: -5px;
-        margin-right: 12px;
-        right: 0 !important;
-        padding-left: 5px;
-    }
-
-    #toggle-table .table tbody > tr.is-expanded .row-toggle:before {
-        display: inline-block;
-        content: '-';
-        font-size: 25px;
-        margin-top: -6px;
-        margin-right: 13px;
-        padding-left: 5px;
-    }
-
-    #toggle-table .table tbody > tr.is-expanded > td:nth-child(2) {
-        margin-top: -1px !important;
-    }
-
+@media (max-width: 700px) {
     #toggle-table .table tbody > tr.is-expanded > td:not(:nth-child(1)):not(:nth-child(2)):not(:nth-child(6)) {
         padding-bottom: 5px;
         padding-top: 5px;
@@ -216,6 +163,5 @@ export default {
         text-overflow: ellipsis;
         white-space: nowrap;
     }
-
 }
 </style>

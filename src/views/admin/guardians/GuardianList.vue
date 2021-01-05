@@ -34,16 +34,9 @@
                 <div class="dropdown">
                     <a class="btn btn-secondary btn-sm font-weight-midi small-xs text-nowrap mb-1" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Actions</a>
                     <div class="dropdown-menu dropdown-menu-right border-0 shadow py-3" aria-labelledby="dropdownMenuLink">
-
-                        <a class="dropdown-item small font-weight-midi py-2" data-backdrop="static" data-keyboard="false"
-                         data-toggle="modal" data-target="#deactivate-modal" href="#">Block</a>
-
-                        <a class="dropdown-item small font-weight-midi py-2" data-backdrop="static" data-keyboard="false"
-                         data-toggle="modal" data-target="#email-modal"
-                         href="#">Email</a>
-
-                        <a class="dropdown-item small font-weight-midi py-2" data-backdrop="static" data-keyboard="false"
-                         data-toggle="modal" data-target="#invoice-modal">Invoice</a>
+                        <a class="dropdown-item small font-weight-midi py-2" href="#">Block</a>
+                        <a class="dropdown-item small font-weight-midi py-2" href="#">Email</a>
+                        <a class="dropdown-item small font-weight-midi py-2" href="#">Invoice</a>
                     </div>
                 </div>
             </div>
@@ -82,7 +75,7 @@
             <!--/filter-modal -->
 
             <div class="card border-0 shadow-sm mt-1 mt-sm-2">
-                <div class="card-header bg-white d-flex justify-content-between rounded-top-lg px-2">
+                <div class="card-header bg-white d-flex justify-content-between rounded-top px-2">
                     <div class="mr-auto">
                         <div class="input-group input-group-solid">
                             <div class="input-group-prepend">
@@ -96,10 +89,10 @@
                         </div>
                     </div>
                 </div>
-                <div>
-                    <line-preload :loading="loadingState.loading"></line-preload>
-                </div>
-                <div class="card-body px-0 pt-0">
+
+                <line-preload :loading="loadingState.loading"></line-preload>
+
+                <div class="card-body px-0 pt-0 min-100">
                     <div v-show="loadingState.loaded" id="toggle-table">
                         <table class="table table-striped">
                             <thead class="small-xs font-weight-midi text-muted bg-white">
@@ -132,29 +125,22 @@
                                         <div class="d-inline-flex">
                                             <img src="@/assets/images/user.png" class="rounded-circle mr-2 border bg-light" width="35" height="35">
                                             <span class="text-break overflow-auto"> 
-                                                <router-link class="text-decoration-none text-primary" :to="{ name: 'GuardianProfile', params: { guardianId: guardian.guardian_id }}">{{guardian.firstname}} {{guardian.surname}} {{guardian.othername}}</router-link>
+                                                <router-link class="text-decoration-none text-primary" :to="{ name: 'GuardianProfile', params: { guardianId: guardian.guardian_id }}">{{ guardian.firstname }} {{ guardian.surname }} {{ guardian.othername }}</router-link>
                                             </span>
                                         </div>
                                         <a class="row-toggle text-decoration-none" @click="tableRowToggle($event)"></a>
                                     </td>
                                     <td data-colname="EMAIL">{{ guardian.email }}</td>
                                     <td data-colname="PHONE">{{ guardian.phone }}</td>
-                                    <td data-colname="GENDER:">{{guardian.gender}}</td>
+                                    <td data-colname="GENDER:">{{ guardian.gender }}</td>
                                     <td class="text-capitalize enrolled" data-colname="DURATION:">{{ guardian.status }}</td>
                                     <td>
                                         <div class="dropdown">
-                                            <a class="btn btn-outline-secondary btn-xs rounded" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Action</a>
-                                            <div class="dropdown-menu dropdown-menu-right border-0 shadow py-3 " aria-labelledby="dropdownMenuLink">
-
-                                                <a class="dropdown-item small font-weight-midi py-2" data-backdrop="static" data-keyboard="false"
-                                                 data-toggle="modal" data-target="#deactivate-modal" href="#">Block</a>
-
-                                                <a class="dropdown-item small font-weight-midi py-2" data-backdrop="static" data-keyboard="false"
-                                                 data-toggle="modal" data-target="#email-modal"
-                                                 href="#">Email</a>
-
-                                                <a class="dropdown-item small font-weight-midi py-2" data-backdrop="static" data-keyboard="false"
-                                                 data-toggle="modal" data-target="#invoice-modal">Invoice</a>
+                                            <a class="btn btn-outline-secondary btn-xs rounded" href="#" role="button" id="ddLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Action</a>
+                                            <div class="dropdown-menu dropdown-menu-right border-0 shadow py-3" aria-labelledby="ddLink">
+                                                <a class="dropdown-item small font-weight-midi py-2" href="#">Block</a>
+                                                <a class="dropdown-item small font-weight-midi py-2" href="#">Email</a>
+                                                <a class="dropdown-item small font-weight-midi py-2" href="#">Invoice</a>
                                             </div>
                                         </div>
                                     </td>
@@ -245,14 +231,14 @@ export default {
 
         const guardians = ref([]);
 
-        const fetchGuardians = () => {
+        const fetchGuardians = async () => {
             loadingState.loading = true;
 
             if (typeof route.query.page !== 'undefined' && route.query.page !== null ) {
                 fetchGuardianParams.page = route.query.page;
             }
 
-            Guardian.all(fetchGuardianParams)
+            await Guardian.all(fetchGuardianParams)
             .then((res) => {
                 guardians.value = res.data.data
 
@@ -272,7 +258,8 @@ export default {
             await fetchStudents()
         }
 
-        onMounted(async () => await fetchGuardians())
+        // onCreated fetch guardians
+        fetchGuardians()
         watch(() => route.query.page, async () => await fetchGuardians());
 
         const { 
@@ -295,6 +282,28 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import '@/assets/scss/table/table768';
+
+@media (max-width: 768px) {
+    #toggle-table .table tbody > tr.is-expanded > td:not(:nth-child(1)):not(:nth-child(2)):not(:nth-child(7)) {
+        padding-bottom: 5px;
+        padding-top: 5px;
+    }
+
+    #toggle-table .table tbody > tr > td:not(:nth-child(1)):not(:nth-child(2)):not(:nth-child(7)):before {
+        content: attr(data-colname);
+        display: -ms-inline-flexbox !important;
+        display: inline-flex !important;
+        margin-right: 15px;
+        font-size: 85%;
+        font-weight: 700;
+        color: #666;
+        overflow: hidden;
+        width: 32%;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+}
 
 .Listed { 
     color:  #009900; 
@@ -303,29 +312,4 @@ export default {
 .delist { 
     color: #ff3300;  
 }
-
-.rounded-top-lg {
-  border-top-left-radius: 0.3rem !important;
-  border-top-right-radius: 0.3rem !important;
-}
-
-.card-body {
-    min-height: 70px;
-}
-
-.custom-select {
-    border-radius: .17rem;
-}
-
-.custom-select {
-    font-size: 14px;
-    font-weight: 500;
-    color: inherit;
-    background: transparent;
-    flex-grow: 1;
-    padding-right: .5rem;
-    padding-left: .5rem;
-}
-
-@import '@/assets/scss/table/guardian-list';
 </style>

@@ -76,7 +76,7 @@
 			                    <td class="h7 font-weight-midi" data-colname="AMOUNT:">20000</td>
 			                    <td class="h7 font-weight-midi" data-colname="PAID:">20000</td>
 			                    <td class="h7 font-weight-midi" data-colname="UNPAID:">20000</td>
-			                    <td class="h7 font-weight-midi" data-colname="STATUS:">Settled</td>
+			                    <td class="h7 font-weight-midi text-lowercase" data-colname="STATUS:">Settled</td>
 			                    <td class="h7 font-weight-midi text-capitalize" data-colname="DATE:">20/05/2020</td>
 			                    <td>
 			                        <div class="dropdown">
@@ -202,6 +202,35 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import '@/assets/scss/table/table768';
+
+.table tr > td,
+.table tr > td {
+    word-break: break-word !important;
+    word-wrap: break-word !important;
+}
+
+@media (max-width: 768px) {
+    #toggle-table .table tbody > tr.is-expanded > td:not(:nth-child(1)):not(:nth-child(2)):not(:nth-child(7)) {
+        padding-bottom: 5px;
+        padding-top: 5px;
+    }
+
+    #toggle-table .table tbody > tr > td:not(:nth-child(1)):not(:nth-child(2)):not(:nth-child(8)):before {
+        content: attr(data-colname);
+        display: -ms-inline-flexbox !important;
+        display: inline-flex !important;
+        margin-right: 15px;
+        font-size: 11px;
+        font-weight: 700;
+        color: #666;
+        overflow: hidden;
+        width: 32%;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+}
+
 .settled { 
     color:  #009900; 
 }
@@ -209,10 +238,4 @@ export default {
 .waived { 
     color: #ff3300;  
 }
-
-.min-100 {
-    min-height: 100px;
-}
-
-@import '@/assets/scss/table/table-ssf'
 </style>
