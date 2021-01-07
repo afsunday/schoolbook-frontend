@@ -117,6 +117,12 @@
 
 <!-- <router-link class="dropdown-item small font-weight-midi py-2" :to="{ name: 'EditGuardian', params: { guardianId: route.params.guardianId }}">Edit Guardian</router-link> -->
 
+if(err.response.status === 422) {
+                    store.dispatch(
+                        'general/addSnackbar', 
+                        'Oops we couldnt find the guardian with such ID'
+                    );
+
 
 
 <script type="text/javascript">

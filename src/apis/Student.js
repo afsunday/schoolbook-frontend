@@ -21,7 +21,7 @@ export default {
     },
 
     update (form) {
-    	return Api.post('admin/students/create', form, { 
+    	return Api.post('admin/students/update', form, { 
                 headers: { 'Content-Type': 'multipart/form-data' } 
         })
     },
