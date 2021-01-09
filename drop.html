@@ -115,23 +115,62 @@
 
 </style>
 
-<!-- <router-link class="dropdown-item small font-weight-midi py-2" :to="{ name: 'EditGuardian', params: { guardianId: route.params.guardianId }}">Edit Guardian</router-link> -->
+<!-- assign guardian modal -->
+            <div class="modal" id="modal" tabindex="-1" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-scrollable">
+                    <div class="modal-content border-0">
+                        <div class="modal-header pt-2 pb-3">
+                            <div class="modal-title mt-1" id="modal"><i class="icon icon-customer icon-lg"></i> <span>Assign Guardian</span></div>
+                            <button type="button" class="close outline-0" data-dismiss="modal" aria-label="close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
 
-if(err.response.status === 422) {
-                    store.dispatch(
-                        'general/addSnackbar', 
-                        'Oops we couldnt find the guardian with such ID'
-                    );
+                        <line-preload class="w-100" :loading="loadingState.modalLoading"></line-preload>
 
+                        <div class="modal-body px-2">
+                            <div v-if="loadingState.modalLoaded">
+                                <div class="mr-auto">
+                                    <div class="form-group px-1">
+                                        <input class="form-control bg-light" type="search" @keyup.enter="filterGuardians()" v-model="guardianFetchParams.search" placeholder="Search guardian names or email,phone" aria-label="Search">
+                                    </div>
+                                </div>
+                                
+                                <div class="border-0 px-1 pb-0 mb-2" v-for="(guardian, index) in guardians">
+                                    <div class="d-flex justify-content-between border rounded-top rounded-right pt-2 pb-3 px-2">
+                                        <div class="d-flex mr-2">
+                                            <img src="assets/img/nopic.png" class="rounded border mr-2 mr-sm-3" width="40" height="40" alt=" ">
+                                            <span class="text-break mt-n1"> 
+                                                <div class="small"><a class="text-decoration-none font-weight-midi text-dark mt-n2">{{ guardian.firstname }} {{ guardian.surname }} {{ guardian.othername }}</a></div>
+                                                <div class="small text-muted text-pre-wrap">{{ guardian.email }}</div>
+                                            </span>
+                                        </div>
+                                        <div class="custom-control-lg custom-control custom-checkbox mr-n2">
+                                            <input type="checkbox" class="custom-control-input" 
+                                                    :checked="selectedGuardianIds.includes(guardian.guardian_id)"
+                                                   @click="selectGuardian($event, guardian)" :id="'checkbox'+guardian.guardian_id">
+                                            <label class="custom-control-label" :for="'checkbox'+guardian.guardian_id"></label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>                           
+                        </div>
+                        <div class="modal-footer d-block pb-0 px-0">
+                            <!-- Pagination -->
+                            <pagination-links
+                            :ListTotalPage="paginate.totalPage"
+                            :ListCurrentPage="paginate.currentPage"
+                            :ListPrevPage="paginate.prevPage"
+                            :ListNextPage="paginate.nextPage"
+                            :ListPagesLength="paginate.pagesLength"
+                            @changePage="navigate($event)">
+                            </pagination-links>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--/assign guardia modal-->
 
-
-<script type="text/javascript">
-    // let errors = this.formErrors;
-  // this.$refs.form.setErrors({
-  //     ...errors,
-  //     ...err.response.data.errors
-  // });
-</script>
 
 <template>
     <div class="rounded">

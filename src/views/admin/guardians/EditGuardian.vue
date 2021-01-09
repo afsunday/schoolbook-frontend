@@ -131,7 +131,7 @@
                     </div>                
                 </div> 
 
-               <!--  Guardian wards -->
+                <!-- Guardian wards -->
                 <div class="card border-0 shadow-sm mt-3">
                     <div class="card-header bg-white d-flex align-items-start justify-content-between px-2 px-sm-3">
                         <div class="small-xs font-weight-normal mt-2">GUARDIANS WARDS</div>

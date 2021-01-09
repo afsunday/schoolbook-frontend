@@ -25,4 +25,8 @@ export default {
                 headers: { 'Content-Type': 'multipart/form-data' } 
         })
     },
+
+    assignedGuardians (id) {
+        return Api.get(`admin/students/${id}/guardians`)
+    } 
 }

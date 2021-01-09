@@ -40,7 +40,7 @@ defineRule('digits', (value, [limit]) => {
 	}
 
 	if (isNaN(value) || value.length < limit || value.length > limit ) {
-		return `This field must digits and ${limit} chars`
+		return `This field must be digits and ${limit} chars`
 	}
 
 	return true

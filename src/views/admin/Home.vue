@@ -103,8 +103,6 @@ export default {
     }
   },
 
-  mounted() {},
-
   methods: {
   }
 }

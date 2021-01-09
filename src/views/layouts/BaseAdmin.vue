@@ -176,6 +176,8 @@
 import Snackbar from '@/components/Snackbar'
 import User from '@/apis/User'
 
+import store from '@/store'
+
 export default {
     name: 'BaseAdmin',
     components: {
