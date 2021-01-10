@@ -32,9 +32,9 @@
                             <div class="small-xs font-weight-normal mt-2">STUDENT INFORMATION</div>
                         </div>
 
-                        <line-preload :loading="loadingState.bioLoading"></line-preload>
+                        <line-preload :loading="loadingState.loading"></line-preload>
 
-                        <empty-list :loaded="loadingState.bioLoaded" :items="Object.keys(student)">
+                        <empty-list :loaded="loadingState.loaded" :items="Object.keys(student)">
                             Oops we dont have a Student with that record
                         </empty-list>
 
@@ -42,7 +42,7 @@
                             @retry="e => {errState.reqError = errState.netError = errState.hasError = false; fetchStudent(); fetchStudentGuardians();}">
                         </error-reload> -->
 
-                        <div v-if="loadingState.bioLoaded && Object.keys(student).length > 0" class="card-body px-2 px-sm-3 pt-2 pb-3">
+                        <div v-if="loadingState.loaded && Object.keys(student).length > 0" class="card-body px-2 px-sm-3 pt-2 pb-3">
 
                             <div class="form-row mt-3">
                                 <div class="form-group  col-md-4">
@@ -128,7 +128,7 @@
                                         <span class="text-danger">&#42;</span>
                                     </label>
                                     <Field name="class" as="select" class="custom-select custom-select-lg" v-model="student.admission_class" rules="required">
-                                        <option >--select--</option>
+                                        <option>--select--</option>
                                         <option v-for="xclass in schoolClasses" :value="xclass.id">
                                             {{ xclass.class_name }} {{ xclass.arm }}
                                         </option>
@@ -243,7 +243,7 @@
                                                 <a class="text-muted mr-2" href="#" role="button" id="dpLinks" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-ellipsis-v"></i></a>
                                                 <div class="dropdown-menu dropdown-menu-right border-0 shadow py-3" aria-labelledby="dpLinks">
                                                     <a class="dropdown-item small font-weight-midi py-2">Unassign Guardian</a>
-                                                    <a class="dropdown-item small font-weight-midi py-2">Edit Guardian</a>
+                                                    <router-link class="dropdown-item small font-weight-midi py-2" :to="'/admin/guardians/edit/' + guard.guardian_id">Edit Guardian</router-link>
                                                 </div>
                                             </div>
                                         </div>
@@ -281,10 +281,10 @@
                                         </div>
                                     </div>
                                 </div>
-
                             </div>
                         </div>
                     </div>
+                    <!-- /Assign guardian:student-->
 
                     <!-- submit button -->
                     <div class="form-row justify-content-center mt-3">
@@ -303,14 +303,18 @@
                 <template v-slot:preloader><line-preload :loading="loadingState.modalLoading"></line-preload></template>
 
                 <template v-slot:body>
-                    <div class="modal-body px-2">
+                    <div class="modal-body px-2 mb-3">
 
                         <retry-button :list="guardians.length <= 0" :hasRetry="fetchGuardiansHasError" @retry="e => { 
                             fetchGuardiansHasError = false; fetchGuardians() }">
                             Oops something went wrong try again.
                         </retry-button>
 
-                        <div v-if="loadingState.modalLoaded">
+                        <empty-list :loaded="loadingState.modalLoaded" :items="guardians">
+                            Oops you dont have any guardian
+                        </empty-list>
+
+                        <div v-if="loadingState.modalLoaded && guardians.length > 0">
                             <div class="form-group mr-auto px-1">
                                 <input class="form-control bg-light" type="search" @keyup.enter="filterGuardians()" v-model="guardianFetchParams.search" placeholder="Search names,email or phone" aria-label="Search">
                             </div>
@@ -327,6 +331,7 @@
                                     <div class="custom-control-lg custom-control custom-checkbox mr-n2">
                                         <input type="checkbox" class="custom-control-input" 
                                                 :checked="selectedGuardianIds.includes(guardian.guardian_id)"
+                                                 :disabled="guardiansAssignedToStudent.some(g => g.guardian_id === guardian.guardian_id)"
                                                 @click="selectGuardian($event, guardian)" :id="'checkbox'+guardian.guardian_id">
                                         <label class="custom-control-label" :for="'checkbox'+guardian.guardian_id"></label>
                                     </div>
@@ -402,8 +407,6 @@ export default {
             btnLoading: false,
             modalLoading: false,
             modalLoaded: false, 
-            bioLoading: false,
-            bioLoaded: false,
         });
 
         // paginate list of guardian resource
@@ -432,11 +435,11 @@ export default {
         // onCreated hook fetch list of classes
         fetchClasses()
 
-        // fetch student boi data
+        // fetch student bio data
         const student = ref({})
 
         const fetchStudent = async () => {
-            loadingState.bioLoading = true
+            loadingState.loading = true
    
             let studentId = route.params.studentId
 
@@ -444,9 +447,6 @@ export default {
                 if (res.data.length > 0) {
                     student.value = res.data[0]
                 }
-
-                loadingState.bioLoading = false;
-                loadingState.bioLoaded = true;
             })
             .catch((err) => {})
         }
@@ -461,6 +461,9 @@ export default {
 
             await Student.assignedGuardians(studentId).then((res) => {
                 guardiansAssignedToStudent.value = res.data
+
+                loadingState.loading = false;
+                loadingState.loaded = true;
             })
             .catch((err) => {})
         }
@@ -561,7 +564,6 @@ export default {
             }
         }
 
-
         const updateStudent = ( _, actions) => {
             loadingState.btnLoading = true;
 
@@ -573,7 +575,11 @@ export default {
             }
 
             if (selectedGuardians.value.length >= 1) {
-                formData.append('guardians', JSON.stringify(selectedGuardians.value))
+                formData.append('select_guardians', JSON.stringify(selectedGuardians.value))
+            }
+
+            if (guardiansAssignedToStudent.value.length >= 1) {
+                formData.append('assigned_guardians', JSON.stringify(guardiansAssignedToStudent.value))
             }
 
             Student.update(formData)
@@ -601,13 +607,13 @@ export default {
 
         
         return {
-            route, student, updateStudent, loadingState, 
+            route, schoolClasses, student, updateStudent, loadingState, 
 
             selectGuardian, selectedGuardians, selectedGuardianIds, removeSelectedGuardian,
 
             guardianFetchParams, fetchGuardians, guardians, fetchGuardiansHasError, 
 
-            filterGuardians, guardiansAssignedToStudent, paginate, navigate, schoolClasses
+            filterGuardians, guardiansAssignedToStudent, paginate, navigate
         }
     },
 
@@ -631,7 +637,6 @@ export default {
     padding-right: .5rem;
     padding-left: .5rem;
 }
-
 </style>
 
 

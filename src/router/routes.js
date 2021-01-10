@@ -49,7 +49,7 @@ const routes = [
   {
     path: '/admin/students/edit/:studentId',
     name: 'EditStudent',
-    component: () => import(/* webpackChunkName: "admin-guardian-edit" */ '@/views/admin/students/EditStudent.vue'),
+    component: () => import(/* webpackChunkName: "admin-student-edit" */ '@/views/admin/students/EditStudent.vue'),
     beforeEnter: adminGate,
     meta: meta.admin
   },
