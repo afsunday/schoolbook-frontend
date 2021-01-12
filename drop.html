@@ -111,10 +111,65 @@
     background-color: #f2f2f2;
 }*/
 
-guardiansAssignedToStudent.filter(g => g.guardian_id === guardian.guardian_id)
 
 
 </style>
+
+<script type="text/javascript">
+
+// @click="e => { 
+//     if(e.currentTarget.checked) { 
+//         guard.emergency = true 
+//     } else { 
+//         guard.emergency = false 
+//     }  
+// }"  
+
+
+
+
+
+
+
+
+  const selectedGuardians = ref([])
+        const selectedGuardianIds = ref([])
+
+        const selectGuardian = (event, guardian) => {
+            if (event.currentTarget.checked) {
+
+                const guardianAssignedForm = { relationship: '', emergency: false }
+                const selectedGuardianWithForm = Object.assign(guardian, guardianAssignedForm);
+
+                selectedGuardians.value.push(selectedGuardianWithForm);
+                selectedGuardianIds.value.push(guardian.guardian_id)
+            } else {
+                
+                // if uncheck we will remove guardian object from selection
+                // and also remove guardian id from selection tracking array
+                selectedGuardians.value.forEach((item, index) => {
+                    if(item.guardian_id === guardian.guardian_id) {
+                        selectedGuardians.value.splice(index, 1);
+                    }
+                })
+
+                const selectedGuardianIdIndex = selectedGuardianIds.value.indexOf(guardian.guardian_id);
+                selectedGuardianIds.value.splice(selectedGuardianIdIndex, 1);
+            } 
+        }
+        
+        // here we will remove the selected guardians selection array 
+        // and also remove guardian id from selection tracking array
+        const removeSelectedGuardian = (index, guardianId) => {
+            // remove selected guardian object
+            selectedGuardians.value.splice(index, 1);
+
+            let selectedGuardianIdIndex = selectedGuardianIds.value.indexOf(guardianId);
+            if (selectedGuardianIdIndex > -1) {
+                selectedGuardianIds.value.splice(selectedGuardianIdIndex, 1);
+            }
+        }
+</script>
 
 <!-- assign guardian modal -->
             <div class="modal" id="modal" tabindex="-1" aria-hidden="true">

@@ -27,22 +27,30 @@
         <template v-slot:default>
             <VeeForm v-slot="{ handleSubmit, errors }" as="div">
                 <form>
-                    <div class="card border-0 shadow-sm mt-2 pb-3 min-100">
+                    <div class="card border-0 shadow-sm mt-2 pb-3 min-200">
                         <div class="card-header bg-white px-2 px-sm-3">
                             <div class="small-xs font-weight-normal mt-2">STUDENT INFORMATION</div>
                         </div>
 
                         <line-preload :loading="loadingState.loading"></line-preload>
 
-                        <empty-list :loaded="loadingState.loaded" :items="Object.keys(student)">
+                        <empty-list :loaded="loadingState.bioLoaded" :items="Object.keys(student)">
                             Oops we dont have a Student with that record
                         </empty-list>
 
-                        <!-- <error-reload :hasError="errState.hasError" :netError="errState.netError" :reqError="errState.reqError" 
-                            @retry="e => {errState.reqError = errState.netError = errState.hasError = false; fetchStudent(); fetchStudentGuardians();}">
-                        </error-reload> -->
+                        <retry-button class="mt-4" :list="true" :hasRetry="requiredResourceHasError" 
+                            @retry="e => { 
+                                requiredResourceHasError = loadingState.loaded = false; 
+                                fetchClasses(); 
+                                fetchStudent(); 
+                                fetchStudentGuardians() 
+                            }">
+                            Oops something went wrong try again.
+                        </retry-button>
 
-                        <div v-if="loadingState.loaded && Object.keys(student).length > 0" class="card-body px-2 px-sm-3 pt-2 pb-3">
+
+                        <div v-if="loadingState.loaded && !requiredResourceHasError && Object.keys(student).length > 0" 
+                            class="card-body px-2 px-sm-3 pt-2 pb-3">
 
                             <div class="form-row mt-3">
                                 <div class="form-group  col-md-4">
@@ -176,21 +184,21 @@
                                     <label class="small-xs font-weight-midi m-0">RESIDENTIAL ADDRESS
                                         <span class="text-danger">&#42;</span>
                                     </label>
-                                    <textarea class="form-control" rows="2" v-model="student.resident"></textarea>
+                                    <textarea class="form-control" rows="2" v-model="student.residential_address"></textarea>
                                 </div>
 
                                 <div class="form-group col-md-4">
                                     <label class="small-xs font-weight-midi m-0" for="firstname">PIC 
                                         <span class="text-danger">&#42;</span>
                                     </label>
-                                    <input type="file" class="form-control form-control-lg" @change="student.pic = $event.target.files[0]">
+                                    <input type="file" class="form-control form-control-lg" @change="student.passport = $event.target.files[0]">
                                 </div>
                             </div>
                         </div>
                     </div>
 
                     <!-- Assign guardian:student -->
-                    <div class="card border-0 shadow-sm mt-2">
+                    <div v-if="loadingState.loaded && !requiredResourceHasError" class="card border-0 shadow-sm mt-2">
                         <div class="card-header bg-white d-flex align-items-start justify-content-between px-2 px-sm-3">
                             <div class="small-xs font-weight-normal mt-2">STUDENT GUARDIANS</div>
                             <div class="dropdown">
@@ -203,8 +211,13 @@
                             </div>
                         </div>
 
-                        <div class="card-body px-2 px-sm-3">                            
+                        <empty-list 
+                            :loaded="loadingState.loaded  && !requiredResourceHasError && selectedGuardians.length <= 0" 
+                            :items="guardiansAssignedToStudent">
+                            Hmm no guardian has been assigned or selected
+                        </empty-list>
 
+                        <div class="card-body px-2 px-sm-3">                            
                             <div class="form-row">
                                 <div v-for="guard in guardiansAssignedToStudent" :key="guard.guardian_id" class="col-md-4 mb-2">
                                     <div class="border rounded-top rounded-right p-2 pt-3">
@@ -228,13 +241,8 @@
                                         <div class="form-group mt-2 d-flex justify-content-between">
                                             <div class="custom-control-lg custom-control custom-checkbox">
                                                 <input type="checkbox" class="custom-control-input" :id="guard.guardian_id" 
-                                                @click="e => { 
-                                                    if(e.currentTarget.checked) { 
-                                                        guard.emergency = true 
-                                                    } else { 
-                                                        guard.emergency = false 
-                                                    }  
-                                                }" :checked="!!guard.emergency">
+                                                    @click="e => { if (e.currentTarget.checked) guard.emergency = true; else guard.emergency = false }" 
+                                                    :checked="!!guard.emergency">
                                                 <label class="custom-control-label" :for="guard.guardian_id">
                                                     <small class="ml-n2">Emergency contact</small>
                                                 </label>
@@ -287,7 +295,7 @@
                     <!-- /Assign guardian:student-->
 
                     <!-- submit button -->
-                    <div class="form-row justify-content-center mt-3">
+                    <div  v-if="loadingState.loaded && !requiredResourceHasError" class="form-row justify-content-center mt-3">
                         <div class="col-md-3">
                             <loading-button type="submit" class="btn btn-ripple ripple btn-block" @btnEvent.prevent="handleSubmit($event, updateStudent)" :loading="loadingState.btnLoading">Create Student
                             </loading-button>
@@ -305,8 +313,10 @@
                 <template v-slot:body>
                     <div class="modal-body px-2 mb-3">
 
-                        <retry-button :list="guardians.length <= 0" :hasRetry="fetchGuardiansHasError" @retry="e => { 
-                            fetchGuardiansHasError = false; fetchGuardians() }">
+                        <retry-button :list="guardians.length <= 0" :hasRetry="fetchGuardiansHasError" 
+                            @retry="e => { 
+                                fetchGuardiansHasError = false; fetchGuardians() 
+                            }">
                             Oops something went wrong try again.
                         </retry-button>
 
@@ -319,7 +329,7 @@
                                 <input class="form-control bg-light" type="search" @keyup.enter="filterGuardians()" v-model="guardianFetchParams.search" placeholder="Search names,email or phone" aria-label="Search">
                             </div>
                             
-                            <div class="border-0 px-1 pb-0 mb-2" v-for="guardian in guardians">
+                            <div  v-for="guardian in guardians" class="border-0 px-1 pb-0 mb-2">
                                 <div class="d-flex justify-content-between border rounded-top rounded-right pt-2 pb-3 px-2">
                                     <div class="d-flex mr-2">
                                         <img src="assets/images/user.png" class="rounded border mr-2 mr-sm-3" width="45" height="45" alt=" ">
@@ -328,11 +338,12 @@
                                             <div class="small text-muted text-pre-wrap">{{ guardian.email }}</div>
                                         </span>
                                     </div>
+
                                     <div class="custom-control-lg custom-control custom-checkbox mr-n2">
                                         <input type="checkbox" class="custom-control-input" 
-                                                :checked="selectedGuardianIds.includes(guardian.guardian_id)"
-                                                 :disabled="guardiansAssignedToStudent.some(g => g.guardian_id === guardian.guardian_id)"
-                                                @click="selectGuardian($event, guardian)" :id="'checkbox'+guardian.guardian_id">
+                                            :checked="selectedGuardians.some(g => g.guardian_id === guardian.guardian_id)"
+                                            :disabled="guardiansAssignedToStudent.some(g => g.guardian_id === guardian.guardian_id)"
+                                            @click="selectGuardian($event, guardian)" :id="'checkbox'+guardian.guardian_id">
                                         <label class="custom-control-label" :for="'checkbox'+guardian.guardian_id"></label>
                                     </div>
                                 </div>
@@ -372,7 +383,7 @@ import useErrorReloadState from '@/composables/useErrorReloadState'
 // library:vue
 import { useStore } from 'vuex'
 import { useRoute } from 'vue-router'
-import { reactive, ref, onMounted } from 'vue'
+import { reactive, ref } from 'vue'
 import { Form as VeeForm, Field} from 'vee-validate'
 
 // apis
@@ -403,10 +414,11 @@ export default {
         // request loading state
         const loadingState = reactive({
             loading: false,
-            loaded: true,
+            loaded: false,
             btnLoading: false,
             modalLoading: false,
-            modalLoaded: false, 
+            modalLoaded: false,
+            bioLoaded: false 
         });
 
         // paginate list of guardian resource
@@ -421,58 +433,74 @@ export default {
 
         // fetch classes available for this school
         const schoolClasses = ref([])
+
         const fetchClasses = async () => {
             loadingState.loading = true
+
             await Class.classes().then((res) => {
                 schoolClasses.value = res.data;
-                loadingState.loading = false
+
             })
             .catch((err) => {
-                console.log(err)
+                loadingState.loading = false
+                loadingState.loaded = true
+                requiredResourceHasError.value = true
             })
         } 
 
-        // onCreated hook fetch list of classes
-        fetchClasses()
 
-        // fetch student bio data
+        // fetch student bio data 
         const student = ref({})
 
         const fetchStudent = async () => {
             loadingState.loading = true
-   
             let studentId = route.params.studentId
 
             await Student.me(studentId).then((res) => {
+
                 if (res.data.length > 0) {
                     student.value = res.data[0]
                 }
             })
-            .catch((err) => {})
+            .catch((err) => {
+                loadingState.loading = false
+                loadingState.loaded = true
+                requiredResourceHasError.value = true
+            })
         }
 
-        // onCreated fetch student data
-        fetchStudent();        
 
         // list of guardians assigned to students
         const guardiansAssignedToStudent = ref([])
+
         const fetchStudentGuardians = async () => {
+            loadingState.loading = true
+
             let studentId = route.params.studentId
 
             await Student.assignedGuardians(studentId).then((res) => {
                 guardiansAssignedToStudent.value = res.data
 
-                loadingState.loading = false;
-                loadingState.loaded = true;
             })
-            .catch((err) => {})
+            .catch((err) => {
+                loadingState.loading = false
+                loadingState.loaded = true
+                requiredResourceHasError.value = true
+            })
         }
 
-        // onCreated hook guardians assigned to student
-        fetchStudentGuardians()
+
+        // fetch all in promise if any fail all will can retried 
+        const requiredResourceHasError = ref(false)
+
+        Promise.all([fetchStudent(), fetchClasses(), fetchStudentGuardians()])
+        .then((val) => {
+            loadingState.loading = false
+            loadingState.loaded = true
+        })
+
 
         // params to fetch guardians from api which includes
-        // pagination object key
         let guardianFetchParams = reactive({
             search: '',
             status: 'all',
@@ -481,12 +509,12 @@ export default {
             page: 1
         })
 
-        // fetch list of guardians
+
+        // fetch list of all guardians and set error state
         const guardians = ref([])
         const fetchGuardiansHasError = ref(false)
 
         const fetchGuardians = async () => {
-            // loadingState.modalLoaded = false
             loadingState.modalLoading = true
 
             await Guardian.all(guardianFetchParams)
@@ -510,8 +538,8 @@ export default {
         // onCreated hook fetch list of all guardians
         fetchGuardians()
 
-        // search through the list of all guardians while guardian
-        // search key word has been bind to fetchparams object key
+
+        // search through the list of all guardians
         const filterGuardians = async () => {
             guardianFetchParams.page = 1;
             await fetchGuardians(); 
@@ -525,10 +553,8 @@ export default {
         }
 
 
-        // selected guardians contains array:objects with an helper  
-        // array of selected guardian ids to help track selections
+        // selected guardians contains array:objects of guardians 
         const selectedGuardians = ref([])
-        const selectedGuardianIds = ref([])
 
         const selectGuardian = (event, guardian) => {
             if (event.currentTarget.checked) {
@@ -537,38 +563,27 @@ export default {
                 const selectedGuardianWithForm = Object.assign(guardian, guardianAssignedForm);
 
                 selectedGuardians.value.push(selectedGuardianWithForm);
-                selectedGuardianIds.value.push(guardian.guardian_id)
             } else {
                 
-                // removal of guardian object & guardian id for tracking selections
+                // if uncheck we will remove guardian object from selection
                 selectedGuardians.value.forEach((item, index) => {
                     if(item.guardian_id === guardian.guardian_id) {
                         selectedGuardians.value.splice(index, 1);
                     }
-                })
-
-                const selectedGuardianIdIndex = selectedGuardianIds.value.indexOf(guardian.guardian_id);
-                selectedGuardianIds.value.splice(selectedGuardianIdIndex, 1);
+                })                
             } 
         }
         
-        // here we will remove the selected guardians selection array 
-        // and also remove guardian id from selection tracking array
+        // removes selected guardians from array using loop index
         const removeSelectedGuardian = (index, guardianId) => {
-            // remove selected guardian object
             selectedGuardians.value.splice(index, 1);
-
-            let selectedGuardianIdIndex = selectedGuardianIds.value.indexOf(guardianId);
-            if (selectedGuardianIdIndex > -1) {
-                selectedGuardianIds.value.splice(selectedGuardianIdIndex, 1);
-            }
         }
 
         const updateStudent = ( _, actions) => {
             loadingState.btnLoading = true;
 
             let formData =  new FormData()
-            let formFields = form.value
+            let formFields = student.value
 
             for (let field in formFields) {
                 formData.append(field, formFields[field])
@@ -607,11 +622,11 @@ export default {
 
         
         return {
-            route, schoolClasses, student, updateStudent, loadingState, 
+            route, loadingState, schoolClasses, student, updateStudent, 
 
-            selectGuardian, selectedGuardians, selectedGuardianIds, removeSelectedGuardian,
+            selectGuardian, selectedGuardians, removeSelectedGuardian, requiredResourceHasError,
 
-            guardianFetchParams, fetchGuardians, guardians, fetchGuardiansHasError, 
+            guardianFetchParams, fetchGuardians, fetchClasses, fetchStudent, guardians, fetchGuardiansHasError, 
 
             filterGuardians, guardiansAssignedToStudent, paginate, navigate
         }
@@ -636,6 +651,10 @@ export default {
     flex-grow: 1;
     padding-right: .5rem;
     padding-left: .5rem;
+}
+
+.min-200 {
+    min-height: 200px;
 }
 </style>
 
