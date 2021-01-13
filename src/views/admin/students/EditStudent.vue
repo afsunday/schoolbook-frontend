@@ -211,6 +211,8 @@
                             </div>
                         </div>
 
+                        <line-preload :loading="loadingState.unAssign"></line-preload>
+
                         <empty-list 
                             :loaded="loadingState.loaded  && !requiredResourceHasError && selectedGuardians.length <= 0" 
                             :items="guardiansAssignedToStudent">
@@ -250,7 +252,10 @@
                                             <div class="dropdown">
                                                 <a class="text-muted mr-2" href="#" role="button" id="dpLinks" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-ellipsis-v"></i></a>
                                                 <div class="dropdown-menu dropdown-menu-right border-0 shadow py-3" aria-labelledby="dpLinks">
-                                                    <a class="dropdown-item small font-weight-midi py-2">Unassign Guardian</a>
+                                                    <a @click="unAssignGuardian($event)" 
+                                                        :id="guard.guardian_id " :class="{'disabled': loadingState.unAssign }" 
+                                                        class="dropdown-item small font-weight-midi py-2">Unassign Guardian</a>
+
                                                     <router-link class="dropdown-item small font-weight-midi py-2" :to="'/admin/guardians/edit/' + guard.guardian_id">Edit Guardian</router-link>
                                                 </div>
                                             </div>
@@ -418,7 +423,8 @@ export default {
             btnLoading: false,
             modalLoading: false,
             modalLoaded: false,
-            bioLoaded: false 
+            bioLoaded: false,
+            unAssign: false 
         });
 
         // paginate list of guardian resource
@@ -475,7 +481,6 @@ export default {
 
         const fetchStudentGuardians = async () => {
             loadingState.loading = true
-
             let studentId = route.params.studentId
 
             await Student.assignedGuardians(studentId).then((res) => {
@@ -530,7 +535,6 @@ export default {
             })
             .catch((err) => {
                 loadingState.modalLoading = false
-
                 fetchGuardiansHasError.value = true
             })
         }
@@ -579,6 +583,25 @@ export default {
             selectedGuardians.value.splice(index, 1);
         }
 
+        // Unassigned guardian to student
+        const unAssignGuardian = (event) => {
+            let studentId = route.params.studentId;
+            let guardianId = event.target.attributes.id.value;
+
+            loadingState.unAssign = true;
+
+            Student.unAssignGuardian(studentId, guardianId)
+            .then((res) => {
+
+                new Promise(fetchStudentGuardians())
+                .then( r => loadingState.unAssign = false )
+            })
+            .catch((err) => {
+                loadingState.unAssign = false
+                store.dispatch('general/addSnackbar', err.response.data.error)
+            })
+        }
+
         const updateStudent = ( _, actions) => {
             loadingState.btnLoading = true;
 
@@ -590,22 +613,36 @@ export default {
             }
 
             if (selectedGuardians.value.length >= 1) {
-                formData.append('select_guardians', JSON.stringify(selectedGuardians.value))
+                formData.append('selected_guardians', JSON.stringify(selectedGuardians.value))
             }
 
             if (guardiansAssignedToStudent.value.length >= 1) {
                 formData.append('assigned_guardians', JSON.stringify(guardiansAssignedToStudent.value))
             }
 
-            Student.update(formData)
-            .then((res) => {
-                console.log(res);
+            Student.update(formData).then((res) => {
                 loadingState.btnLoading = false;
                 store.dispatch('general/addSnackbar', res.data.message)
+
+                // refresh data and remove
+                Promise.all([
+                    loadingState.loaded = false,
+                    selectedGuardians.value = [], 
+                    fetchStudentGuardians(), 
+                    fetchStudent()
+                ])
+                .then((r) => { 
+                    loadingState.loading = false 
+                    loadingState.loaded = true 
+                })
             })
             .catch((err) => {
                 loadingState.btnLoading = false;
-                if(err.response.status === 422) {
+
+                if(err.response.status === 500) {
+                    store.dispatch('general/addSnackbar', err.response.data.message)
+                } 
+                else if (err.response.status === 422) {
                     let formErrors =  err.response.data.errors
                     let errorObj = {}
 
@@ -622,7 +659,7 @@ export default {
 
         
         return {
-            route, loadingState, schoolClasses, student, updateStudent, 
+            route, loadingState, schoolClasses, student, updateStudent, unAssignGuardian, 
 
             selectGuardian, selectedGuardians, removeSelectedGuardian, requiredResourceHasError,
 

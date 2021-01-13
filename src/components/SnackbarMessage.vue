@@ -47,6 +47,7 @@ export default {
     background-color: rgba(0,0,0,0.75);
     border-radius: .25rem;
     padding: .6rem .7rem .6rem .7rem;
+    z-index: 100;
 }
 
 .snackbar-container > .close {

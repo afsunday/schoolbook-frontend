@@ -28,5 +28,9 @@ export default {
 
     assignedGuardians (id) {
         return Api.get(`admin/students/${id}/guardians`)
+    },
+
+    unAssignGuardian (studentId, guardianId) {
+        return Api.get(`admin/students/${studentId}/guardians/${guardianId}/unassign`)
     } 
 }
