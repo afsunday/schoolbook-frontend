@@ -16,7 +16,7 @@
                                     <router-link class="dropdown-item small font-weight-midi py-2" to="/admin/staffs/achives">
                                     staffs Achived</router-link>
                                     <router-link class="dropdown-item small font-weight-midi py-2" to="/admin/staffs/add">
-                                    Add Student</router-link>
+                                    Add Staff</router-link>
                                 </div>
                             </div>
                         </div>
@@ -26,9 +26,9 @@
         </template>
 
         <template v-slot:default>
-            <div v-if="selectedstaffs.length > 0" class="d-flex justify-content-between">
+            <div v-if="selectedStaffs.length > 0" class="d-flex justify-content-between">
                 <div class="text-dark small font-weight-midi d-inline-flex mt-2">
-                    {{ selectedstaffs.length }} student(s) selected
+                    {{ selectedStaffs.length }} staff(s) selected
                 </div>
                 <div class="dropdown">
                     <a class="btn btn-secondary btn-sm font-weight-midi small-xs text-nowrap mb-1" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Actions</a>
@@ -91,13 +91,12 @@
                             <input class="form-control bg-light" type="search" @keyup.enter="filterStaffs()" v-model="fetchStaffParams.search" placeholder="Search" aria-label="Search" />
                         </div>
                     </div>
-                    <button class="btn btn-secondary" @click="fetchStaffs()">tests</button>
                 </div>
 
                 <line-preload :loading="loadingState.loading"></line-preload>
 
                 <div class="card-body px-0 pt-0 min-100">
-                    <div v-show="loadingState.loaded" id="toggle-table">
+                    <div id="toggle-table">
                         <table class="table table-striped">
                             <thead class="small-xs font-weight-midi text-muted bg-white">
                                 <tr>
@@ -108,11 +107,10 @@
                                         </div>
                                     </th>
                                     <th>NAME</th>
-                                    <th>ADM NO</th>
-                                    <th>CLASS</th>
+                                    <th>STAFF NO</th>
+                                    <th>EMAIL</th>
                                     <th>GENDER</th>
                                     <th>STATUS</th>
-                                    <th></th>
                                 </tr>
                             </thead>
                             <tbody class="small font-weight-midi">
@@ -121,35 +119,25 @@
                                         <div class="custom-control-lg custom-control custom-checkbox">
                                             <input type="checkbox" class="custom-control-input" 
                                                 :ref="el => checkBoxElements[i] = el" 
-                                                :checked="selectedstaffs.includes(staff.student_id.toString())" 
-                                                @click="checkOne($event)" :id="staff.student_id">
-                                            <label class="custom-control-label" :for="staff.student_id"></label>
+                                                :checked="selectedStaffs.includes(staff.staff_id.toString())" 
+                                                @click="checkOne($event)" :id="staff.staff_id">
+                                            <label class="custom-control-label" :for="staff.staff_id"></label>
                                         </div>
                                     </th>
                                     <td>
                                         <div class="d-inline-flex">
                                             <img src="@/assets/images/user.png" class="rounded-circle mr-2 border bg-light" width="35" height="35" />
                                             <span class="text-break overflow-auto">
-                                                <router-link class="text-decoration-none text-primary" :to="{name: 'StaffProfile', params: { staffId:staff.student_id }}">{{ staff.firstname }} {{ staff.othername }}
+                                                <router-link class="text-decoration-none text-primary" :to="{name: 'StaffProfile', params: { staffId:staff.staff_id }}">{{ staff.firstname }} {{ staff.othername }}
                                                 </router-link>
                                             </span>
                                         </div>
                                         <a class="row-toggle text-decoration-none" @click="tableRowToggle($event)"></a>
                                     </td>
-                                    <td data-colname="ADM NO">{{ staff.admission_number }}</td>
-                                    <td data-colname="CLASS">{{ staff.classname }} {{ staff.classarm }}</td>
+                                    <td data-colname="STAFF NO">{{ staff.staff_no }}</td>
+                                    <td data-colname="EMAIL">{{ staff.email }}</td>
                                     <td data-colname="GENDER:">{{ staff.gender }}</td>
                                     <td class="text-capitalize enrolled" data-colname="DURATION:">{{ staff.status }}</td>
-                                    <td>
-                                        <div class="dropdown">
-                                            <a class="btn btn-outline-secondary btn-xs rounded" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Action</a>
-                                            <div class="dropdown-menu dropdown-menu-right border-0 shadow py-3" aria-labelledby="dropdownMenuLink">
-                                                <a class="dropdown-item small font-weight-midi py-2" href="#">Block</a>
-                                                <a class="dropdown-item small font-weight-midi py-2" href="#">Email</a>
-                                                <a class="dropdown-item small font-weight-midi py-2" href="#">Invoice</a>
-                                            </div>
-                                        </div>
-                                    </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -202,6 +190,8 @@ export default {
         LinePreload,
         ModalCenter,
         PaginationLinks,
+        RetryButton,
+        EmptyList
     },
 
     setup() {
@@ -274,7 +264,7 @@ export default {
         watch(() => route.query.page, async () => await filterStaffs())
         
         const { 
-            selectedCheckBoxes: selectedstaffs, 
+            selectedCheckBoxes: selectedStaffs, 
             checkAll, checkOne, checkBoxElements, 
             checkAllCheckBox
         } = useCheckBox('STAFFS_SELECT');
@@ -285,7 +275,7 @@ export default {
 
         return {
             loadingState, paginate, navigate, staffs, fetchStaffParams, filterStaffs, fetchStaffs,
-            selectedstaffs, checkAll, checkOne, checkBoxElements, checkAllCheckBox, tableRowToggle
+            selectedStaffs, checkAll, checkOne, checkBoxElements, checkAllCheckBox, tableRowToggle
         }
     }
 }
@@ -296,21 +286,21 @@ export default {
 @import '@/assets/scss/table/table768';
 
 @media (max-width: 768px) {
-    #toggle-table .table tbody > tr.is-expanded > td:not(:nth-child(1)):not(:nth-child(2)):not(:nth-child(7)) {
+    #toggle-table .table tbody > tr.is-expanded > td:not(:nth-child(1)):not(:nth-child(2)) {
         padding-bottom: 5px;
         padding-top: 5px;
     }
 
-    #toggle-table .table tbody > tr > td:not(:nth-child(1)):not(:nth-child(2)):not(:nth-child(7)):before {
+    #toggle-table .table tbody > tr > td:not(:nth-child(1)):not(:nth-child(2)):before {
         content: attr(data-colname);
         display: -ms-inline-flexbox !important;
         display: inline-flex !important;
-        margin-right: 15px;
+        margin-right: 10px;
         font-size: 85%;
         font-weight: 700;
         color: #666;
         overflow: hidden;
-        width: 32%;
+        width: 25%;
         text-overflow: ellipsis;
         white-space: nowrap;
     }

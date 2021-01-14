@@ -109,6 +109,14 @@ const routes = [
   },
 
   {
+    path: '/admin/staffs/profile/:staffId',
+    name: 'StaffProfile',
+    component: () => import(/* webpackChunkName: "admin-student-view" */ '@/views/admin/staffs/StaffProfile.vue'),
+    beforeEnter: adminGate,
+    meta: meta.admin
+  },
+
+  {
     path: '/admin/subjects',
     name: 'Subjects',
     component: () => import(/* webpackChunkName: "subject-admin" */ '@/views/admin/Subjects.vue'),
