@@ -77,7 +77,7 @@
 
 <script>
 // components
-import BaseAdmin from '@/views/layouts/BaseAdmin.vue';
+import BaseAdmin from '@/views/admin/shared/BaseAdmin'
 import LinePreload from '@/components/LinePreload';
 import GuardianBioData from '@/views/admin/guardians/GuardianBioData'
 import GuardianWards from '@/views/admin/guardians/GuardianWards'

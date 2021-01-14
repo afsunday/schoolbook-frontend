@@ -190,7 +190,7 @@ import Student from "@/apis/Student"
 import Class from "@/apis/Class"
 
 export default {
-    name: "StudentList",
+    name: "StaffList",
     components: {
         BaseAdmin,
         LinePreload,

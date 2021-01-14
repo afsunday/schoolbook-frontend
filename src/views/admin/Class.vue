@@ -101,7 +101,7 @@
 </template>
 
 <script>
-import BaseAdmin from '@/views/layouts/BaseAdmin.vue'
+import BaseAdmin from '@/views/admin/shared/BaseAdmin'
 import Chart from 'chart.js'
 
 // const Chart = () => import( webpackChunkName: "classes-analytics"  'chart.js');

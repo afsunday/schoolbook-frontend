@@ -302,7 +302,7 @@
                     <!-- submit button -->
                     <div  v-if="loadingState.loaded && !requiredResourceHasError" class="form-row justify-content-center mt-3">
                         <div class="col-md-3">
-                            <loading-button type="submit" class="btn btn-ripple ripple btn-block" @btnEvent.prevent="handleSubmit($event, updateStudent)" :loading="loadingState.btnLoading">Create Student
+                            <loading-button type="submit" class="btn btn-ripple ripple btn-block" @btnEvent.prevent="handleSubmit($event, updateStudent)" :loading="loadingState.btnLoading">Update Student
                             </loading-button>
                         </div>
                     </div>
@@ -372,7 +372,7 @@
 
 <script>
 // components
-import BaseAdmin from '@/views/layouts/BaseAdmin.vue'
+import BaseAdmin from '@/views/admin/shared/BaseAdmin'
 import LinePreload from '@/components/LinePreload'
 import LoadingButton from '@/components/LoadingButton'
 import PaginationLinks from '@/components/PaginationLinks'

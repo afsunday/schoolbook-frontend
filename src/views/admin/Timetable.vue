@@ -87,7 +87,7 @@
 </template>
 
 <script>
-import BaseAdmin from '@/views/layouts/BaseAdmin.vue'
+import BaseAdmin from '@/views/admin/shared/BaseAdmin'
 
 export default {
   name: 'Timetable',

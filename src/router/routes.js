@@ -29,6 +29,8 @@ const routes = [
     meta: meta.admin
   },
 
+  // admin students route
+
   {
     path: '/admin/students',
     name: 'StudentList',
@@ -62,6 +64,7 @@ const routes = [
     meta: meta.admin
   },
 
+  // admin guardians route
   {
     path: '/admin/guardians',
     name: 'GuardianList',
@@ -95,10 +98,12 @@ const routes = [
     meta: meta.admin
   },
 
+  // admin staff route
   {
     path: '/admin/staffs',
-    name: 'Staffs',
-    component: () => import(/* webpackChunkName: "admin-staffs" */ '@/views/admin/Staffs.vue'),
+    name: 'StaffList',
+    props: route => ({ query: route.query.page }),
+    component: () => import(/* webpackChunkName: "admin-staffs" */ '@/views/admin/staffs/StaffList.vue'),
     beforeEnter: adminGate,
     meta: meta.admin
   },

@@ -332,7 +332,7 @@
 
 <script>
 // components
-import BaseAdmin from '@/views/layouts/BaseAdmin.vue'
+import BaseAdmin from '@/views/admin/shared/BaseAdmin'
 import LinePreload from '@/components/LinePreload'
 import LoadingButton from '@/components/LoadingButton'
 import PaginationLinks from '@/components/PaginationLinks'
