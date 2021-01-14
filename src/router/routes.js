@@ -2,8 +2,8 @@ import router from './'
 import middleware from '@/middleware'
 import * as meta from './meta'
 
-const adminGate = (to, from) => {
-    middleware.admin((res) => { 
+const adminGate = async (to, from) => {
+    await middleware.admin((res) => { 
         if (!res) 
         return router.push({
             path: '/login', 

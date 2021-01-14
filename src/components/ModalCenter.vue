@@ -41,7 +41,4 @@ export default {
 	}
 
 }
-
-/*modal-dialog-scrollable*/
-
 </style>

@@ -22,8 +22,8 @@
 							<div class="small m-0 mt-1 text-center text-truncate px-3">admin@gmail.com</div>
 						</div>
 						<div class="dropdown-divider"></div>
-						<a class="dropdown-item small text-muted" href="profile">Profile</a>
-						<a class="dropdown-item small text-muted" @click.prevent="logout" href="logout">Logout</a>
+						<a class="dropdown-item small text-muted py-2" href="profile">Profile</a>
+						<a class="dropdown-item small text-muted py-2" @click.prevent="logout" href="logout">Logout</a>
 					</div>
 				</li>
 			</ul>
@@ -54,10 +54,17 @@
 	                            </nav>
 	                        </div>							
 
-							<router-link class="nav-link" to="/admin/staffs">
-							<div class="sb-nav-link-icon"><i class="fas fa-chalkboard-teacher fa-lg"></i></div>
-								Staffs
-							</router-link>
+							<a class="nav-link collapsed" data-toggle="collapse" data-target="#collapseStaff" aria-expanded="false" aria-controls="collapseLayouts">
+	                            <div class="sb-nav-link-icon"><i class="fas fa-chalkboard-teacher fa-lg"></i></div>
+	                            Staffs
+	                            <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+	                        </a>
+	                        <div class="collapse" id="collapseStaff" aria-labelledby="headingOne" data-parent="#sidenavAccordion">
+	                            <nav class="sb-sidenav-menu-nested nav">
+	                                <router-link class="nav-link" to="/admin/staffs">All Staffs</router-link>
+	                                <router-link class="nav-link" to="/admin/staffs/add">Add Staff</router-link>
+	                            </nav>
+	                        </div>
 
 							<a class="nav-link collapsed" data-toggle="collapse" data-target="#collapseG1" aria-expanded="false" aria-controls="collapseLayouts">
 	                            <div class="sb-nav-link-icon"><i class="fas fa-users fa-lg"></i></div>

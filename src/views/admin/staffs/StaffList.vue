@@ -6,16 +6,16 @@
                     <div class="d-flex justify-content-between">
                         <div class="">
                             <div class="text-muted">
-                                <span class="h7"><i class="fas fa-columns"></i></span> Students
+                                <span class="h7"><i class="fas fa-columns"></i></span> staffs
                             </div>
                         </div>
                         <div class="">
                             <div class="dropdown">
                                 <a class="btn btn-light btn-sm border" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Options</a>
                                 <div class="dropdown-menu dropdown-menu-right border-0 shadow py-3" aria-labelledby="dropdownMenuLink">
-                                    <router-link class="dropdown-item small font-weight-midi py-2" to="/admin/Students/achives">
-                                    Students Achived</router-link>
-                                    <router-link class="dropdown-item small font-weight-midi py-2" to="/admin/students/add">
+                                    <router-link class="dropdown-item small font-weight-midi py-2" to="/admin/staffs/achives">
+                                    staffs Achived</router-link>
+                                    <router-link class="dropdown-item small font-weight-midi py-2" to="/admin/staffs/add">
                                     Add Student</router-link>
                                 </div>
                             </div>
@@ -26,9 +26,9 @@
         </template>
 
         <template v-slot:default>
-            <div v-if="selectedStudents.length > 0" class="d-flex justify-content-between">
+            <div v-if="selectedstaffs.length > 0" class="d-flex justify-content-between">
                 <div class="text-dark small font-weight-midi d-inline-flex mt-2">
-                    {{ selectedStudents.length }} student(s) selected
+                    {{ selectedstaffs.length }} student(s) selected
                 </div>
                 <div class="dropdown">
                     <a class="btn btn-secondary btn-sm font-weight-midi small-xs text-nowrap mb-1" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Actions</a>
@@ -44,32 +44,34 @@
             <modal-center :modalBadge="'staticFilterForm'">
                 <div class="form-group mb-1">
                     <label class="small-xs font-weight-midi mb-0">STATUS</label>
-                    <select class="custom-select" v-model="fetchStudentParams.status" name="status-filter">
+                    <select class="custom-select" v-model="fetchStaffParams.status">
                         <option value="all">All Status</option>
-                        <option value="enrolled">Enrolled</option>
-                        <option value="dropped">Dropped</option>
-                        <option value="graduated">Graduated</option>
+                        <option value="employed">Employed</option>
+                        <option value="quit">Quit</option>
+                        <option value="dismissed">Dismissed</option>
                     </select>
                 </div>
+
                 <div class="form-group mb-1">
-                    <label class="small-xs mb-0">CLASS</label>
-                    <select class="custom-select" v-model="fetchStudentParams.class" name="class-filter">
-                        <option value="all">All Classes</option>
-                        <option v-for="(xclass, key) in classes" :key="key" :value="xclass.id">
-                            {{ xclass.class_name }} {{ xclass.arm }}
-                        </option>
+                    <label class="small-xs font-weight-midi mb-0">ACCT STATUS</label>
+                    <select class="custom-select" v-model="fetchStaffParams.account_status">
+                        <option value="all">All Status</option>
+                        <option value="active">Active</option>
+                        <option value="blocked">Blocked</option>
                     </select>
                 </div>
+
                 <div class="form-group mb-1">
                     <label class="small-xs mb-0">GENDER</label>
-                    <select class="custom-select" v-model="fetchStudentParams.gender" name="gender-filter">
+                    <select class="custom-select" v-model="fetchStaffParams.gender">
                         <option value="all">All Genders</option>
-                        <option value="Male">Male</option>
-                        <option value="Female">Female</option>
+                        <option value="male">Male</option>
+                        <option value="female">Female</option>
                     </select>
                 </div>
+
                 <div class="form-group mb-1 mt-2">
-                    <button class="btn btn-outline-primary btn-sm" @click="filterStudents()" type="submit">
+                    <button class="btn btn-outline-primary btn-sm" @click="filterStaffs()" type="submit">
                         Filter
                     </button>
                 </div>
@@ -86,9 +88,10 @@
                                     </a>
                                 </div>
                             </div>
-                            <input class="form-control bg-light" type="search" @keyup.enter="filterStudents()" v-model="fetchStudentParams.search" placeholder="Search" aria-label="Search" />
+                            <input class="form-control bg-light" type="search" @keyup.enter="filterStaffs()" v-model="fetchStaffParams.search" placeholder="Search" aria-label="Search" />
                         </div>
                     </div>
+                    <button class="btn btn-secondary" @click="fetchStaffs()">tests</button>
                 </div>
 
                 <line-preload :loading="loadingState.loading"></line-preload>
@@ -113,30 +116,30 @@
                                 </tr>
                             </thead>
                             <tbody class="small font-weight-midi">
-                                <tr v-for="(student, i) in students" :key="student.student_id" class="table-row">
+                                <tr v-for="(staff, i) in staffs" :key="staff.student_id" class="table-row">
                                     <th>
                                         <div class="custom-control-lg custom-control custom-checkbox">
                                             <input type="checkbox" class="custom-control-input" 
                                                 :ref="el => checkBoxElements[i] = el" 
-                                                :checked="selectedStudents.includes(student.student_id.toString())" 
-                                                @click="checkOne($event)" :id="student.student_id">
-                                            <label class="custom-control-label" :for="student.student_id"></label>
+                                                :checked="selectedstaffs.includes(staff.student_id.toString())" 
+                                                @click="checkOne($event)" :id="staff.student_id">
+                                            <label class="custom-control-label" :for="staff.student_id"></label>
                                         </div>
                                     </th>
                                     <td>
                                         <div class="d-inline-flex">
                                             <img src="@/assets/images/user.png" class="rounded-circle mr-2 border bg-light" width="35" height="35" />
                                             <span class="text-break overflow-auto">
-                                                <router-link class="text-decoration-none text-primary" :to="{name: 'StudentProfile', params: { studentId:student.student_id }}">{{ student.firstname }} {{ student.othername }}
+                                                <router-link class="text-decoration-none text-primary" :to="{name: 'StaffProfile', params: { staffId:staff.student_id }}">{{ staff.firstname }} {{ staff.othername }}
                                                 </router-link>
                                             </span>
                                         </div>
                                         <a class="row-toggle text-decoration-none" @click="tableRowToggle($event)"></a>
                                     </td>
-                                    <td data-colname="ADM NO">{{ student.admission_number }}</td>
-                                    <td data-colname="CLASS">{{ student.classname }} {{ student.classarm }}</td>
-                                    <td data-colname="GENDER:">{{ student.gender }}</td>
-                                    <td class="text-capitalize enrolled" data-colname="DURATION:">{{ student.status }}</td>
+                                    <td data-colname="ADM NO">{{ staff.admission_number }}</td>
+                                    <td data-colname="CLASS">{{ staff.classname }} {{ staff.classarm }}</td>
+                                    <td data-colname="GENDER:">{{ staff.gender }}</td>
+                                    <td class="text-capitalize enrolled" data-colname="DURATION:">{{ staff.status }}</td>
                                     <td>
                                         <div class="dropdown">
                                             <a class="btn btn-outline-secondary btn-xs rounded" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Action</a>
@@ -175,6 +178,8 @@ import BaseAdmin from '@/views/admin/shared/BaseAdmin'
 import LinePreload from '@/components/LinePreload'
 import PaginationLinks from '@/components/PaginationLinks'
 import ModalCenter from '@/components/ModalCenter'
+import RetryButton from '@/components/RetryButton'
+import EmptyList from '@/components/EmptyList'
 
 // composables
 import usePaginate from '@/composables/usePaginate'
@@ -186,8 +191,9 @@ import { useRouter, useRoute } from 'vue-router'
 import { reactive, ref, onMounted, watch } from 'vue'
 
 // apis
-import Student from "@/apis/Student"
-import Class from "@/apis/Class"
+import Student from '@/apis/Student'
+import Staff from '@/apis/Staff'
+import Class from '@/apis/Class'
 
 export default {
     name: "StaffList",
@@ -217,14 +223,6 @@ export default {
             pagesLength: null,
         })
 
-        // student fetch request params
-        let fetchStudentParams = reactive({
-            search: '',
-            status: 'all',
-            class: 'all',
-            gender: 'all',
-            page: 1
-        })
 
         // navigate the guardian reseult list on modal
         const navigate = (event) => {
@@ -232,17 +230,28 @@ export default {
             router.push({ query: { page : toPage } });
         }
 
-        const students = ref([])
-        const fetchStudents = async () => {
+
+        // student fetch request params
+        let fetchStaffParams = reactive({
+            search: '',
+            status: 'all',
+            account_status: 'all',
+            gender: 'all',
+            page: 1
+        })
+
+
+        const staffs = ref([])
+        const fetchStaffs = async () => {
             loadingState.loading = true;
 
             if (typeof route.query.page !== 'undefined' && route.query.page !== null ) {
-                fetchStudentParams.page = route.query.page;
+                fetchStaffParams.page = route.query.page;
             }
 
-            await Student.all(fetchStudentParams)
+            await Staff.all(fetchStaffParams)
             .then((res) => {
-                students.value = res.data.data
+                staffs.value = res.data.data
 
                 const { paging } = usePaginate(res);
                 paginate.value = { ...paginate.value, ...paging }
@@ -255,40 +264,28 @@ export default {
             })
         }
 
-        // onCreated fetch students
-        fetchStudents()
-        watch(() => route.query.page, async () => await filterStudents())
-
-
-        // onMounted fetch classes
-        const classes = ref([])
-        const fetchClasses = () => {
-            Class.classes().then(res => classes.value = res.data)
-            .catch((err) => {
-                //
-            })
-        }
-        onMounted(async () => await fetchClasses())
-
-        
-        const filterStudents = async () => {
+        const filterStaffs = async () => {
             router.push({ query: { page : 1 } });
-            await fetchStudents()
-        }        
+            await fetchStaffs()
+        } 
 
+        // onCreated fetch staffs
+        fetchStaffs()
+        watch(() => route.query.page, async () => await filterStaffs())
+        
         const { 
-            selectedCheckBoxes: selectedStudents, 
+            selectedCheckBoxes: selectedstaffs, 
             checkAll, checkOne, checkBoxElements, 
             checkAllCheckBox
-        } = useCheckBox('STUDENTS_SELECT');
+        } = useCheckBox('STAFFS_SELECT');
 
         const tableRowToggle = (event) => {
             event.target.closest('.table-row').classList.toggle('is-expanded');
         }
 
         return {
-            loadingState, paginate, navigate, students, classes, fetchStudentParams, filterStudents,
-            selectedStudents, checkAll, checkOne, checkBoxElements, checkAllCheckBox, tableRowToggle
+            loadingState, paginate, navigate, staffs, fetchStaffParams, filterStaffs, fetchStaffs,
+            selectedstaffs, checkAll, checkOne, checkBoxElements, checkAllCheckBox, tableRowToggle
         }
     }
 }

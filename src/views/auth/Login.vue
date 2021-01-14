@@ -63,16 +63,21 @@ export default {
       await this.$store
         .dispatch("login", this.form)
         .then((res) => {
-          localStorage.setItem("SB_USER", JSON.stringify(res.data[0]));
-          this.$store.commit("SET_USER", res.data[0]);
+          localStorage.setItem("SB_USER", JSON.stringify(res.data));
+          this.$store.commit("SET_USER", res.data);
 
-          if (res.data[0].type === "student") {
+          if (res.data.type === "student") {
+
             this.$router.push({ path: "/student/home" });
-          } else if (res.data[0].type === "guardian") {
+          }else if (res.data.type === "guardian") {
+
             this.$router.push({ path: "/guardian/home" });
-          } else if (res.data[0].type === "staff") {
+          } 
+          else if (res.data.type === "staff") {
+
             this.$router.push({ path: "/staff/home" });
-          } else if (res.data[0].type === "admin") {
+          } else if (res.data.type === "admin") {
+
             this.$router.push({ path: "/admin/home" });
           }
 

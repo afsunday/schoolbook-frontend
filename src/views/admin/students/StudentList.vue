@@ -64,8 +64,8 @@
                     <label class="small-xs mb-0">GENDER</label>
                     <select class="custom-select" v-model="fetchStudentParams.gender" name="gender-filter">
                         <option value="all">All Genders</option>
-                        <option value="Male">Male</option>
-                        <option value="Female">Female</option>
+                        <option value="male">Male</option>
+                        <option value="female">Female</option>
                     </select>
                 </div>
                 <div class="form-group mb-1 mt-2">
