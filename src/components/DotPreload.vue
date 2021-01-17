@@ -28,8 +28,8 @@ export default {
   background-color: #ccc;
   color: #ccc;
   box-shadow: 9999px 0 0 -5px #ccc;
-  animation: dot-pulse 1.5s infinite linear;
-  animation-delay: .25s;
+  animation: dot-pulse 1.2s infinite linear;
+  animation-delay: .20s;
 }
 
 .dot-pulse::before, .dot-pulse::after {
@@ -46,13 +46,13 @@ export default {
 
 .dot-pulse::before {
   box-shadow: 9984px 0 0 -5px #ccc;
-  animation: dot-pulse-before 1.5s infinite linear;
+  animation: dot-pulse-before 1.2s infinite linear;
   animation-delay: 0s;
 }
 
 .dot-pulse::after {
   box-shadow: 10014px 0 0 -5px #ccc;
-  animation: dot-pulse-after 1.5s infinite linear;
+  animation: dot-pulse-after 1.2s infinite linear;
   animation-delay: .5s;
 }
 

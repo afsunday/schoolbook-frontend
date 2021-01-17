@@ -95,7 +95,7 @@
 
 							<a class="nav-link collapsed" data-toggle="collapse" data-target="#collapseFee" aria-expanded="false" aria-controls="collapseLayouts">
 	                            <div class="sb-nav-link-icon"><i class="fas fa-chalkboard-teacher fa-lg"></i></div>
-	                            Finance
+	                            Bursary
 	                            <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
 	                        </a>
 	                        <div class="collapse" id="collapseFee" aria-labelledby="headingOne" data-parent="#sidenavAccordion">

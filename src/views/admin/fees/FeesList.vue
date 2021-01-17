@@ -13,8 +13,6 @@
                             <div class="dropdown">
                                 <a class="btn btn-light btn-sm border" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Options</a>
                                 <div class="dropdown-menu dropdown-menu-right border-0 shadow py-3" aria-labelledby="dropdownMenuLink">
-                                    <router-link class="dropdown-item small font-weight-midi py-2" to="/admin/staffs/achives">
-                                    Achives</router-link>
                                     <router-link class="dropdown-item small font-weight-midi py-2" to="/admin/staffs/add">
                                     Add Fees</router-link>
                                 </div>
@@ -84,7 +82,15 @@
                             <input type="range" min="0" max="1000000" step="1000"  class="custom-range" id="lesser" v-model="fetchFeesParams.lesser">
                         </div>
 
-                        <div class="form-group mb-1 mt-2 mb-3">
+                        <div class="custom-control-lg custom-control custom-checkbox">
+                            <input type="checkbox" 
+                                :value="true" 
+                                v-model="fetchFeesParams.achives" 
+                                class="custom-control-input" id="filterHasAchives">
+                            <label class="custom-control-label small" for="filterHasAchives">Achives Only</label>
+                        </div>
+
+                        <div class="form-group mb-1 mt-3 mb-3">
                             <button class="btn btn-outline-secondary btn-sm rounded" @click="filterFees()" type="submit">
                                 Apply Filter
                             </button>
@@ -142,14 +148,16 @@
                                     </th>
                                     <td>
                                         <div class="d-flex justify-content-between">
-                                            <div class="mr-4">
-                                                <span class="mt-n1">
-                                                    <a href="#" class="h7 text-decoration-none text-dark text-break font-weight-midi">
-                                                        {{ fee.fee_headname }}
-                                                    </a>
-                                                </span>
-                                                <div class="small text-muted text-wrap text-break">{{ fee.description }}</div>
-                                            </div>
+                                            <router-link class="text-decoration-none" :to="'/admin/fees/info/'+fee.fee_id">
+                                                <div class="mr-4">
+                                                    <span class="mt-n1">
+                                                        <a href="#" class="h7 text-decoration-none text-dark text-break font-weight-midi">
+                                                            {{ fee.fee_headname }}
+                                                        </a>
+                                                    </span>
+                                                    <div class="small text-muted text-wrap text-break">{{ fee.description }}</div>
+                                                </div>
+                                            </router-link>
                                             <a class="row-toggle text-decoration-none ml-2" @click="tableRowToggle($event)"></a>
                                         </div>
                                     </td>
@@ -163,7 +171,7 @@
                     </div><!--/table-wrapper -->
 
                     <empty-list :loaded="loadingState.loaded  && !fetchFeesHasError" :items="fees">
-                        we cant find any fee
+                        Oops we can't find any Fee
                     </empty-list>
 
                     <retry-button class="my-4" :list="true" :hasRetry="fetchFeesHasError" 
@@ -258,6 +266,7 @@ export default {
             fee_head: 'all',
             greater: 0,
             lesser: 0,
+            achives: false,
             page: 1
         })
 

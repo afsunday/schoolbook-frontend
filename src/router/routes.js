@@ -13,6 +13,13 @@ const adminGate = async (to, from) => {
 }
 
 const routes = [
+
+  /*
+	|----------------------------------------------------
+	| Authentication Route
+	|----------------------------------------------------
+	*/
+
   {
 
     path: '/',
@@ -20,6 +27,13 @@ const routes = [
     name: 'login',
     component: () => import(/* webpackChunkName: "login" */ '@/views/auth/Login.vue')
   },
+
+
+  /*
+	|----------------------------------------------------
+	| Admin General route
+	|----------------------------------------------------
+	*/
 
   {
     path: '/admin/home',
@@ -29,7 +43,13 @@ const routes = [
     meta: meta.admin
   },
 
-  // admin students route
+
+	/*
+	|----------------------------------------------------
+	| Admin Student route
+	|----------------------------------------------------
+	*/
+
 
   {
     path: '/admin/students',
@@ -64,7 +84,14 @@ const routes = [
     meta: meta.admin
   },
 
-  // admin guardians route
+
+
+  /*
+	|----------------------------------------------------
+	| Admin Guardians route
+	|----------------------------------------------------
+	*/
+
   {
     path: '/admin/guardians',
     name: 'GuardianList',
@@ -98,7 +125,14 @@ const routes = [
     meta: meta.admin
   },
 
-  // admin staff route
+
+
+  /*
+	|----------------------------------------------------
+	| Admin Staffs route
+	|----------------------------------------------------
+	*/
+
   {
     path: '/admin/staffs',
     name: 'StaffList',
@@ -116,7 +150,14 @@ const routes = [
     meta: meta.admin
   },
 
-  // admin fees route
+
+
+  /*
+	|----------------------------------------------------
+	| Admin Fees route
+	|----------------------------------------------------
+	*/
+
   {
     path: '/admin/fees',
     name: 'FeesList',
@@ -125,7 +166,22 @@ const routes = [
     meta: meta.admin
   },
 
-  // admin subjects route
+  {
+    path: '/admin/fees/info/:feeId',
+    name: 'FeeInfo',
+    component: () => import(/* webpackChunkName: "admin-Feeinfo" */ '@/views/admin/fees/FeeInfo.vue'),
+    beforeEnter: adminGate,
+    meta: meta.admin
+  },
+
+
+
+  /*
+	|----------------------------------------------------
+	| Admin subjects route
+	|----------------------------------------------------
+	*/
+
   {
     path: '/admin/subjects',
     name: 'Subjects',
@@ -133,6 +189,13 @@ const routes = [
     beforeEnter: adminGate,
     meta: meta.admin
   },
+
+
+  /*
+	|----------------------------------------------------
+	| Admin unnamed route: wiill be named later
+	|----------------------------------------------------
+	*/
 
   {
     path: '/admin/class',
@@ -145,7 +208,7 @@ const routes = [
   {
     path: '/admin/timetable',
     name: 'Timetable',
-    component: () => import(/* webpackChunkName: "admin-admin" */ '@/views/admin/Timetable.vue'),
+    component: () => import(/* webpackChunkName: "admin-timetable" */ '@/views/admin/Timetable.vue'),
     beforeEnter: adminGate,
     meta: meta.admin
   },
@@ -157,6 +220,14 @@ const routes = [
     beforeEnter: adminGate,
     meta: meta.admin
   },
+
+
+
+  /*
+	|----------------------------------------------------
+	| Additional Route
+	|----------------------------------------------------
+	*/
 
   {
     path: '/:pathMatch(.*)*',
