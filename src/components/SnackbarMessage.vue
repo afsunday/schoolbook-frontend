@@ -45,7 +45,7 @@ export default {
 .snackbar-container {
     box-shadow: 0 0.25rem 0.75rem rgba(0, 0, 0, 0.1);
     background-color: rgba(0,0,0,0.75);
-    border-radius: .25rem;
+    border-radius: .22rem;
     padding: .6rem .7rem .6rem .7rem;
     z-index: 100;
 }

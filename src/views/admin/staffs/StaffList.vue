@@ -6,7 +6,7 @@
                     <div class="d-flex justify-content-between">
                         <div class="">
                             <div class="text-muted">
-                                <span class="h7"><i class="fas fa-columns"></i></span> staffs
+                                <span class="h7"><i class="fas fa-columns"></i></span> STAFFS
                             </div>
                         </div>
                         <div class="">
@@ -14,7 +14,7 @@
                                 <a class="btn btn-light btn-sm border" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Options</a>
                                 <div class="dropdown-menu dropdown-menu-right border-0 shadow py-3" aria-labelledby="dropdownMenuLink">
                                     <router-link class="dropdown-item small font-weight-midi py-2" to="/admin/staffs/achives">
-                                    staffs Achived</router-link>
+                                    Achives</router-link>
                                     <router-link class="dropdown-item small font-weight-midi py-2" to="/admin/staffs/add">
                                     Add Staff</router-link>
                                 </div>
@@ -261,7 +261,11 @@ export default {
 
         // onCreated fetch staffs
         fetchStaffs()
-        watch(() => route.query.page, async () => await filterStaffs())
+        watch(() => route.query.page, async (value, old) => {
+            if (typeof value !== 'undefined' && value !== null ) {
+                await fetchStaffs() 
+            }
+        })
         
         const { 
             selectedCheckBoxes: selectedStaffs, 

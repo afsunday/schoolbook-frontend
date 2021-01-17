@@ -32,22 +32,21 @@
 			<div id="layoutSidenav_nav">
 				<nav class="sb-sidenav accordion sb-sidenav-dark shadow-sm" id="sidenavAccordion">
 					<div class="sb-sidenav-menu">
-						<div class="nav pb-5">
+						<div class="nav pb-5 pt-4">
 
-							<div class="sb-sidenav-menu-heading">Core</div>
 							<router-link class="nav-link" to="/admin/home">
 								<div class="sb-nav-link-icon"><i class="fas fa-columns fa-lg"></i></div>
-								Home
+								Dashboard
 							</router-link>
 
 							<div class="sb-sidenav-menu-heading">Interface</div>
 
-							<a class="nav-link collapsed" data-toggle="collapse" data-target="#collapseStudent" aria-expanded="false" aria-controls="collapseLayouts">
+							<a class="nav-link collapsed" data-toggle="collapse" data-target="#collapseStd" aria-expanded="false" aria-controls="collapseLayouts">
 	                            <div class="sb-nav-link-icon"><i class="fas fa-users fa-lg"></i></div>
 	                            Students
 	                            <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
 	                        </a>
-	                        <div class="collapse" id="collapseStudent" aria-labelledby="headingOne" data-parent="#sidenavAccordion">
+	                        <div class="collapse" id="collapseStd" aria-labelledby="headingOne" data-parent="#sidenavAccordion">
 	                            <nav class="sb-sidenav-menu-nested nav">
 	                                <router-link class="nav-link" to="/admin/students">All Students</router-link>
 	                                <router-link class="nav-link" to="/admin/students/add">Add Students</router-link>
@@ -78,61 +77,43 @@
 	                            </nav>
 	                        </div>
 
-							<div class="sb-sidenav-menu-heading">Education</div>
 
-							<router-link class="nav-link" to="/admin/subjects">
-								<div class="sb-nav-link-icon"><i class="fas fa-swatchbook fa-lg"></i></div>
-								Subjects
-							</router-link>
+							<a class="nav-link collapsed" data-toggle="collapse" data-target="#collapseAcademics" aria-expanded="false" aria-controls="collapseLayouts">
+	                            <div class="sb-nav-link-icon"><i class="fas fa-chalkboard-teacher fa-lg"></i></div>
+	                            Academics
+	                            <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+	                        </a>
+	                        <div class="collapse" id="collapseAcademics" aria-labelledby="headingOne" data-parent="#sidenavAccordion">
+	                            <nav class="sb-sidenav-menu-nested nav">
+	                                <router-link class="nav-link" to="/admin/subjects">Subjects</router-link>
+	                                <router-link class="nav-link" to="/admin/class">Class</router-link>
+	                                <router-link class="nav-link" to="/admin/fees/timetable">Timetable</router-link>
+	                                <router-link class="nav-link" to="/admin/fees/attendance">Attendance</router-link>
+	                            </nav>
+	                        </div>
 
-							<router-link class="nav-link" to="/admin/class">
-								<div class="sb-nav-link-icon"><i class="fas fa-list-alt fa-lg"></i></div>
-								Class
-							</router-link>
 
-							<router-link class="nav-link" to="/admin/timetable">
-								<div class="sb-nav-link-icon"><i class="fas fa-calendar-alt fa-lg"></i></div>
-								Timetable
-							</router-link>
+							<a class="nav-link collapsed" data-toggle="collapse" data-target="#collapseFee" aria-expanded="false" aria-controls="collapseLayouts">
+	                            <div class="sb-nav-link-icon"><i class="fas fa-chalkboard-teacher fa-lg"></i></div>
+	                            Finance
+	                            <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+	                        </a>
+	                        <div class="collapse" id="collapseFee" aria-labelledby="headingOne" data-parent="#sidenavAccordion">
+	                            <nav class="sb-sidenav-menu-nested nav">
+	                                <router-link class="nav-link" to="/admin/fees/overview">Overview</router-link>
+	                                <router-link class="nav-link" to="/admin/fees">Fees</router-link>
+	                                <router-link class="nav-link" to="/admin/fees/debtors">Debtors</router-link>
+	                                <router-link class="nav-link" to="/admin/fees/transactions">Transactions</router-link>
+	                            </nav>
+	                        </div>
+							
 
-							<router-link class="nav-link" to="/admin/class">
-								<div class="sb-nav-link-icon"><i class="fas fa-chalkboard-teacher fa-lg"></i></div>
-								Attendance
-							</router-link>
-
-							<router-link class="nav-link" to="/admin/mail">
-								<div class="sb-nav-link-icon"><i class="fas fa-envelope fa-lg"></i></div>
-								Mail center
-							</router-link>
-
-							<div class="sb-sidenav-menu-heading">Fee Management</div>
-
-							<router-link class="nav-link" to="/admin/class">
-								<div class="sb-nav-link-icon"><i class="fab fa-dashcube fa-lg"></i></div>
-								Overview
-							</router-link>
-
-							<router-link class="nav-link" to="/admin/fees">
-								<div class="sb-nav-link-icon"><i class="fas fa-swatchbook fa-lg"></i></div>
-								Fees
-							</router-link>
-
-							<router-link class="nav-link" to="/admin/class">
-								<div class="sb-nav-link-icon"><i class="fas fa-list-alt fa-lg"></i></div>
-								Debtors
-							</router-link>
-
-							<router-link class="nav-link" to="/admin/class">
-								<div class="sb-nav-link-icon"><i class="fas fa-chalkboard-teacher fa-lg"></i></div>
-								Transactions
-							</router-link>
+							<div class="sb-sidenav-menu-heading">Teaching</div>
 
 							<router-link class="nav-link" to="class">
 								<div class="sb-nav-link-icon"><i class="fas fa-envelope fa-lg"></i></div>
 								Mail center
 							</router-link>
-
-							<div class="sb-sidenav-menu-heading">Teaching</div>
 
 							<router-link class="nav-link" to="class">
 								<div class="sb-nav-link-icon"><i class="fas fa-list-alt fa-lg"></i></div>

@@ -111,11 +111,21 @@ const routes = [
   {
     path: '/admin/staffs/profile/:staffId',
     name: 'StaffProfile',
-    component: () => import(/* webpackChunkName: "admin-student-view" */ '@/views/admin/staffs/StaffProfile.vue'),
+    component: () => import(/* webpackChunkName: "admin-staff-profile" */ '@/views/admin/staffs/StaffProfile.vue'),
     beforeEnter: adminGate,
     meta: meta.admin
   },
 
+  // admin fees route
+  {
+    path: '/admin/fees',
+    name: 'FeesList',
+    component: () => import(/* webpackChunkName: "fees-admin" */ '@/views/admin/fees/FeesList.vue'),
+    beforeEnter: adminGate,
+    meta: meta.admin
+  },
+
+  // admin subjects route
   {
     path: '/admin/subjects',
     name: 'Subjects',
@@ -144,14 +154,6 @@ const routes = [
     path: '/admin/mail',
     name: 'Mail',
     component: () => import(/* webpackChunkName: "mail-admin" */ '@/views/admin/Mail.vue'),
-    beforeEnter: adminGate,
-    meta: meta.admin
-  },
-
-  {
-    path: '/admin/fees',
-    name: 'Fees',
-    component: () => import(/* webpackChunkName: "fees-admin" */ '@/views/admin/Fees.vue'),
     beforeEnter: adminGate,
     meta: meta.admin
   },

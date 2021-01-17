@@ -260,7 +260,11 @@ export default {
 
         // onCreated fetch guardians
         fetchGuardians()
-        watch(() => route.query.page, async () => await fetchGuardians());
+        watch(() => route.query.page, async (value, old) => {
+            if (typeof value !== 'undefined' && value !== null ) {
+                await fetchGuardians() 
+            }
+        })
 
         const { 
             selectedCheckBoxes: selectedGuardians, 

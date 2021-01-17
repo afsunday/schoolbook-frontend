@@ -13,8 +13,6 @@ export default (storageKey = '') => {
 
     onMounted(checkPatch)
 
-    // onUpdated(() => checkAllCheckBox.value.checked = false)
-
     const checkAll = () => {
         let elements = checkBoxElements.value
 
@@ -45,6 +43,12 @@ export default (storageKey = '') => {
                         localStorage.setItem(storageKey, JSON.stringify(selectedCheckBoxes.value))
                     }
                 }
+
+                let localBank =  JSON.parse(localStorage.getItem(storageKey))
+
+                if (localBank.length <=0) {
+                    removeCheckStorage()
+                }
             })
         }
     }
@@ -68,8 +72,18 @@ export default (storageKey = '') => {
                     localStorage.setItem(storageKey, JSON.stringify(selectedCheckBoxes.value));
                 }
             }
+
+            let localBank =  JSON.parse(localStorage.getItem(storageKey))
+
+            if (localBank.length <=0) {
+                removeCheckStorage()
+            }
         } 
     }
 
-    return { selectedCheckBoxes, checkAll, checkOne, checkBoxElements, checkAllCheckBox }
+    const removeCheckStorage = () => {
+        localStorage.removeItem(storageKey)
+    }
+
+    return { selectedCheckBoxes, checkAll, checkOne, checkBoxElements, checkAllCheckBox, removeCheckStorage }
 }

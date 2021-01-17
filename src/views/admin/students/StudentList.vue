@@ -109,7 +109,6 @@
                                     <th>CLASS</th>
                                     <th>GENDER</th>
                                     <th>STATUS</th>
-                                    <th></th>
                                 </tr>
                             </thead>
                             <tbody class="small font-weight-midi">
@@ -124,29 +123,19 @@
                                         </div>
                                     </th>
                                     <td>
-                                        <div class="d-inline-flex">
+                                        <div class="d-inline-flex mr-4">
                                             <img src="@/assets/images/user.png" class="rounded-circle mr-2 border bg-light" width="35" height="35" />
                                             <span class="text-break overflow-auto">
-                                                <router-link class="text-decoration-none text-primary" :to="{name: 'StudentProfile', params: { studentId:student.student_id }}">{{ student.firstname }} {{ student.othername }}
+                                                <router-link class="text-decoration-none text-capitalize text-primary" :to="{name: 'StudentProfile', params: { studentId:student.student_id }}">{{ student.firstname }} {{ student.surname }} {{ student.othername }}
                                                 </router-link>
                                             </span>
                                         </div>
                                         <a class="row-toggle text-decoration-none" @click="tableRowToggle($event)"></a>
                                     </td>
                                     <td data-colname="ADM NO">{{ student.admission_number }}</td>
-                                    <td data-colname="CLASS">{{ student.classname }} {{ student.classarm }}</td>
-                                    <td data-colname="GENDER:">{{ student.gender }}</td>
+                                    <td class="text-capitalize" data-colname="CLASS">{{ student.classname }} {{ student.classarm }}</td>
+                                    <td class="text-capitalize" data-colname="GENDER:">{{ student.gender }}</td>
                                     <td class="text-capitalize enrolled" data-colname="DURATION:">{{ student.status }}</td>
-                                    <td>
-                                        <div class="dropdown">
-                                            <a class="btn btn-outline-secondary btn-xs rounded" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Action</a>
-                                            <div class="dropdown-menu dropdown-menu-right border-0 shadow py-3" aria-labelledby="dropdownMenuLink">
-                                                <a class="dropdown-item small font-weight-midi py-2" href="#">Block</a>
-                                                <a class="dropdown-item small font-weight-midi py-2" href="#">Email</a>
-                                                <a class="dropdown-item small font-weight-midi py-2" href="#">Invoice</a>
-                                            </div>
-                                        </div>
-                                    </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -183,7 +172,7 @@ import useCheckBox from '@/composables/useCheckBox'
 // library:vue
 import { useStore } from 'vuex'
 import { useRouter, useRoute } from 'vue-router'
-import { reactive, ref, onMounted, watch } from 'vue'
+import { reactive, ref, onMounted, onUnmounted, watch } from 'vue'
 
 // apis
 import Student from "@/apis/Student"
@@ -229,7 +218,7 @@ export default {
         // navigate the guardian reseult list on modal
         const navigate = (event) => {
             let toPage = event.currentTarget.attributes.id.value;
-            router.push({ query: { page : toPage } });
+            router.push({ query: { page : toPage } })
         }
 
         const students = ref([])
@@ -257,7 +246,11 @@ export default {
 
         // onCreated fetch students
         fetchStudents()
-        watch(() => route.query.page, async () => await filterStudents())
+        watch(() => route.query.page, async (value, old) => {
+            if (typeof value !== 'undefined' && value !== null ) {
+                await fetchStudents() 
+            }
+        })
 
 
         // onMounted fetch classes
@@ -299,12 +292,12 @@ export default {
 @import '@/assets/scss/table/table768';
 
 @media (max-width: 768px) {
-    #toggle-table .table tbody > tr.is-expanded > td:not(:nth-child(1)):not(:nth-child(2)):not(:nth-child(7)) {
+    #toggle-table .table tbody > tr.is-expanded > td:not(:nth-child(1)):not(:nth-child(2)) {
         padding-bottom: 5px;
         padding-top: 5px;
     }
 
-    #toggle-table .table tbody > tr > td:not(:nth-child(1)):not(:nth-child(2)):not(:nth-child(7)):before {
+    #toggle-table .table tbody > tr > td:not(:nth-child(1)):not(:nth-child(2)):before {
         content: attr(data-colname);
         display: -ms-inline-flexbox !important;
         display: inline-flex !important;
