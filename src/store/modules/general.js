@@ -1,5 +1,5 @@
 const state = {
-    snackBarMessage: ''
+    snackBarMessage: '',
 }
 
 const getters = {
@@ -20,7 +20,7 @@ const actions = {
 
 const mutations = {
     Add_SNACKBAR: (state, msg) => (state.snackBarMessage = msg),
-    REMOVE_SNACKBAR: (state, msg) => (state.snackBarMessage = msg)
+    REMOVE_SNACKBAR: (state, msg) => (state.snackBarMessage = msg),
 }
 
 export default {

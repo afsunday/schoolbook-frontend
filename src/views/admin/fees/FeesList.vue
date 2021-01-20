@@ -31,9 +31,8 @@
                 <div class="dropdown">
                     <a class="btn btn-secondary btn-sm font-weight-midi small-xs text-nowrap mb-1" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Actions</a>
                     <div class="dropdown-menu dropdown-menu-right border-0 shadow py-3" aria-labelledby="dropdownMenuLink">
-                        <a class="dropdown-item small font-weight-midi py-2" href="#">Block</a>
+                        <a class="dropdown-item small font-weight-midi py-2" href="#">Archive</a>
                         <a class="dropdown-item small font-weight-midi py-2" href="#">Email</a>
-                        <a class="dropdown-item small font-weight-midi py-2" href="#">Invoice</a>
                     </div>
                 </div>
             </div>
@@ -85,7 +84,7 @@
                         <div class="custom-control-lg custom-control custom-checkbox">
                             <input type="checkbox" 
                                 :value="true" 
-                                v-model="fetchFeesParams.achives" 
+                                v-model="fetchFeesParams.archives" 
                                 class="custom-control-input" id="filterHasAchives">
                             <label class="custom-control-label small" for="filterHasAchives">Achives Only</label>
                         </div>
@@ -155,7 +154,7 @@
                                                             {{ fee.fee_headname }}
                                                         </a>
                                                     </span>
-                                                    <div class="small text-muted text-wrap text-break">{{ fee.description }}</div>
+                                                    <div class="small text-primary text-wrap text-break">{{ fee.description }}</div>
                                                 </div>
                                             </router-link>
                                             <a class="row-toggle text-decoration-none ml-2" @click="tableRowToggle($event)"></a>
@@ -187,7 +186,6 @@
                         :ListPrevPage="paginate.prevPage" :ListNextPage="paginate.nextPage" :ListPagesLength="paginate.pagesLength"
                         @changePage="navigate($event)">
                     </pagination-links>
-
                 </div>
             </div>
         </template>
@@ -212,7 +210,7 @@ import useCheckBox from '@/composables/useCheckBox'
 // library:vue
 import { useStore } from 'vuex'
 import { useRouter, useRoute } from 'vue-router'
-import { reactive, ref, onMounted, watch } from 'vue'
+import { reactive, ref, watch } from 'vue'
 
 // apis
 import Fees from '@/apis/Fees'
@@ -258,7 +256,7 @@ export default {
         }
 
 
-                // student fetch request params
+        // student fetch request params
         let fetchFeesParams = reactive({
             search: '',
             status: 'all',
@@ -266,7 +264,7 @@ export default {
             fee_head: 'all',
             greater: 0,
             lesser: 0,
-            achives: false,
+            archives: false,
             page: 1
         })
 

@@ -7,18 +7,34 @@ export default {
 	        await User.me().then((res) => {
 
 		    	store.commit('SET_USER', res.data)
-		    	if (store.getters.user.type === 'admin') return callback(true)
-		      	else return callback(false)
+
+		    	if (store.getters.user.type === 'admin') {
+		    		store.commit('SET_LOGIN_STATUS', true)
+		    		callback(true)
+		    	} else {
+		    		store.commit('SET_LOGIN_STATUS', false)	
+		    		callback(false)
+		    	} 
+
 		    })
 		    .catch((err) => {
-	      	    if (err.response.status === 401) return callback(false)
-	      	    else return callback(false)
+
+	      	    if (err.response.status === 401 || err.response.status === 403) {
+	      	    	store.commit('SET_LOGIN_STATUS', false)
+	      	    	return callback(false)
+	      	    } else {
+	      	    	store.commit('SET_LOGIN_STATUS', false)
+	      	    	store.commit('SET_APP_LOAD_RETRY', true)
+	      	    	return callback('retry')	      
+	      	    }
 		    })
 		}
 		else if (store.getters.user.type === 'admin') {
-	      	return callback(true)
+	      	store.commit('SET_LOGIN_STATUS', true)
+	      	callback(true)
 	    } else {
-		    return callback(false)
+		    store.commit('SET_LOGIN_STATUS', false)
+		    callback(false)
 	    }
 	}
 }
