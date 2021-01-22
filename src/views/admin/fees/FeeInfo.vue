@@ -76,6 +76,7 @@
                         <table class="table table-striped">
                             <thead class="small-xs font-weight-midi text-muted bg-white">
                                 <tr>
+                                    <th></th>
                                     <th>NAME</th>
                                     <th>CLASS</th>
                                     <th>AMOUNT</th>
@@ -87,43 +88,45 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr v-for="(fee, key) in [1,2]" :key="key" class="table-row">
+                                <tr v-for="(fee, key) in [1,2,3]" :key="key" class="table-row">
                                     <td>
-                                        <div class="d-flex justify-content-between">
-                                            <router-link class="text-decoration-none" :to="'/admin/fees/info/'+fee.fee_id">
-                                                <div class="mr-4">
-                                                    <span class="mt-n1">
-                                                        <a href="#" class="h7 text-decoration-none text-dark text-capitalize text-break font-weight-midi">
-                                                            omotola johnson ferrari
-                                                        </a>
-                                                    </span>
-                                                    <div class="small text-dark text-wrap text-break">ADM123425</div>
-                                                </div>
-                                            </router-link>
-                                            <a class="row-toggle text-decoration-none ml-2" @click="tableRowToggle($event)"></a>
-                                        </div>
+                                        <a class="row-toggle text-decoration-none" @click="tableRowToggle($event)"></a>
                                     </td>
-                                    <td class="h7 font-weight-midi" data-colname="CLASS">JS2</td>
-                                    <td class="h7 font-weight-midi" data-colname="AMOUNT:">2000</td>
-                                    <td class="h7 font-weight-midi text-capitalize" data-colname="DISCOUNT:">2019/2020 first term</td>
-                                    <td class="h7 font-weight-midi" data-colname="PAID:">Active</td>
-                                    <td class="h7 font-weight-midi" data-colname="BALANCE:">2020-10-10</td>
-                                    <td class="h7 font-weight-midi" data-colname="STATUS"></td>
-                                    <td class="h7 font-weight-midi" data-colname="">
-                                        <div class="dropdown">
-                                            <a class="text-muted" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-ellipsis-v"></i></a>
+                                    <td>
+                                        <div class="dropdown pt-1 pt-md-0">
+                                            <a class="text-muted" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-ellipsis-h fa-sm"></i></a>
                                             <div class="dropdown-menu dropdown-menu-right border-0 shadow py-3" aria-labelledby="dropdownMenuLink">
-                                                <a class="dropdown-item small font-weight-midi py-2" href="#">Discount</a>
+                                                <a class="dropdown-item small font-weight-midi py-2" href="#">Apply Discount</a>
+                                                <a class="dropdown-item small font-weight-midi py-2" href="#">Cancel Invoice</a>
                                             </div>
                                         </div>
+
+                                        <div class="d-flex align-items-start">
+                                            <img src="@/assets/images/user.png" class="rounded-circle mr-2 border bg-light" width="38" height="38">
+                                            <div class="mt-n1">
+                                                <a href="#" class="h7 text-decoration-none text-capitalize text-break font-weight-midi">
+                                                    sunday jones ferrari
+                                                </a>
+                                                <div class="small-xs text-muted text-capitalize font-weight-midi text-break">ADM452017</div>
+                                            </div>
+                                        </div>                                                                                
                                     </td>
+
+                                    <td class="h7 font-weight-midi" data-colname="CLASS">JS2</td>
+                                    <td class="h7 font-weight-midi" data-colname="AMOUNT">&#8358; 2000</td>
+                                    <td class="h7 font-weight-midi" data-colname="DISCOUNT">&#8358; 0.0</td>
+                                    <td class="h7 font-weight-midi" data-colname="PAID">&#8358; 1000</td>
+                                    <td class="h7 font-weight-midi" data-colname="BALANCE">&#8358; 0.0</td>
+                                    <td class="h7 font-weight-midi" data-colname="STATUS">owing</td>
+                                    <td></td>
                                 </tr>
                             </tbody>
                         </table>
                     </div><!--/table-wrapper -->
 
+
                     <empty-list :loaded="loadingState.loaded  && !fetchFeesHasError" :items="fees">
-                        Oops we can't find any Fee
+                        Oops no invoice available for this fee
                     </empty-list>
 
                     <!-- <retry-button class="my-4" :list="true" :hasRetry="fetchFeesHasError" 
@@ -142,10 +145,6 @@
                 </div>
                 
             </div>
-
-
-
-
             
         </template>
 
@@ -172,7 +171,7 @@ import { reactive, ref, watch } from 'vue'
 import Fees from '@/apis/Fees'
 
 export default {
-    name: 'GuardianProfile',
+    name: 'FeeInfo',
     components: {
         BaseAdmin,
         LinePreload,
@@ -237,10 +236,29 @@ export default {
 </script>
 
 <style scoped>
-/*@import '@/assets/scss/table/table768';*/
+
+.flex-grow-4 {
+  -ms-flex-positive: 4;
+  flex-grow: 4;
+}
 
 .table tr:last-child {
     border-bottom: 1px solid #dee2e6;
+}
+
+#toggle-table .table tr > td:first-child,
+#toggle-table .table tr > th:first-child {
+    width: 1px !important;
+    padding: 0px !important;
+}
+
+#toggle-table .table tr > td:nth-child(2) .dropdown {
+    position: absolute;
+    display: flex;
+    float: right;
+    vertical-align: top;
+    right: 0;
+    padding-right: 18px;
 }
 
 @media (max-width: 768px) {
@@ -249,71 +267,100 @@ export default {
         table-layout: fixed;
     }
 
-    #toggle-table  .table thead tr > th:not(:nth-child(1)),
-    #toggle-table  .table tbody tr > td:not(:nth-child(1)) {
+    #toggle-table  .table thead tr > th:not(:nth-child(1)):not(:nth-child(2)),
+    #toggle-table  .table tbody tr > td:not(:nth-child(1)):not(:nth-child(2)) {
         display: none;
     }
 
-    #toggle-table  .table tbody tr:first-child > td:nth-child(2) {
-       border-top: 0px !important;
+    .table-striped tbody tr:nth-of-type(odd) {
+      background-color: unset;
     }
 
-    #toggle-table .table thead > tr > th:first-child,
-    #toggle-table .table tbody > tr > td:first-child {
-        padding-right: 1.5rem;
+    #toggle-table .table tbody > tr.table-row > td:first-child,
+    #toggle-table  .table thead tr > th:first-child {
+        position: relative !important;
+        padding-left: 2.5rem !important;
+        cursor: pointer !important;
     }
 
-    #toggle-table  .table tbody tr.is-expanded > td {
+    #toggle-table .table tbody tr.is-expanded > td:not(:last-child):not(:nth-child(1)) {
         display: block;
     }
 
-    #toggle-table .table tbody > tr.table-row .row-toggle:before {
-        display: inline-block;
-        float: right;
-        position: absolute;
-        content: '+';
-        font-size: 22px;
-        text-decoration: none;
-        font-weight: 600;
-        color: #4d4d4d;
-        margin-top: -5px;
-        margin-right: 12px;
-        right: 0 !important;
-        padding-left: 5px;
+    #toggle-table .table tbody tr.is-expanded > td:not(:first-child):not(:last-child):not(:nth-child(2)) {
+        padding-top: .1rem !important;
+        padding-bottom: .1rem !important;
     }
 
-    #toggle-table .table tbody > tr.is-expanded .row-toggle:before {
-        display: inline-block;
-        content: '-';
-        font-size: 25px;
-        margin-top: -6px;
-        margin-right: 13px;
-        padding-left: 5px;
+    #toggle-table .table tbody tr.is-expanded > td:not(:first-child):not(:last-child):not(:nth-child(2)) {
+        border-top: 0px !important;
     }
 
-    #toggle-table .table tbody > tr.is-expanded > td:nth-child(2) {
+    #toggle-table   .table tbody tr.is-expanded > td:nth-child(2) {
         margin-top: -1px !important;
+        margin-bottom: .8rem !important
     }
 
-    #toggle-table .table tbody > tr.is-expanded > td:not(:nth-child(1)) {
-        padding-bottom: 5px;
-        padding-top: 5px;
+    #toggle-table .table tbody tr.is-expanded > td:nth-child(2) {
+       background-color: rgba(230, 230, 255, 0.5);
     }
 
-    #toggle-table .table tbody > tr > td:not(:nth-child(1)):before {
+    #toggle-table .table tbody tr > td:nth-child(2) {
+       padding-top: 15px;
+       padding-bottom: 15px;
+    }
+
+    #toggle-table .table tbody tr > td:nth-child(2):hover {
+       background-color: rgba(230, 230, 255, 0.5);
+    }
+
+    #toggle-table .table tbody > tr.table-row .row-toggle,
+    #toggle-table .table thead > tr > th:first-child .row-toggle {
+        left: 0;
+        border: 0;
+        top: 0;
+        z-index: 1;
+        border-radius: 0;
+        display: flex;
+        height: 100%;
+        width: 2.5rem !important;
+        justify-content: center;
+        align-items: center;
+        position: absolute;
+        text-align: center;
+        text-indent: 0 !important;
+        outline: none;
+        background-color: #f6f7f8;
+    }
+
+    #toggle-table .table tbody tr.is-expanded > td > .row-toggle::before {
+        content: "-" !important;
+        display: inline-block;
+        color: #7c8088;
+        font-size: 29px;
+        font-weight: 400;
+    }
+
+    #toggle-table .table tbody > tr.table-row .row-toggle:before {
+        content: "+";
+        color: #7c8088;
+        font-size: 25px;
+        font-weight: 400;
+    }
+
+    #toggle-table .table tbody > tr > td:not(:nth-child(1)):not(:nth-child(2)):before {
         content: attr(data-colname);
         display: -ms-inline-flexbox !important;
         display: inline-flex !important;
         margin-right: 15px;
         font-size: 11px;
-        font-weight: 700;
+        font-weight: 600;
         color: #666;
+        min-width: 25%;
+        margin-right: 15px;
         overflow: hidden;
-        max-width: 30%;
-        min-width: 12%;
         text-overflow: ellipsis;
         white-space: nowrap;
     }
 }
-
 </style>
