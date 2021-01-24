@@ -21,5 +21,13 @@ export default {
     	return Api.post('admin/staffs/update', form, { 
                 headers: { 'Content-Type': 'multipart/form-data' } 
         })
+    },
+
+    feeInvoices (form) {
+        return Api.get(`admin/fees/${form.feeId}/invoices?page=${form.page}`)
+    },
+
+    feeInfo (feeId) {
+        return Api.get(`admin/fees/${feeId}/info`)
     }   
 }

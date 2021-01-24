@@ -77,7 +77,7 @@
 			                    </td>
 			                    <td class="h7 font-weight-midi" data-colname="AMOUNT:">{{ fee.amount }}</td>
 			                    <td class="h7 font-weight-midi" data-colname="DISCOUNT:">{{ fee.discount }}</td>
-			                    <td class="h7 font-weight-midi" data-colname="PAYBASIS:">{{ fee.pay_basis }}</td>
+			                    <td class="h7 font-weight-midi" data-colname="PAYBASIS:">{{ !!fee.installment ? 'available' : 'unavailable' }}</td>
 			                    <td class="h7 font-weight-midi" data-colname="PAID:">{{ fee.paid_amount }}</td>
 			                    <td class="h7 font-weight-midi" data-colname="DUE:">{{ fee.due_amount }}</td>
 			                    <td class="h7 font-weight-midi" data-colname="DATE:">20/05/2020</td>

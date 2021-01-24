@@ -11,11 +11,10 @@
                             <a class="btn btn-light btn-sm small-xs border" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Options</a>
                             <div class="dropdown-menu dropdown-menu-right border-0 shadow py-3" aria-labelledby="dropdownMenuLink">
 
-                                <router-link class="dropdown-item small font-weight-midi py-2" :to="'/admin/guardians/edit/' + route.params.guardianId">Edit Guardian</router-link>
+                                <router-link class="dropdown-item small font-weight-midi py-2" :to="'/admin/guardians/edit/' + route.params.feeId">Edit</router-link>
 
-                                <a class="dropdown-item small font-weight-midi py-2" href="#">Mail Guardian</a>
-                                <a class="dropdown-item small font-weight-midi py-2"  href="#">Achive Guardian</a>
-                                <a class="dropdown-item small font-weight-midi py-2" href="#">Delete Guardian</a>
+                                <a class="dropdown-item small font-weight-midi py-2" href="#">Invoice</a>
+                                <a class="dropdown-item small font-weight-midi py-2" href="#">Delete</a>
 
                             </div>
                         </div>
@@ -26,31 +25,73 @@
         </template>
 
         <template v-slot:default>
-            <div class="card border-0 rounded shadow-sm mt-2">
-                <!-- <div class="card-header bg-white"></div> -->
-                <div class="card-body px-2">
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="d-flex flex-wrap justify-content-between">
-                                <div class="flex flex-column">
-                                    <small class="text-muted">Fee Head</small>
-                                    <h6 class="text-dark text-capitalize">Tuition</h6>
-                                </div>
-
-                                <div class="flex flex-column">
-                                    <small class="text-muted">Description</small>
-                                    <h6 class="text-dark text-capitalize">Tuition</h6>
-                                </div>
-
-                                <div class="flex flex-column">
-                                    <small class="text-muted">Description</small>
-                                    <h6 class="text-dark text-capitalize">Tuition</h6>
-                                </div>
+            <div v-if="loadingState.loaded && Object.keys(feeInfo.info).length > 0" class="card border-0 rounded shadow-sm mt-2">
+                <div class="card-body px-2 pb-2 pt-3">
+                    <div class="form-row">
+                        <div class="col-6 col-sm-3 col-md-2 mb-2">
+                            <div class="flex flex-column">
+                                <div class="text-muted fz-10">FEE HEAD</div>
+                                <div class="h7 text-dark text-capitalize">{{ feeInfo.info.fee_headname }}</div>
                             </div>
                         </div>
 
-                        <div class="col-md-6"></div>
+                        <div class="col-6 col-sm-3 col-md-2 mb-2">
+                            <div class="flex flex-column">
+                                <div class="text-muted fz-10">DESCRIPTION</div>
+                                <div class="h7 text-dark text-truncate text-capitalize">{{ feeInfo.info.description }}</div>
+                            </div>
+                        </div>
+
+                        <div class="col-6 col-sm-3 col-md-2 mb-2">
+                            <div class="flex flex-column">
+                                <div class="text-muted fz-10">CREATED BY</div>
+                                <div class="small text-dark text-capitalize">{{ feeInfo.info.created_by }}</div>
+                            </div>
+                        </div>
+
+                        <div class="col-6 col-sm-3 col-md-2 mb-2">
+                            <div class="flex flex-column">
+                                <div class="text-muted fz-10">STUDENT(S)</div>
+                                <div class="h7 text-dark text-capitalize">{{ feeInfo.invoiceCount }}</div>
+                            </div>
+                        </div>
+
+                        <div class="col-6 col-sm-3 col-md-2 mb-2">
+                            <div class="flex flex-column">
+                                <div class="text-muted fz-10">AMOUNT</div>
+                                <div class="h7 text-dark text-capitalize">{{ feeInfo.info.amount }}</div>
+                            </div>
+                        </div>
+
+                        <div class="col-6 col-sm-3 col-md-2 mb-2">
+                            <div class="flex flex-column">
+                                <div class="text-muted fz-10">TOTAL DISCOUNT</div>
+                                <div class="h7 text-dark text-capitalize">{{ !!feeInfo.totalDiscount ? feeInfo.totalDiscount : '0.0'  }}</div>
+                            </div>
+                        </div>
+
+                        <div class="col-6 col-sm-3 col-md-2 mb-2">
+                            <div class="flex flex-column">
+                                <div class="text-muted fz-10">EXPECTED INCOME</div>
+                                <div class="h7 text-success text-capitalize">&#8358;{{ !!feeInfo.expectedIncome ? feeInfo.expectedIncome : '0.0' }}</div>
+                            </div>
+                        </div>
+
+                        <div class="col-6 col-sm-3 col-md-2 mb-2">
+                            <div class="flex flex-column">
+                                <div class="text-muted fz-10">TOTAL PAID</div>
+                                <div class="h7 text-success text-capitalize">&#8358;{{ !!feeInfo.totalPaid ? feeInfo.totalPaid : '0.0' }}</div>
+                            </div>
+                        </div>
+
+                        <div class="col-6 col-sm-3 col-md-2 mb-2">
+                            <div class="flex flex-column">
+                                <div class="text-muted fz-10">PENDING BALANCE</div>
+                                <div class="h7 text-danger text-capitalize">&#8358;{{ !!feeInfo.totalBalance ? feeInfo.totalBalance : '0.0' }}</div>
+                            </div>
+                        </div>
                     </div>
+
                 </div>
             </div>
 
@@ -71,8 +112,8 @@
 
                 <line-preload :loading="loadingState.loading"></line-preload>
 
-                <div class="card-body px-0 pt-0 min-100">
-                    <div id="toggle-table">
+                <div class="card-body px-0 pt-0 pb-2 min-100">
+                    <div v-if="loadingState.loaded && !fetchFeesHasError " id="toggle-table">
                         <table class="table table-striped">
                             <thead class="small-xs font-weight-midi text-muted bg-white">
                                 <tr>
@@ -88,7 +129,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr v-for="(fee, key) in [1,2,3]" :key="key" class="table-row">
+                                <tr v-for="(fee, key) in feeInvoices" :key="key" class="table-row">
                                     <td>
                                         <a class="row-toggle text-decoration-none" @click="tableRowToggle($event)"></a>
                                     </td>
@@ -101,22 +142,22 @@
                                             </div>
                                         </div>
 
-                                        <div class="d-flex align-items-start">
+                                        <div class="d-flex align-items-start mr-2r">
                                             <img src="@/assets/images/user.png" class="rounded-circle mr-2 border bg-light" width="38" height="38">
-                                            <div class="mt-n1">
+                                            <h6>
                                                 <a href="#" class="h7 text-decoration-none text-capitalize text-break font-weight-midi">
-                                                    sunday jones ferrari
+                                                    {{fee.firstname}} {{fee.surname}} {{fee.othername}}
                                                 </a>
-                                                <div class="small-xs text-muted text-capitalize font-weight-midi text-break">ADM452017</div>
-                                            </div>
+                                                <div class="small-xs text-muted text-capitalize font-weight-midi text-break">{{fee.admission_number}}</div>
+                                            </h6>
                                         </div>                                                                                
                                     </td>
 
                                     <td class="h7 font-weight-midi" data-colname="CLASS">JS2</td>
-                                    <td class="h7 font-weight-midi" data-colname="AMOUNT">&#8358; 2000</td>
-                                    <td class="h7 font-weight-midi" data-colname="DISCOUNT">&#8358; 0.0</td>
-                                    <td class="h7 font-weight-midi" data-colname="PAID">&#8358; 1000</td>
-                                    <td class="h7 font-weight-midi" data-colname="BALANCE">&#8358; 0.0</td>
+                                    <td class="h7 font-weight-midi" data-colname="AMOUNT">&#8358;{{fee.amount}}</td>
+                                    <td class="h7 font-weight-midi" data-colname="DISCOUNT">&#8358;{{fee.discount}}</td>
+                                    <td class="h7 font-weight-midi" data-colname="PAID">&#8358;{{fee.paid_amount}}</td>
+                                    <td class="h7 font-weight-midi" data-colname="BALANCE">&#8358;{{fee.due_amount}}</td>
                                     <td class="h7 font-weight-midi" data-colname="STATUS">owing</td>
                                     <td></td>
                                 </tr>
@@ -125,17 +166,17 @@
                     </div><!--/table-wrapper -->
 
 
-                    <empty-list :loaded="loadingState.loaded  && !fetchFeesHasError" :items="fees">
-                        Oops no invoice available for this fee
+                    <empty-list :loaded="loadingState.loaded && !fetchFeesHasError" :items="feeInvoices">
+                        Oops no student invoice available for this fee
                     </empty-list>
 
-                    <!-- <retry-button class="my-4" :list="true" :hasRetry="fetchFeesHasError" 
+                    <retry-button class="my-4" :list="true" :hasRetry="fetchFeesHasError" 
                         @retry="e => { 
                             fetchFeesHasError = loadingState.loaded = false; 
-                            fetchFees(); 
+                            fetchFeeInfo(); fetchFeeInvoices();
                         }">
                         Oops something went wrong try again.
-                    </retry-button> -->
+                    </retry-button>
 
                     <!-- Pagination -->
                     <pagination-links class="mt-3" :ListTotalPage="paginate.totalPage" :ListCurrentPage="paginate.currentPage"
@@ -218,17 +259,77 @@ export default {
             page: 1
         })
 
+
         const fetchFeesHasError = ref(false)
-        const fees = ref([])
+
+        const feeInfo = ref({info: {}})
+        const fetchFeeInfo = async () => {
+            let feeId = route.params.feeId
+            loadingState.loading = true
+
+            await Fees.feeInfo(feeId).then((res) => {
+                if(res.data.length > 0) {
+                    feeInfo.value = res.data[0]
+                }
+
+            }).catch((err) => {
+
+                loadingState.loading = false
+                loadingState.loaded = true
+                fetchFeesHasError.value = true
+            })
+        }
+
+        const feeInvoices = ref([])
+        const fetchFeeInvoices = async () => {
+            let id = route.params.feeId
+            let pageId = 1
+            loadingState.loading = true
+
+            if (typeof route.query.page !== 'undefined' && route.query.page !== null ) {
+                pageId = route.query.page;
+            }
+
+            await Fees.feeInvoices({feeId: id, page: pageId }).then((res) => {
+                feeInvoices.value = res.data.data
+
+                const { paging } = usePaginate(res);
+                paginate.value = { ...paginate.value, ...paging }
+
+                loadingState.loading = false
+                loadingState.loaded = true
+                
+            })
+            .catch((err) => {
+                loadingState.loading = false
+                loadingState.loaded = true
+                fetchFeesHasError.value = true
+            })
+        }
+
+        Promise.all([fetchFeeInfo(), fetchFeeInvoices()])
+        .then((v) => {
+            loadingState.loading = false
+            loadingState.loaded = true  
+        })
+
+        watch(() => route.query.page, async (value, old) => {
+            if (typeof value !== 'undefined' && value !== null ) {
+                await fetchFeeInvoices() 
+            }
+        })
+
 
         const tableRowToggle = (event) => {
             event.target.closest('.table-row').classList.toggle('is-expanded');
         }
 
         return {
-            route, loadingState, paginate, navigate,
+            route, loadingState, paginate, navigate, tableRowToggle, 
 
-            fetchFeesHasError, fees, fetchFeesParams, tableRowToggle
+            fetchFeesHasError, fetchFeeInfo, fetchFeeInvoices, feeInvoices, 
+
+            feeInfo, fetchFeesParams
         }
     }
 
@@ -237,13 +338,16 @@ export default {
 
 <style scoped>
 
-.flex-grow-4 {
-  -ms-flex-positive: 4;
-  flex-grow: 4;
-}
-
 .table tr:last-child {
     border-bottom: 1px solid #dee2e6;
+}
+
+.fz-10 {
+    font-size: 10px;
+}
+
+.mr-2r {
+   margin-right: 2rem;
 }
 
 #toggle-table .table tr > td:first-child,
