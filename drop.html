@@ -1,0 +1,270 @@
+<style>
+/*.passport-file {
+    z-index: 1;
+    opacity: -20;
+    position: absolute;
+    width: 55px;
+    margin-left: 22px;
+    margin-top: 50px;
+}
+
+.passport-icon {
+    color: var(--primary);
+    position: absolute;
+    margin-top: 47px;
+    margin-left: 50px;
+    padding: 5px 4px 0px 4px;
+    font-size: 12px;
+    text-align: center;
+    background-color: #fff;
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.15) !important;    
+    height: 1.75rem;
+    width: 1.75rem;
+    border-radius: 50%;
+}
+
+/*@media (min-width: 769px) {
+  #fixed-bottom-nav {
+    display: none !important;
+  }
+  
+}
+@media (max-width: 768px) {
+  .d-footer {
+    display: none;
+  }
+}*/
+
+/*#fixed-bottom-nav {
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 54px;
+  display: flex;
+}
+.bottom-nav-flex {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: space-around;
+  align-items: center;
+}
+.bottom-nav-flex > div {
+  margin-top: 1px;
+  margin-bottom: 0px;
+  font-size: 15px;
+}
+.bottom-nav-flex .small {
+  font-size: 11px;
+  font-weight: 600;
+}
+.bottom-nav-flex > * {
+  color: #666666;
+}
+.bottom-nav-flex > a:hover {
+  color: #666666;
+}
+.b-nav-active {
+  color: #339966;
+}
+.b-nav-active > * {
+  color: #339966;
+}
+
+
+
+
+
+.dropdown-menu.modal-dropmenu {
+    max-width: 280px;
+    width: 500px;
+    left: 6px;
+}
+*/
+
+
+
+
+
+</style>  
+{{student.classname}} {{student.classarm}}  
+{{student.status}}
+{{student.admission_number}}
+<div class="row no-gutters px-0" id="collapseExample">
+    <div class="col text-left">
+        <div class="small-xs text-muted ">Due Fees</div>
+        <div class="small font-weight-bold text-danger">&#8358; 0.0</div>
+    </div>
+    <div class="col text-left px-1 pl-2">
+        <div class="small-xs text-muted">Age</div>
+        <div class="small font-weight-midi text-dark">16 Years</div>
+    </div>
+</div>
+
+
+<div class="border rounded-top-lg rounded-right-lg pt-2 pb-1 px-2 mb-3">
+    <div class="text-capitalize font-weight-midi h7">Adm Date</div>
+    <div class="text-capitalize small">{{student.admission_date}}</div>
+</div>
+
+<div class="border rounded-top-lg rounded-right-lg pt-2 pb-1 px-2 mb-3">
+    <div class="text-capitalize font-weight-midi h7">Health Info</div>
+    <div class="text-capitalize small">Balogun</div>
+</div>
+
+<div class="border rounded-top-lg rounded-right-lg pt-2 pb-1 px-2 mb-3">
+    <div class="text-capitalize font-weight-midi h7">Phone</div>
+    <div class="text-capitalize small">{{student.phone}}</div>
+</div>
+
+<div class="border rounded-top-lg rounded-right-lg pt-2 pb-1 px-2 mb-3">
+    <div class="text-capitalize font-weight-midi h7">Mobile Phone</div>
+    <div class="text-capitalize small">Balogun</div>
+</div>
+
+<div class="border rounded-top-lg rounded-right-lg pt-2 pb-1 px-2 mb-3">
+    <div class="text-capitalize font-weight-midi h7">Email</div>
+    <div class="text-capitalize small">{{student.email}}</div>
+</div>
+
+<div class="border rounded-top-lg rounded-right-lg pt-2 pb-1 px-2 mb-3">
+    <div class="text-capitalize font-weight-midi h7">Home Address</div>
+    <div class="text-capitalize small">{{student.residential_address}}</div>
+</div>
+
+
+<script type="text/javascript">
+import store from '../store'
+import User from '@/apis/User'
+
+// do not delete
+
+export default {
+  async admin (callback) {
+    if (store.getters.user === null || store.getters.user.length <= 0) {
+          await User.me().then((res) => {
+
+          // store.commit('SET_USER', res.data)
+          // if (store.getters.user.type === 'admin') return callback(true)
+         //   else return callback(false)
+
+        })
+        .catch((err) => {
+              // if (err.response.status === 401) return callback(false)
+              // else return callback(false)
+        })
+    }
+    else if (store.getters.user.type === 'admin') {
+          return callback(true)
+      } else {
+        return callback(false)
+      }
+  }
+}
+
+
+// do not delete
+const selectStudent = (event, student) => {
+    if (event.currentTarget.checked) {
+
+        selectedStudents.value.push(student)
+    } else {
+        
+        // if uncheck we will remove student object from selection
+        selectedStudents.value.forEach((selected, index) => {
+            if(selected.student_id === student.student_id) {
+                selectedStudents.value.splice(index, 1);
+            }
+        })                
+    } 
+}
+const dropdownToggle = ref(true)
+
+
+</script>
+
+<style type="text/css">
+  .fade-in {
+  animation: fadeIn ease 10s;
+  -webkit-animation: fadeIn ease 10s;
+  -moz-animation: fadeIn ease 10s;
+  -o-animation: fadeIn ease 10s;
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+@-moz-keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1
+  }
+}
+
+@-webkit-keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1
+  }
+}
+
+@-o-keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1
+  }
+}
+</style>
+
+
+
+
+
+<!-- important do not delete later on -->
+<div class="input-group input-group-solid mb-4">
+    <div class="input-group-prepend">
+        <div class="input-group-text bg-light">
+            <div :class="{'show': dropdownToggle }" class="dropdown"><!-- data-toggle="dropdown" -->
+            <a @click="dropdownToggle = !dropdownToggle"
+                class="dropdown-toggle text-dark text-decoration-none small"
+                role="button" id="dLink"
+                aria-haspopup="true"
+                aria-expanded="false">
+                <i class="fas fa-filter fa-sm"></i>
+                <span class="d-none d-sm-inline"> Filter</span>
+            </a>
+            <div :class="{'show': dropdownToggle }" class="dropdown-menu modal-dropmenu dropdown-menu-right border-0 shadow py-3 px-2" aria-labelledby="dLink">
+                
+                <select class="custom-select" v-model="fetchStudentParams.class" name="class-filter">
+                    <option value="all">All Classes</option>
+                    <option value="1">Demo class</option>
+                </select>
+            </div>
+        </div>
+    </div>
+</div>
+<input class="form-control bg-light" type="search" @keyup.enter="fetchStudents()" v-model="fetchStudentParams.search" placeholder="Search" aria-label="Search">
+</div>
+
+<!-- <div class="custom-control-lg custom-control custom-checkbox mr-n2">
+    <input type="checkbox" class="custom-control-input" 
+        :checked="selectedStudents.some(std => std.student_id === student.student_id)"
+        :disabled="feeInvoices.some(invoice => invoice.student_id === student.student_id)"
+        @click="selectStudent($event, student)" :id="'checkbox'+student.student_id">
+    <label class="custom-control-label" :for="'checkbox'+student.student_id"></label>
+</div> -->

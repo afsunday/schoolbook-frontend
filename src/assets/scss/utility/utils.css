@@ -1,0 +1,293 @@
+/* ===================================================
+    # Class Utilities
+    # Myschoolbook student Management
+    # <afuwapesunday12@gmail.com>
+==================================================== */
+
+.container,
+.container-fluid,
+.container-sm,
+.container-md,
+.container-lg,
+.container-xl {
+  padding-left: 1.875rem;
+  padding-right: 1.875rem;
+}
+
+@media (max-width: 768px) {
+  .container,
+  .container-fluid,
+  .container-sm,
+  .container-md,
+  .container-lg,
+  .container-xl {
+    padding-left: 0.9rem;
+    padding-right: 0.9rem;
+  }
+}
+
+a {
+  outline: 0 !important;
+  text-decoration: none !important;
+}
+
+/* ===================================================
+     flex layouts
+==================================================== */
+.form-row {
+    margin-right: -10px;
+    margin-left: -10px;
+}
+
+.form-row > .form-group {
+    margin-bottom: .45rem;
+}
+
+.form-row > .col, .form-row > [class*="col-"] {
+    padding-right: 10px;
+    padding-left: 10px;
+}
+
+/* ===================================================
+    Form Control
+==================================================== */
+
+.form-control {
+  box-shadow:  none !important;
+}
+
+.form-control:focus {
+  border: 1px solid #0073e6 !important;
+}
+
+.dropdown-item:hover {
+  background-color: rgba(0,0,0,0.10) !important;
+}
+
+.custom-select {
+  box-shadow:  none !important;
+}
+
+.custom-select:focus {
+  border: 1px solid #0073e6 !important;
+}
+
+/*====================================================
+      Table
+====================================================== */
+
+.table-lg th,
+.table-lg td {
+  padding: 0.7rem 1rem 1.2rem 0.6rem !important;
+}
+
+.table thead th {
+  border-bottom: 1px solid #cccccc !important;
+  padding-bottom: 0.5rem !important;
+  padding-top: 1rem !important;
+}
+
+/*===================================================
+      Utils
+=====================================================*/
+
+.no-outline:focus, .no-outline:active {
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+.rounded-lg-top {
+  border-top-left-radius: 0.45rem !important;
+  border-top-right-radius: 0.45rem !important;
+}
+
+.rounded-lg-right {
+  border-top-right-radius: 0.45rem !important;
+  border-bottom-right-radius: 0.45rem !important;
+}
+
+.outline-0 {
+  outline: 0 !important;
+}
+
+.border-2 {
+  border: 2px solid #cccccc;
+}
+
+.min-100 {
+    min-height: 100px;
+}
+
+.small-xs {
+  font-size: 70%;
+  font-weight: 400;
+}
+
+.font-weight-midi {
+  font-weight: 600 !important;
+}
+
+.pb-7 {
+  padding-bottom: 5rem !important;
+}
+
+.px-6 {
+   padding-left: 3.5rem !important;
+   padding-right: 3.5rem !important;
+}
+
+.h7 {
+  margin-bottom: 0.5rem;
+  font-weight: 400;
+  line-height: 1.2;
+  font-size: 0.90rem;
+}
+
+.enrolled { 
+    color:  #009900; 
+}
+
+.dropped { 
+    color: #ff3300;  
+}
+
+.graduated { 
+    color: #0066cc; 
+}
+
+@media (min-width: 400px) {
+   .d-xs-inline {
+      display: inline !important;
+   }
+}
+
+/* =================================================
+       Background Variants
+================================================== */
+
+.bg-light-primary {
+ background-color: rgba(15,15,189, 0.10) !important;
+}
+
+.bg-light-secondary {
+  background-color: rgba(30,30,30, 0.10) !important;
+}
+
+.bg-light-danger {
+  background-color: rgba(255,0,0,0.10) !important;
+}
+
+.bg-light-info {
+  background-color: rgba(0,153,204,0.15) !important;
+}
+
+.bg-light-success {
+  background-color: rgba(0,153,0,0.15) !important;
+}
+
+/* ==================================================
+        Button
+=================================================== */
+.btn-ripple {
+    border: none;
+    border-radius: .25rem;
+    cursor: pointer;
+    background-color: #2196f3;
+    box-shadow: 0 0 2px #999;
+    color: #fff !important;
+    padding-top: .7rem;
+    padding-bottom: .7rem;
+    outline: none !important;
+    box-shadow: none !important;
+}
+
+.ripple {
+    background-position: center;
+    transition: background .9s;
+}
+
+.ripple:hover {
+    background: #47a7f5 radial-gradient(circle, transparent 1%, #47a7f5 1%) center/15000%;
+    color: #fff;
+}
+
+.ripple:active {
+    background-color: #6eb9f7;
+    background-size: 100%;
+    transition: background 0s;
+}
+
+.ripple:disabled {
+    transition: unset;
+}
+
+.btn-xs {
+  padding: 0.25rem 0.4rem;
+  font-size: 0.800rem;
+  font-weight: 600 !important;
+  line-height: 1.3 !important;
+  border-radius: 2px;
+}
+
+/* =================================================
+       Checkboxes
+================================================== */
+
+.custom-control-lg .custom-control-label::before,
+.custom-control-lg .custom-control-label::after {
+  top: 0.1rem !important;
+  left: -2rem !important;
+  width: 1.20rem !important;
+  height:  1.20rem !important;
+  border-radius: 3px !important;
+  outline: none !important;
+  box-shadow: none !important;
+  font-size: 15px !important;
+}
+
+.custom-control-lg .custom-control-label {
+  margin-left: 0.5rem !important;
+  font-size: 1rem !important;
+}
+
+.custom-control-lg .custom-control-label::before {
+  border: 1px solid #cccccc !important;
+}
+
+.custom-control-lg .custom-control-input:checked ~ .custom-control-label::after {
+  color: #fff;
+  border-color: #007bff;
+  background-color: #007bff;
+  transition-delay: 0s !important;
+}
+
+
+/*===================================================
+        Nav Pills
+=====================================================*/
+
+.nav-pills .nav-link {
+  border-radius: 0px !important;
+  color: #666 !important;
+  font-weight: 600 !important;
+  font-size: 0.8rem !important;
+}
+
+.nav-pills .nav-link.active,
+.nav-pills .show > .nav-link {
+  color: #007bff !important;
+  background-color: unset !important;
+  font-weight: 600 !important;
+  font-size: 0.8rem !important;
+  border-bottom: 3px solid #007bff !important;
+}
+
+.nav-pills .nav-link:hover {
+  background-color: rgba(0,0,0,0.075) !important;
+  border-radius: 0.3rem !important;
+}
+
+.nav-pills .nav-link.active:hover {
+  background-color: unset !important;
+  border-radius: unset !important;
+}
