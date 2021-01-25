@@ -11,12 +11,13 @@
                         </div>
                         <div class="">
                             <div class="dropdown">
-                                <a class="btn btn-light btn-sm border" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Options</a>
-                                <div class="dropdown-menu dropdown-menu-right border-0 shadow py-3" aria-labelledby="dropdownMenuLink">
+                                <a class="btn btn-light btn-sm border font-weight-midi" href="#" role="button" id="dpLK" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Options</a>
+                                <div class="dropdown-menu dropdown-menu-right border-0 shadow py-3" aria-labelledby="dpLK">
                                     <router-link class="dropdown-item small font-weight-midi py-2" to="/admin/Students/achives">
-                                    Students Achived</router-link>
-                                    <router-link class="dropdown-item small font-weight-midi py-2" to="/admin/students/add">
                                     Add Student</router-link>
+
+                                    <a @click="clearSelections()" class="dropdown-item small font-weight-midi py-2">
+                                    Clear Selections</a>
                                 </div>
                             </div>
                         </div>
@@ -42,36 +43,42 @@
 
             <!-- filter-Modal -->
             <modal-center :modalBadge="'staticFilterForm'">
-                <div class="form-group mb-1">
-                    <label class="small-xs font-weight-midi mb-0">STATUS</label>
-                    <select class="custom-select" v-model="fetchStudentParams.status" name="status-filter">
-                        <option value="all">All Status</option>
-                        <option value="enrolled">Enrolled</option>
-                        <option value="dropped">Dropped</option>
-                        <option value="graduated">Graduated</option>
-                    </select>
-                </div>
-                <div class="form-group mb-1">
-                    <label class="small-xs mb-0">CLASS</label>
-                    <select class="custom-select" v-model="fetchStudentParams.class" name="class-filter">
-                        <option value="all">All Classes</option>
-                        <option v-for="(xclass, key) in classes" :key="key" :value="xclass.id">
-                            {{ xclass.class_name }} {{ xclass.arm }}
-                        </option>
-                    </select>
-                </div>
-                <div class="form-group mb-1">
-                    <label class="small-xs mb-0">GENDER</label>
-                    <select class="custom-select" v-model="fetchStudentParams.gender" name="gender-filter">
-                        <option value="all">All Genders</option>
-                        <option value="male">Male</option>
-                        <option value="female">Female</option>
-                    </select>
-                </div>
-                <div class="form-group mb-1 mt-2">
-                    <button class="btn btn-outline-primary btn-sm" @click="filterStudents()" type="submit">
-                        Filter
-                    </button>
+                <dot-preload class="mt-3" :loading="loadingState.filter"></dot-preload>
+
+                <div class="body-wrapper min-100">
+                    <div v-if="!loadingState.filter && !filterResourceHasError ">
+                        <div class="form-group mb-1">
+                            <label class="small-xs font-weight-midi mb-0">STATUS</label>
+                            <select class="custom-select" v-model="fetchStudentParams.status" name="status-filter">
+                                <option value="all">All Status</option>
+                                <option value="enrolled">Enrolled</option>
+                                <option value="dropped">Dropped</option>
+                                <option value="graduated">Graduated</option>
+                            </select>
+                        </div>
+                        <div class="form-group mb-1">
+                            <label class="small-xs mb-0">CLASS</label>
+                            <select class="custom-select" v-model="fetchStudentParams.class" name="class-filter">
+                                <option value="all">All Classes</option>
+                                <option v-for="(xclass, key) in classes" :key="key" :value="xclass.id">
+                                    {{ xclass.class_name }} {{ xclass.arm }}
+                                </option>
+                            </select>
+                        </div>
+                        <div class="form-group mb-1">
+                            <label class="small-xs mb-0">GENDER</label>
+                            <select class="custom-select" v-model="fetchStudentParams.gender" name="gender-filter">
+                                <option value="all">All Genders</option>
+                                <option value="male">Male</option>
+                                <option value="female">Female</option>
+                            </select>
+                        </div>
+                        <div class="form-group mb-1 mt-2">
+                            <button class="btn btn-outline-primary btn-sm" @click="filterStudents()" type="submit">
+                                Filter
+                            </button>
+                        </div>
+                    </div>
                 </div>
             </modal-center>
 
@@ -166,6 +173,8 @@ import BaseAdmin from '@/views/admin/shared/BaseAdmin'
 import LinePreload from '@/components/LinePreload'
 import PaginationLinks from '@/components/PaginationLinks'
 import ModalCenter from '@/components/ModalCenter'
+import DotPreload from '@/components/DotPreload'
+
 
 // composables
 import usePaginate from '@/composables/usePaginate'
@@ -185,6 +194,7 @@ export default {
     components: {
         BaseAdmin,
         LinePreload,
+        DotPreload,
         ModalCenter,
         PaginationLinks,
     },
@@ -196,7 +206,8 @@ export default {
 
         let loadingState = reactive({
             loading: false,
-            loaded: false
+            loaded: false,
+            filter: false
         })
 
         // paginate fetched data
@@ -255,15 +266,17 @@ export default {
         })
 
 
-        // onMounted fetch classes
+        const filterResourceHasError = ref(false)
         const classes = ref([])
         const fetchClasses = () => {
             Class.classes().then(res => classes.value = res.data)
             .catch((err) => {
-                //
+                
             })
         }
-        onMounted(async () => await fetchClasses())
+
+        // on created fetch classes  
+        fetchClasses()
 
         
         const filterStudents = async () => {
@@ -274,16 +287,23 @@ export default {
         const { 
             selectedCheckBoxes: selectedStudents, 
             checkAll, checkOne, checkBoxElements, 
-            checkAllCheckBox
+            checkAllCheckBox, removeCheckStorage
         } = useCheckBox('ADMIN_STUDENTS_SELECT');
+
+        const clearSelections = () => {
+            // clear selection from var & remove array locally
+            selectedStudents.value = []
+            removeCheckStorage()
+        }
 
         const tableRowToggle = (event) => {
             event.target.closest('.table-row').classList.toggle('is-expanded');
         }
 
         return {
-            loadingState, paginate, navigate, students, classes, fetchStudentParams, filterStudents,
-            selectedStudents, checkAll, checkOne, checkBoxElements, checkAllCheckBox, tableRowToggle
+            loadingState, paginate, navigate, students, classes, fetchStudentParams, filterStudents, 
+            filterResourceHasError, selectedStudents, checkAll, checkOne, checkBoxElements, checkAllCheckBox, 
+            clearSelections, tableRowToggle
         }
     }
 }

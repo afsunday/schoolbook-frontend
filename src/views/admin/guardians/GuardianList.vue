@@ -270,7 +270,7 @@ export default {
             selectedCheckBoxes: selectedGuardians, 
             checkAll, checkOne, checkBoxElements, 
             checkAllCheckBox
-        } = useCheckBox('GUARDIANS_SELECT');
+        } = useCheckBox('ADMIN_GUARDIANS_SELECT');
 
         const tableRowToggle = (event) => {
             event.target.closest('.table-row').classList.toggle('is-expanded');

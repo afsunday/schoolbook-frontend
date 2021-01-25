@@ -271,7 +271,7 @@ export default {
             selectedCheckBoxes: selectedStaffs, 
             checkAll, checkOne, checkBoxElements, 
             checkAllCheckBox
-        } = useCheckBox('STAFFS_SELECT');
+        } = useCheckBox('ADMIN_STAFFS_SELECT');
 
         const tableRowToggle = (event) => {
             event.target.closest('.table-row').classList.toggle('is-expanded');

@@ -200,34 +200,37 @@
                 <template v-slot:body>
                     <div class="modal-body px-2 mb-3">
 
-                        <retry-button :list="students.length <= 0" :hasRetry="fetchStudentsHasError" 
+                        <retry-button :list="selectedStudents.length <= 0" :hasRetry="fetchStudentsHasError" 
                             @retry="e => { fetchStudentsHasError = false; fetchStudents() }">
                             Oops something went wrong try again.
                         </retry-button>
 
-                        <empty-list :loaded="loadingState.modalLoaded" :items="students">
-                            Oops no students to display
+                        <empty-list :loaded="loadingState.modalLoaded" :items="selectedStudents">
+                            <div class="h6">You dont have any student selected</div>
+
+                            <router-link class="d-flex justify-content-center" :to="'/admin/students'">
+                               <button class="btn btn-primary d-flex twi-btn mb-2" data-dismiss="modal">
+                                   <i class="icon icon-arrow-down icon-lg h4 mb-0"></i>
+                                   <h6 class="h7 font-weight-midi pt-1">Click Here</h6>
+                               </button>
+                            </router-link>
                         </empty-list>
 
-                        <!-- <div v-if="loadingState.modalLoaded && students.length > 0"> -->
-                        <div>
-                            <div class="alert alert-warning alert-dismissible fade show pl-2" role="alert">
-                                <small>If you select student has been invoiced it will be removed during submission</small>
-                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
+                        <div v-if="loadingState.modalLoaded && selectedStudents.length > 0">
+                            <div class="alert alert-warning show pl-2" role="alert">
+                                <small>Already invoiced student will be removed from selection during submission</small>
                             </div>
                             
                             <div  v-for="student in selectedStudents" class="border-0 px-1 pb-0 mb-2">
                                 <div class="d-flex justify-content-between border rounded-top rounded-right pt-2 pb-3 px-2">
                                     <div class="d-flex mr-2">
-                                        <img src="@/3assets/images/user.png" class="rounded border mr-2 mr-sm-3" width="45" height="45" alt=" ">
+                                        <img src="@/assets/images/user.png" class="rounded border mr-2 mr-sm-3" width="45" height="45" alt=" ">
                                         <span class="text-break mt-n1"> 
                                             <div class="small"><a href="#" class="font-weight-midi text-dark mt-n2">{{ student.firstname }} {{ student.surname }} {{ student.othername }}</a></div>
                                             <div class="small text-muted text-pre-wrap">{{ student.classname }} {{ student.classarm }} </div>
                                         </span>
                                     </div>
-                                    <a class="close mt-n1">&times;</a>
+                                    <a href="#" @click="removeSelectedStudent($event, student)" class="close mt-n1">&times;</a>
                                 </div>
                             </div>
                         </div>
@@ -367,6 +370,7 @@ export default {
         })
 
        
+        // on mounted get locally selected students
         const selectedStudents = ref([])
         const localSelections = ref([])
 
@@ -379,8 +383,6 @@ export default {
         })
 
         const fetchStudentsHasError = ref(false)
-        const students = ref([{}, {}])
-
         const fetchStudents = async () => {
             loadingState.modalLoading = true
 
@@ -398,6 +400,16 @@ export default {
         }
 
 
+        const removeSelectedStudent = (event, student) => {
+            selectedStudents.value.forEach((selected, index) => {
+                if(selected.student_id === student.student_id) {
+                    selectedStudents.value.splice(index, 1);
+                }
+            }) 
+        }
+
+
+
         // page styling an toggles
         const tableRowToggle = (event) => {
             event.target.closest('.table-row').classList.toggle('is-expanded');
@@ -409,7 +421,7 @@ export default {
 
             fetchFeeInfo, fetchFeeInvoices, fetchFeesHasError, feeInvoices, feeInfo,  
 
-            students, fetchStudents, fetchStudentsHasError, selectedStudents, 
+            fetchStudents, fetchStudentsHasError, selectedStudents, removeSelectedStudent 
         }
     }
 
@@ -430,10 +442,14 @@ export default {
    margin-right: 2rem;
 }
 
-.dropdown-menu.modal-dropmenu {
-    max-width: 280px;
-    width: 500px;
-    left: 6px;
+.btn.twi-btn {
+    border-radius: 30px;
+}
+
+.icon-arrow-down::before {
+    font-weight: 600;
+    padding-bottom: 0px;
+    margin-bottom: 1rem;
 }
 
 #toggle-table .table tr > td:first-child,
