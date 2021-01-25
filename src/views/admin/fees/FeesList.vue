@@ -147,7 +147,7 @@
                                     </th>
                                     <td>
                                         <div class="d-flex justify-content-between">
-                                            <router-link class="text-decoration-none" :to="'/admin/fees/info/'+fee.fee_id">
+                                            <router-link class="text-decoration-none" :to="`/admin/fees/${fee.fee_id}/info`">
                                                 <div class="mr-4">
                                                     <span class="mt-n1">
                                                         <a href="#" class="h7 text-decoration-none text-dark text-break font-weight-midi">

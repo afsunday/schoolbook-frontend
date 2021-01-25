@@ -13,7 +13,9 @@
 
                                 <router-link class="dropdown-item small font-weight-midi py-2" :to="'/admin/guardians/edit/' + route.params.feeId">Edit</router-link>
 
-                                <a class="dropdown-item small font-weight-midi py-2" href="#">Invoice</a>
+                                <a class="dropdown-item small font-weight-midi py-2" data-backdrop="static" data-keyboard="false"
+                                    data-toggle="modal" data-target="#studentsModal" 
+                                    @click="e => { fetchStudents() }">Add Invoice</a>
                                 <a class="dropdown-item small font-weight-midi py-2" href="#">Delete</a>
 
                             </div>
@@ -73,7 +75,7 @@
                         <div class="col-6 col-sm-3 col-md-2 mb-2">
                             <div class="flex flex-column">
                                 <div class="text-muted fz-10">EXPECTED INCOME</div>
-                                <div class="h7 text-success text-capitalize">&#8358;{{ !!feeInfo.expectedIncome ? feeInfo.expectedIncome : '0.0' }}</div>
+                                <div class="h7 text-success text-primary">&#8358;{{ !!feeInfo.expectedIncome ? feeInfo.expectedIncome : '0.0' }}</div>
                             </div>
                         </div>
 
@@ -96,6 +98,7 @@
             </div>
 
 
+            <!-- invoices card -->
             <div class="card border-0 shadow-sm mt-1 mt-sm-2">
                 <div class="card-header bg-white d-flex justify-content-between rounded-top px-2">
                     <div class="mr-auto">
@@ -105,7 +108,7 @@
                                     <span class=""><i class="icon icon-search icon-lg"></i></span>
                                 </div>
                             </div>
-                            <input class="form-control bg-light" type="search" v-model="fetchFeesParams.search" placeholder="Search" aria-label="Search" />
+                            <input class="form-control bg-light" type="search" placeholder="Search" aria-label="Search" />
                         </div>
                     </div>
                 </div>
@@ -113,7 +116,7 @@
                 <line-preload :loading="loadingState.loading"></line-preload>
 
                 <div class="card-body px-0 pt-0 pb-2 min-100">
-                    <div v-if="loadingState.loaded && !fetchFeesHasError " id="toggle-table">
+                    <div v-if="loadingState.loaded && !fetchFeesHasError" id="toggle-table">
                         <table class="table table-striped">
                             <thead class="small-xs font-weight-midi text-muted bg-white">
                                 <tr>
@@ -179,14 +182,65 @@
                     </retry-button>
 
                     <!-- Pagination -->
-                    <pagination-links class="mt-3" :ListTotalPage="paginate.totalPage" :ListCurrentPage="paginate.currentPage"
+                    <pagination-links v-if="loadingState.loaded && !fetchFeesHasError" class="mt-3" :ListTotalPage="paginate.totalPage" :ListCurrentPage="paginate.currentPage"
                         :ListPrevPage="paginate.prevPage" :ListNextPage="paginate.nextPage" :ListPagesLength="paginate.pagesLength"
                         @changePage="navigate($event)">
                     </pagination-links>
                 </div>
-                
             </div>
-            
+            <!-- invoice card -->
+
+
+
+            <!-- students-list-modal -->
+            <modal-left :badge="'studentsModal'">
+                <template v-slot:title><i class="icon icon-customer icon-lg"></i><span>Invoice student</span></template>
+                <template v-slot:preloader><line-preload :loading="loadingState.modalLoading"></line-preload></template>
+
+                <template v-slot:body>
+                    <div class="modal-body px-2 mb-3">
+
+                        <retry-button :list="students.length <= 0" :hasRetry="fetchStudentsHasError" 
+                            @retry="e => { fetchStudentsHasError = false; fetchStudents() }">
+                            Oops something went wrong try again.
+                        </retry-button>
+
+                        <empty-list :loaded="loadingState.modalLoaded" :items="students">
+                            Oops no students to display
+                        </empty-list>
+
+                        <!-- <div v-if="loadingState.modalLoaded && students.length > 0"> -->
+                        <div>
+                            <div class="alert alert-warning alert-dismissible fade show pl-2" role="alert">
+                                <small>If you select student has been invoiced it will be removed during submission</small>
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            
+                            <div  v-for="student in selectedStudents" class="border-0 px-1 pb-0 mb-2">
+                                <div class="d-flex justify-content-between border rounded-top rounded-right pt-2 pb-3 px-2">
+                                    <div class="d-flex mr-2">
+                                        <img src="@/3assets/images/user.png" class="rounded border mr-2 mr-sm-3" width="45" height="45" alt=" ">
+                                        <span class="text-break mt-n1"> 
+                                            <div class="small"><a href="#" class="font-weight-midi text-dark mt-n2">{{ student.firstname }} {{ student.surname }} {{ student.othername }}</a></div>
+                                            <div class="small text-muted text-pre-wrap">{{ student.classname }} {{ student.classarm }} </div>
+                                        </span>
+                                    </div>
+                                    <a class="close mt-n1">&times;</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </template>
+
+                <template v-slot:footer>
+                    <div></div>
+                </template>
+            </modal-left>
+            <!--- students list modal -->
+
+
         </template>
 
     </base-admin>
@@ -199,6 +253,7 @@ import LinePreload from '@/components/LinePreload'
 import PaginationLinks from '@/components/PaginationLinks'
 import RetryButton from '@/components/RetryButton'
 import EmptyList from '@/components/EmptyList'
+import ModalLeft from '@/components/ModalLeft'
 
 // composables
 import usePaginate from '@/composables/usePaginate'
@@ -206,10 +261,11 @@ import usePaginate from '@/composables/usePaginate'
 // library:vue
 import { useStore } from 'vuex'
 import { useRouter, useRoute } from 'vue-router'
-import { reactive, ref, watch } from 'vue'
+import { reactive, ref, watch, onMounted } from 'vue'
 
 // apis
 import Fees from '@/apis/Fees'
+import Student from '@/apis/Student'
 
 export default {
     name: 'FeeInfo',
@@ -218,7 +274,8 @@ export default {
         LinePreload,
         PaginationLinks,
         RetryButton,
-        EmptyList
+        EmptyList,
+        ModalLeft
     },
 
     setup() {
@@ -229,10 +286,12 @@ export default {
         let loadingState = reactive({
             loading: false,
             loaded: false,
-            filter: false
+            filter: false,
+            modalLoaded: true,
+            modalLoading: false
         })
 
-        // paginate fetched data
+        // paginate list of invoices
         const paginate = ref({
             currentPage: null,
             nextPage: false,
@@ -242,23 +301,11 @@ export default {
         })
 
 
-        // navigate the guardian reseult list on modal
+        // navigate the the list of students invoices
         const navigate = (event) => {
             let toPage = event.currentTarget.attributes.id.value;
             router.push({ query: { page : toPage } })
         }
-
-        let fetchFeesParams = reactive({
-            search: '',
-            status: 'all',
-            session_term: 'all',
-            fee_head: 'all',
-            greater: 0,
-            lesser: 0,
-            archives: false,
-            page: 1
-        })
-
 
         const fetchFeesHasError = ref(false)
 
@@ -319,17 +366,50 @@ export default {
             }
         })
 
+       
+        const selectedStudents = ref([])
+        const localSelections = ref([])
 
+        onMounted(async () => {
+            let tempLocalSelections =   JSON.parse(localStorage.getItem('ADMIN_STUDENTS_SELECT'))
+
+            if(tempLocalSelections) {
+                localSelections.value = tempLocalSelections
+            }
+        })
+
+        const fetchStudentsHasError = ref(false)
+        const students = ref([{}, {}])
+
+        const fetchStudents = async () => {
+            loadingState.modalLoading = true
+
+            await Student.selectedBios({selected_students: localSelections.value })
+            .then((res) => {
+                selectedStudents.value = res.data
+                
+                loadingState.modalLoaded = true;
+                loadingState.modalLoading = false;
+            })
+            .catch((err) => {
+                loadingState.modalLoading = false
+                fetchStudentsHasError.value = true
+            })               
+        }
+
+
+        // page styling an toggles
         const tableRowToggle = (event) => {
             event.target.closest('.table-row').classList.toggle('is-expanded');
         }
 
+
         return {
             route, loadingState, paginate, navigate, tableRowToggle, 
 
-            fetchFeesHasError, fetchFeeInfo, fetchFeeInvoices, feeInvoices, 
+            fetchFeeInfo, fetchFeeInvoices, fetchFeesHasError, feeInvoices, feeInfo,  
 
-            feeInfo, fetchFeesParams
+            students, fetchStudents, fetchStudentsHasError, selectedStudents, 
         }
     }
 
@@ -348,6 +428,12 @@ export default {
 
 .mr-2r {
    margin-right: 2rem;
+}
+
+.dropdown-menu.modal-dropmenu {
+    max-width: 280px;
+    width: 500px;
+    left: 6px;
 }
 
 #toggle-table .table tr > td:first-child,

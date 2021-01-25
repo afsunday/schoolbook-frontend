@@ -1,6 +1,6 @@
 <template>
-  	<div class="d-flex justify-content-center">
-	    <div v-if="loading" class="dot-pulse"></div>
+  	<div v-if="loading" class="d-flex justify-content-center">
+	    <div class="dot-pulse"></div>
 	</div>
 </template>
 

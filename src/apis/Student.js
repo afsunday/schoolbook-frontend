@@ -32,5 +32,11 @@ export default {
 
     unAssignGuardian (studentId, guardianId) {
         return Api.get(`admin/students/${studentId}/guardians/${guardianId}/unassign`)
-    } 
+    }, 
+
+    // route to fetch student records by array
+    selectedBios (form) {
+        return Api.post('admin/students/selects', form)
+    }
+
 }

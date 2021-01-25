@@ -128,6 +128,8 @@
 import store from '../store'
 import User from '@/apis/User'
 
+// do not delete
+
 export default {
   async admin (callback) {
     if (store.getters.user === null || store.getters.user.length <= 0) {
@@ -150,6 +152,25 @@ export default {
       }
   }
 }
+
+
+// do not delete
+const selectStudent = (event, student) => {
+    if (event.currentTarget.checked) {
+
+        selectedStudents.value.push(student)
+    } else {
+        
+        // if uncheck we will remove student object from selection
+        selectedStudents.value.forEach((selected, index) => {
+            if(selected.student_id === student.student_id) {
+                selectedStudents.value.splice(index, 1);
+            }
+        })                
+    } 
+}
+const dropdownToggle = ref(true)
+
 
 </script>
 
@@ -203,37 +224,36 @@ export default {
 
 
 
- <div class="form-row mt-5">
-                <div class="col-md-8 mb-2">
-                    <div class="card border-0 shadow-sm">
-                        <div class="card-body px-3">
-                            <div class="d-flex  justify-content-between">
-                                <div class="d-flex flex-column flex-md-row">
-                                    <img class="bg-light border rounded rounded-circle mr-3 mb-3" src="" height="42" width="42">
-                                    <div class="d-flex flex-column">
-                                        <div>
-                                            <div class="small font-weight-midi mb-n1">CLASS</div>
-                                            <small class="text-muted">JS2 - Gold</small>
-                                        </div>
-                                    </div>
-                                </div>
-
-
-                                <div class="dropdown">
-                                    <a class="text-muted h6" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-ellipsis-v"></i></a>
-                                    <div class="dropdown-menu dropdown-menu-right border-0 shadow py-3" aria-labelledby="dropdownMenuLink">
-                                        <a class="dropdown-item small font-weight-midi py-2" href="#">Apply Discount</a>
-                                        <a class="dropdown-item small font-weight-midi py-2" href="#">Cancel Invoice</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-md-4">
-                    <div class="card border-0 shadow-sm">
-                        <div class="card-body"></div>
-                    </div>
-                </div>
+<!-- important do not delete later on -->
+<div class="input-group input-group-solid mb-4">
+    <div class="input-group-prepend">
+        <div class="input-group-text bg-light">
+            <div :class="{'show': dropdownToggle }" class="dropdown"><!-- data-toggle="dropdown" -->
+            <a @click="dropdownToggle = !dropdownToggle"
+                class="dropdown-toggle text-dark text-decoration-none small"
+                role="button" id="dLink"
+                aria-haspopup="true"
+                aria-expanded="false">
+                <i class="fas fa-filter fa-sm"></i>
+                <span class="d-none d-sm-inline"> Filter</span>
+            </a>
+            <div :class="{'show': dropdownToggle }" class="dropdown-menu modal-dropmenu dropdown-menu-right border-0 shadow py-3 px-2" aria-labelledby="dLink">
+                
+                <select class="custom-select" v-model="fetchStudentParams.class" name="class-filter">
+                    <option value="all">All Classes</option>
+                    <option value="1">Demo class</option>
+                </select>
             </div>
+        </div>
+    </div>
+</div>
+<input class="form-control bg-light" type="search" @keyup.enter="fetchStudents()" v-model="fetchStudentParams.search" placeholder="Search" aria-label="Search">
+</div>
+
+<!-- <div class="custom-control-lg custom-control custom-checkbox mr-n2">
+    <input type="checkbox" class="custom-control-input" 
+        :checked="selectedStudents.some(std => std.student_id === student.student_id)"
+        :disabled="feeInvoices.some(invoice => invoice.student_id === student.student_id)"
+        @click="selectStudent($event, student)" :id="'checkbox'+student.student_id">
+    <label class="custom-control-label" :for="'checkbox'+student.student_id"></label>
+</div> -->

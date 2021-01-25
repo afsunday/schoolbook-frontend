@@ -173,7 +173,7 @@ const routes = [
     },
 
     {
-        path: '/admin/fees/info/:feeId',
+        path: '/admin/fees/:feeId/info',
         name: 'FeeInfo',
         component: () => import(/* webpackChunkName: "admin-Feeinfo" */ '@/views/admin/fees/FeeInfo.vue'),
         beforeEnter: adminGate,

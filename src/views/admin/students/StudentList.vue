@@ -108,6 +108,7 @@
                                     <th>ADM NO</th>
                                     <th>CLASS</th>
                                     <th>GENDER</th>
+                                    <th>ADM. DATE</th>
                                     <th>STATUS</th>
                                 </tr>
                             </thead>
@@ -134,8 +135,9 @@
                                     </td>
                                     <td data-colname="ADM NO">{{ student.admission_number }}</td>
                                     <td class="text-capitalize" data-colname="CLASS">{{ student.classname }} {{ student.classarm }}</td>
-                                    <td class="text-capitalize" data-colname="GENDER:">{{ student.gender }}</td>
-                                    <td class="text-capitalize enrolled" data-colname="DURATION:">{{ student.status }}</td>
+                                    <td class="text-capitalize" data-colname="GENDER">{{ student.gender }}</td>
+                                    <td data-colname="ADM DATE">{{ student.admission_date }}</td>
+                                    <td class="text-capitalize" :class="student.status.toLowerCase()" data-colname="DURATION">{{ student.status }}</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -273,7 +275,7 @@ export default {
             selectedCheckBoxes: selectedStudents, 
             checkAll, checkOne, checkBoxElements, 
             checkAllCheckBox
-        } = useCheckBox('STUDENTS_SELECT');
+        } = useCheckBox('ADMIN_STUDENTS_SELECT');
 
         const tableRowToggle = (event) => {
             event.target.closest('.table-row').classList.toggle('is-expanded');
