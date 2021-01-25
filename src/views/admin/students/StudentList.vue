@@ -44,7 +44,7 @@
             <!-- filter-Modal -->
             <modal-center :modalBadge="'staticFilterForm'">
                 
-                <!-- <dot-preload class="mt-3" :loading="loadingState.filter"></dot-preload> -->
+                <dot-preload class="mt-3" :loading="loadingState.filter"></dot-preload>
 
                 <div class="body-wrapper min-100">
                     <div v-if="!loadingState.filter && !filterResourceHasError ">
