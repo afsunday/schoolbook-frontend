@@ -89,6 +89,7 @@
 		                                <router-link class="nav-link" to="/admin/subjects">Subjects</router-link>
 		                                <router-link class="nav-link" to="/admin/class">Class</router-link>
 		                                <router-link class="nav-link" to="/admin/fees/timetable">Timetable</router-link>
+		                                <router-link class="nav-link" to="/admin/fees/attendance">Gradebook</router-link>
 		                                <router-link class="nav-link" to="/admin/fees/attendance">Attendance</router-link>
 		                            </nav>
 		                        </div>

@@ -1,6 +1,8 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import routes from './routes'
 import NProgress from 'nprogress'
+import store from '../store'
+
 
 NProgress.configure({
   easing: 'ease',
@@ -13,8 +15,11 @@ const router = createRouter({
   routes
 })
 
+
 router.beforeEach(async (to, from) => {
     const authUser = JSON.parse(localStorage.getItem('SB_USER'))
+    store.dispatch('general/abortPendingRequests')
+
 
     if (to.meta.requiresAuth) {
 

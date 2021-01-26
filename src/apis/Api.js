@@ -1,5 +1,6 @@
 import axios from 'axios'
 import Nprogress from 'nprogress'
+import store from '../store'
 
 const Api = axios.create({
   baseURL: 'http://localhost:8000/api'
@@ -9,6 +10,14 @@ Api.defaults.withCredentials = true
 
 Api.interceptors.request.use(config => {
   Nprogress.start()
+    let cancelSource = axios.CancelToken.source()
+
+    // Set cancel token on this request
+    config.cancelToken = cancelSource.token
+
+    // Add to vuex to make cancellation available from anywhere
+    store.commit('general/ADD_CANCEL_TOKEN', cancelSource)
+
   return config
 })
 

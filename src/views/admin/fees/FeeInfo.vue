@@ -101,6 +101,7 @@
             <!-- invoices card -->
             <div class="card border-0 shadow-sm mt-1 mt-sm-2">
                 <div class="card-header bg-white d-flex justify-content-between rounded-top px-2">
+                    <button class="btn btn-primary" @click="removeSelectedStudent()">demo</button>
                     <div class="mr-auto">
                         <div class="input-group input-group-solid">
                             <div class="input-group-prepend">
@@ -194,7 +195,11 @@
 
             <!-- students-list-modal -->
             <modal-left :badge="'studentsModal'">
-                <template v-slot:title><i class="icon icon-customer icon-lg"></i><span>Invoice student</span></template>
+                <template v-slot:title>
+                    <i class="icon icon-customer icon-lg"></i><span>Invoice student</span>
+                    <button class="btn btn-primary" @click="removeSelectedStudent()">demo</button>
+                </template>
+
                 <template v-slot:preloader><line-preload :loading="loadingState.modalLoading"></line-preload></template>
 
                 <template v-slot:body>
@@ -205,8 +210,8 @@
                             Oops something went wrong try again.
                         </retry-button>
 
-                        <empty-list :loaded="loadingState.modalLoaded" :items="selectedStudents">
-                            <div class="h6">You dont have any student selected</div>
+                        <div v-if="loadingState.modalLoaded && selectedStudents.length <= 0" class="mt-3">
+                            <div class="h6 text-center">You dont have any student selected click below to start</div>
 
                             <router-link class="d-flex justify-content-center" :to="'/admin/students'">
                                <button class="btn btn-primary d-flex twi-btn mb-2" data-dismiss="modal">
@@ -214,7 +219,7 @@
                                    <h6 class="h7 font-weight-midi pt-1">Click Here</h6>
                                </button>
                             </router-link>
-                        </empty-list>
+                        </div>
 
                         <div v-if="loadingState.modalLoaded && selectedStudents.length > 0">
                             <div class="alert alert-warning show pl-2" role="alert">
@@ -405,7 +410,7 @@ export default {
                 if(selected.student_id === student.student_id) {
                     selectedStudents.value.splice(index, 1);
                 }
-            }) 
+            })
         }
 
 
@@ -415,7 +420,7 @@ export default {
             event.target.closest('.table-row').classList.toggle('is-expanded');
         }
 
-
+    
         return {
             route, loadingState, paginate, navigate, tableRowToggle, 
 

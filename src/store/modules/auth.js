@@ -6,7 +6,7 @@ const state = {
     user: '',
     appLoadRetry:false,
     appReady: false,
-    loggedIn: false
+    loggedIn: false,
 }
 
 const getters = {
