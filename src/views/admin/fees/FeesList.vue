@@ -167,7 +167,7 @@
                                 </tr>
                             </tbody>
                         </table>
-                    </div><!--/table-wrapper -->
+                    </div><!--/table -->
 
                     <empty-list :loaded="loadingState.loaded  && !fetchFeesHasError" :items="fees">
                         Oops we can't find any Fee
@@ -289,6 +289,7 @@ export default {
                 
                 loadingState.loading = false
                 loadingState.loaded = true
+                fetchFeesHasError.value = false
             })
             .catch((err) => {
                 loadingState.loading = false

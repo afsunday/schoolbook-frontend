@@ -46,8 +46,16 @@
                 
                 <dot-preload class="mt-3" :loading="loadingState.filter"></dot-preload>
 
+                <retry-button class="my-4" :list="true" :hasRetry="filterResourceHasError" 
+                    @retry="e => { 
+                        filterResourceHasError = loadingState.filter = false; 
+                        fetchClasses(); 
+                    }">
+                    Oops unable to fetch filters try again.
+                </retry-button>
+
                 <div class="body-wrapper min-100">
-                    <div v-if="!loadingState.filter && !filterResourceHasError ">
+                    <div v-if="!loadingState.filter && !filterResourceHasError">
                         <div class="form-group mb-1">
                             <label class="small-xs font-weight-midi mb-0">STATUS</label>
                             <select class="custom-select" v-model="fetchStudentParams.status" name="status-filter">
@@ -57,6 +65,7 @@
                                 <option value="graduated">Graduated</option>
                             </select>
                         </div>
+
                         <div class="form-group mb-1">
                             <label class="small-xs mb-0">CLASS</label>
                             <select class="custom-select" v-model="fetchStudentParams.class" name="class-filter">
@@ -66,6 +75,7 @@
                                 </option>
                             </select>
                         </div>
+
                         <div class="form-group mb-1">
                             <label class="small-xs mb-0">GENDER</label>
                             <select class="custom-select" v-model="fetchStudentParams.gender" name="gender-filter">
@@ -74,9 +84,18 @@
                                 <option value="female">Female</option>
                             </select>
                         </div>
-                        <div class="form-group mb-1 mt-2">
+
+                        <div class="custom-control-lg custom-control custom-checkbox">
+                            <input type="checkbox" 
+                                :value="true" 
+                                v-model="fetchStudentParams.archives" 
+                                class="custom-control-input" id="filterHasAchives">
+                            <label class="custom-control-label small" for="filterHasAchives">Student Achives Only</label>
+                        </div>
+
+                        <div class="form-group mb-1 mt-3 mb-3">
                             <button class="btn btn-outline-primary btn-sm" @click="filterStudents()" type="submit">
-                                Filter
+                                Apply Filter
                             </button>
                         </div>
                     </div>
@@ -102,7 +121,7 @@
                 <line-preload :loading="loadingState.loading"></line-preload>
 
                 <div class="card-body px-0 pt-0 min-100">
-                    <div v-show="loadingState.loaded" id="toggle-table">
+                    <div v-show="loadingState.loaded && !fetchStudentHasError" id="toggle-table">
                         <table class="table table-striped">
                             <thead class="small-xs font-weight-midi text-muted bg-white">
                                 <tr>
@@ -151,6 +170,18 @@
                         </table>
                     </div><!--/table-->
 
+                    <!-- <empty-list :loaded="loadingState.loaded  && !fetchFeesHasError" :items="fees">
+                        Oops we can't find any Fee
+                    </empty-list>
+
+                    <retry-button class="my-4" :list="true" :hasRetry="fetchFeesHasError" 
+                        @retry="e => { 
+                            fetchFeesHasError = loadingState.loaded = false; 
+                            fetchFees(); 
+                        }">
+                        Oops something went wrong try again.
+                    </retry-button> -->
+
                     <!-- Pagination -->
                     <pagination-links
                     :ListTotalPage="paginate.totalPage"
@@ -175,6 +206,8 @@ import LinePreload from '@/components/LinePreload'
 import PaginationLinks from '@/components/PaginationLinks'
 import ModalCenter from '@/components/ModalCenter'
 import DotPreload from '@/components/DotPreload'
+import RetryButton from '@/components/RetryButton'
+import EmptyList from '@/components/EmptyList'
 
 
 // composables
@@ -198,6 +231,8 @@ export default {
         DotPreload,
         ModalCenter,
         PaginationLinks,
+        RetryButton,
+        EmptyList
     },
 
     setup() {
@@ -226,6 +261,7 @@ export default {
             status: 'all',
             class: 'all',
             gender: 'all',
+            archives: false,
             page: 1
         })
 
@@ -235,7 +271,9 @@ export default {
             router.push({ query: { page : toPage } })
         }
 
+        const fetchStudentHasError = ref(false)
         const students = ref([])
+
         const fetchStudents = async () => {
             loadingState.loading = true;
 
@@ -250,11 +288,14 @@ export default {
                 const { paging } = usePaginate(res);
                 paginate.value = { ...paginate.value, ...paging }
                 
-                loadingState.loading = false;
-                loadingState.loaded = true;
+                loadingState.loading = false
+                loadingState.loaded = true
+                fetchStudentHasError.value = false
             })
             .catch((err) => {
-                console.log(err.response)
+                loadingState.loading = false
+                loadingState.loaded = true
+                fetchStudentHasError.value = true
             })
         }
 
@@ -269,10 +310,19 @@ export default {
 
         const filterResourceHasError = ref(false)
         const classes = ref([])
+
         const fetchClasses = () => {
-            Class.classes().then(res => classes.value = res.data)
-            .catch((err) => {
-                
+            loadingState.filter = true
+
+            Class.classes().then((res) => {
+                classes.value = res.data
+
+                loadingState.filter = false
+                filterResourceHasError.value = false
+            }).catch((err) => {
+
+                filterResourceHasError.value = true
+                loadingState.filter = false
             })
         }
 
@@ -289,10 +339,11 @@ export default {
             selectedCheckBoxes: selectedStudents, 
             checkAll, checkOne, checkBoxElements, 
             checkAllCheckBox, removeCheckStorage
-        } = useCheckBox('ADMIN_STUDENTS_SELECT');
+        } = useCheckBox('ADMIN_STUDENTS_SELECT')
 
+
+        // clear checkboxes from locally and var
         const clearSelections = () => {
-            // clear selection from var & remove array locally
             selectedStudents.value = []
             removeCheckStorage()
         }
@@ -302,9 +353,11 @@ export default {
         }
 
         return {
-            loadingState, paginate, navigate, students, classes, fetchStudentParams, filterStudents, 
-            filterResourceHasError, selectedStudents, checkAll, checkOne, checkBoxElements, checkAllCheckBox, 
-            clearSelections, tableRowToggle
+            loadingState, paginate, navigate, students, classes, fetchClasses, fetchStudentParams, filterStudents, 
+
+            filterResourceHasError, fetchStudentHasError, selectedStudents, checkAll, checkOne, 
+
+            checkBoxElements, checkAllCheckBox, clearSelections, tableRowToggle
         }
     }
 }
