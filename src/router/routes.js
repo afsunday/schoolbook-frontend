@@ -156,6 +156,14 @@ const routes = [
         meta: meta.admin
     },
 
+    {
+        path: '/admin/staffs/add',
+        name: 'AddStaff',
+        component: () => import(/* webpackChunkName: "admin-guardian-add" */ '@/views/admin/staffs/AddStaff.vue'),
+        beforeEnter: adminGate,
+        meta: meta.admin
+    },
+
 
 
     /*

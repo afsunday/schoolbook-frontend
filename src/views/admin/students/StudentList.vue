@@ -11,9 +11,9 @@
                         </div>
                         <div class="">
                             <div class="dropdown">
-                                <a class="btn btn-light btn-sm border font-weight-midi" href="#" role="button" id="dpLK" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Options</a>
+                                <a class="btn btn-light btn-sm border" href="#" role="button" id="dpLK" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Options</a>
                                 <div class="dropdown-menu dropdown-menu-right border-0 shadow py-3" aria-labelledby="dpLK">
-                                    <router-link class="dropdown-item small font-weight-midi py-2" to="/admin/Students/achives">
+                                    <router-link class="dropdown-item small font-weight-midi py-2" :to="'/admin/students/add'">
                                     Add Student</router-link>
 
                                     <a @click="clearSelections()" class="dropdown-item small font-weight-midi py-2">
@@ -76,7 +76,7 @@
                             </select>
                         </div>
 
-                        <div class="form-group mb-1">
+                        <div class="form-group mb-3">
                             <label class="small-xs mb-0">GENDER</label>
                             <select class="custom-select" v-model="fetchStudentParams.gender" name="gender-filter">
                                 <option value="all">All Genders</option>
@@ -90,11 +90,11 @@
                                 :value="true" 
                                 v-model="fetchStudentParams.archives" 
                                 class="custom-control-input" id="filterHasAchives">
-                            <label class="custom-control-label small" for="filterHasAchives">Student Achives Only</label>
+                            <label class="custom-control-label small" for="filterHasAchives">Achives Only</label>
                         </div>
 
                         <div class="form-group mb-1 mt-3 mb-3">
-                            <button class="btn btn-outline-primary btn-sm" @click="filterStudents()" type="submit">
+                            <button class="btn btn-outline-secondary btn-sm" @click="filterStudents()" type="submit">
                                 Apply Filter
                             </button>
                         </div>
@@ -121,7 +121,7 @@
                 <line-preload :loading="loadingState.loading"></line-preload>
 
                 <div class="card-body px-0 pt-0 min-100">
-                    <div v-show="loadingState.loaded && !fetchStudentHasError" id="toggle-table">
+                    <div v-if="loadingState.loaded && !fetchStudentHasError" id="toggle-table">
                         <table class="table table-striped">
                             <thead class="small-xs font-weight-midi text-muted bg-white">
                                 <tr>
@@ -170,30 +170,30 @@
                         </table>
                     </div><!--/table-->
 
-                    <!-- <empty-list :loaded="loadingState.loaded  && !fetchFeesHasError" :items="fees">
+                    <empty-list class="my-4" :loaded="loadingState.loaded  && !fetchStudentHasError" :items="students">
                         Oops we can't find any Fee
                     </empty-list>
 
-                    <retry-button class="my-4" :list="true" :hasRetry="fetchFeesHasError" 
+                    <retry-button class="my-4" :list="true" :hasRetry="fetchStudentHasError" 
                         @retry="e => { 
-                            fetchFeesHasError = loadingState.loaded = false; 
-                            fetchFees(); 
+                            fetchStudentHasError = loadingState.loaded = false; 
+                            fetchStudents(); 
                         }">
                         Oops something went wrong try again.
-                    </retry-button> -->
+                    </retry-button>
 
                     <!-- Pagination -->
                     <pagination-links
-                    :ListTotalPage="paginate.totalPage"
-                    :ListCurrentPage="paginate.currentPage"
-                    :ListPrevPage="paginate.prevPage"
-                    :ListNextPage="paginate.nextPage"
-                    :ListPagesLength="paginate.pagesLength"
-                    @changePage="navigate($event)">
+                        :ListTotalPage="paginate.totalPage"
+                        :ListCurrentPage="paginate.currentPage"
+                        :ListPrevPage="paginate.prevPage"
+                        :ListNextPage="paginate.nextPage"
+                        :ListPagesLength="paginate.pagesLength"
+                        @changePage="navigate($event)">
                     </pagination-links>
 
-                </div>
-            </div>
+                </div><!--/card-body-->
+            </div><!--/card-->
         </template>
 
     </base-admin>
@@ -353,9 +353,9 @@ export default {
         }
 
         return {
-            loadingState, paginate, navigate, students, classes, fetchClasses, fetchStudentParams, filterStudents, 
+            loadingState, paginate, navigate, students, classes, fetchClasses, fetchStudents, fetchStudentParams, 
 
-            filterResourceHasError, fetchStudentHasError, selectedStudents, checkAll, checkOne, 
+            filterStudents, filterResourceHasError, fetchStudentHasError, selectedStudents, checkAll, checkOne, 
 
             checkBoxElements, checkAllCheckBox, clearSelections, tableRowToggle
         }
