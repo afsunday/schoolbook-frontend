@@ -230,6 +230,7 @@ export default {
             employ_date: ''
         })
          
+        // update form data from local storage if any
         const { updateForm, openStorage, removeStorage } = useFormProof(form.value, 'ADD_STAFF_FORM');
 
         // pre populate form fields from localstorage
@@ -240,7 +241,8 @@ export default {
         const { resetForm } = useFormReset(form.value, {
             title: 'mr',
             gender: 'male',
-            nationality: 'nigerian'  
+            nationality: 'nigerian',
+            staff_type: 'teacher',  
         })
 
         const handleFormReset  = () => {
@@ -261,8 +263,8 @@ export default {
             Staff.create(formData).then((res) => {
                 loadingState.loading = loadingState.btnLoading = false
 
-                store.dispatch('general/addSnackbar', res.data.message)
-                resetForm('ADD_STAFF_FORM', (data) => form.value = { ...form.value, ...data })
+                store.dispatch('general/addSnackbar', 'dummy' /*res.data.message*/)
+                // resetForm('ADD_STAFF_FORM', (res) => form.value = { ...form.value, ...res })
             })
             .catch((err) => {
                 loadingState.loading = loadingState.btnLoading = false
