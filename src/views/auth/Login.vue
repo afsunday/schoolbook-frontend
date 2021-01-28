@@ -78,7 +78,7 @@ export default {
             this.$router.push({ path: "/staff/home" });
           } else if (res.data.type === "admin") {
 
-            this.$router.push({ path: "/admin/home" });
+            this.$router.push({ path: "/m/home" });
           }
 
           this.sending = false;

@@ -98,7 +98,7 @@
                         <div class="form-row">
                             <div class="form-group col-md-4">
                                 <label class="small-xs font-weight-midi m-0">DATE OF BIRTH</label>
-                                <input type="text" class="form-control form-control-lg" @input="updateForm('state_origin', $event.target.value, form)" v-model="form.dob">
+                                <input type="date" class="form-control form-control-lg" @change="updateForm('dob', $event.target.value, form)" v-model="form.dob">
                             </div>
 
                             <div class="form-group col-md-4">

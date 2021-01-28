@@ -227,7 +227,7 @@
                                         <div class="d-flex mt-2">
                                             <img src="@/assets/images/user.png" class="rounded-circle mr-2 border bg-light" width="35" height="35">
                                             <span class="text-break overflow-auto mt-n1"> 
-                                                <router-link class="small text-decoration-none text-primary" :to="'/admin/guardians/profile/' + guard.guardian_id">{{ guard.firstname }} {{ guard.surname }}</router-link>
+                                                <router-link class="small text-decoration-none text-primary" :to="'/m/guardians/profile/' + guard.guardian_id">{{ guard.firstname }} {{ guard.surname }}</router-link>
                                                 <div class="small text-muted text-pre-wrap mt-n1">{{ guard.email }}</div>
                                             </span>
                                         </div>
@@ -256,7 +256,7 @@
                                                         :id="guard.guardian_id " :class="{'disabled': loadingState.unAssign }" 
                                                         class="dropdown-item small font-weight-midi py-2">Unassign Guardian</a>
 
-                                                    <router-link class="dropdown-item small font-weight-midi py-2" :to="'/admin/guardians/edit/' + guard.guardian_id">Edit Guardian</router-link>
+                                                    <router-link class="dropdown-item small font-weight-midi py-2" :to="'/m/guardians/edit/' + guard.guardian_id">Edit Guardian</router-link>
                                                 </div>
                                             </div>
                                         </div>
@@ -271,7 +271,7 @@
                                         <div class="d-flex mt-2">
                                             <img src="@/assets/images/user.png" class="rounded-circle mr-2 border bg-light" width="35" height="35">
                                             <span class="text-break overflow-auto mt-n1"> 
-                                                <router-link class="small text-decoration-none text-primary" :to="'/admin/guardians/profile/' + guardian.guardian_id">{{ guardian.firstname }} {{ guardian.surname }}</router-link>
+                                                <router-link class="small text-decoration-none text-primary" :to="'/m/guardians/profile/' + guardian.guardian_id">{{ guardian.firstname }} {{ guardian.surname }}</router-link>
                                                 <div class="small text-muted text-pre-wrap mt-n1">{{ guardian.email }}</div>
                                             </span>
                                         </div>

@@ -13,7 +13,7 @@
                             <div class="dropdown">
                                 <a class="btn btn-light btn-sm border" href="#" role="button" id="dpLK" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Options</a>
                                 <div class="dropdown-menu dropdown-menu-right border-0 shadow py-3" aria-labelledby="dpLK">
-                                    <router-link class="dropdown-item small font-weight-midi py-2" :to="'/admin/students/add'">
+                                    <router-link class="dropdown-item small font-weight-midi py-2" :to="'/m/students/add'">
                                     Add Student</router-link>
 
                                     <a @click="clearSelections()" class="dropdown-item small font-weight-midi py-2">

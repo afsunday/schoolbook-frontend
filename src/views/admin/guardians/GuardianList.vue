@@ -12,10 +12,10 @@
                                 <a class="btn btn-light btn-sm border" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Options</a>
                                 <div class="dropdown-menu dropdown-menu-right border-0 shadow py-3" aria-labelledby="dropdownMenuLink">
 
-                                    <router-link class="dropdown-item small font-weight-midi py-2" to="/admin/guardians/achives">
+                                    <router-link class="dropdown-item small font-weight-midi py-2" to="/m/guardians/achives">
                                     Achived Students</router-link>
 
-                                    <router-link class="dropdown-item small font-weight-midi py-2" to="/admin/guardians/add">
+                                    <router-link class="dropdown-item small font-weight-midi py-2" to="/m/guardians/add">
                                     Add Guardians</router-link>
                                 </div>
                             </div>

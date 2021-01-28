@@ -11,7 +11,7 @@
                             <a class="btn btn-light btn-sm small-xs border" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Options</a>
                             <div class="dropdown-menu dropdown-menu-right border-0 shadow py-3" aria-labelledby="dropdownMenuLink">
 
-                                <router-link class="dropdown-item small font-weight-midi py-2" :to="'/admin/guardians/edit/' + route.params.guardianId">Edit Guardian</router-link>
+                                <router-link class="dropdown-item small font-weight-midi py-2" :to="'/m/guardians/edit/' + route.params.guardianId">Edit Guardian</router-link>
 
                                 <a class="dropdown-item small font-weight-midi py-2" href="#">Mail Guardian</a>
                                 <a class="dropdown-item small font-weight-midi py-2"  href="#">Achive Guardian</a>

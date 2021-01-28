@@ -35,7 +35,7 @@
 						<div class="sb-sidenav-menu">
 							<div class="nav pb-5 pt-4">
 
-								<router-link class="nav-link" to="/admin/home">
+								<router-link class="nav-link" to="/m/home">
 									<div class="sb-nav-link-icon"><i class="fas fa-columns fa-lg"></i></div>
 									Dashboard
 								</router-link>
@@ -49,8 +49,8 @@
 		                        </a>
 		                        <div class="collapse" id="collapseStd" aria-labelledby="headingOne" data-parent="#sidenavAccordion">
 		                            <nav class="sb-sidenav-menu-nested nav">
-		                                <router-link class="nav-link" to="/admin/students">All Students</router-link>
-		                                <router-link class="nav-link" to="/admin/students/add">Add Students</router-link>
+		                                <router-link class="nav-link" to="/m/students">All Students</router-link>
+		                                <router-link class="nav-link" to="/m/students/add">Add Students</router-link>
 		                            </nav>
 		                        </div>							
 
@@ -61,8 +61,8 @@
 		                        </a>
 		                        <div class="collapse" id="collapseStaff" aria-labelledby="headingOne" data-parent="#sidenavAccordion">
 		                            <nav class="sb-sidenav-menu-nested nav">
-		                                <router-link class="nav-link" to="/admin/staffs">All Staffs</router-link>
-		                                <router-link class="nav-link" to="/admin/staffs/add">Add Staff</router-link>
+		                                <router-link class="nav-link" to="/m/staffs">All Staffs</router-link>
+		                                <router-link class="nav-link" to="/m/staffs/add">Add Staff</router-link>
 		                            </nav>
 		                        </div>
 
@@ -73,8 +73,8 @@
 		                        </a>
 		                        <div class="collapse" id="collapseG1" aria-labelledby="headingOne" data-parent="#sidenavAccordion">
 		                            <nav class="sb-sidenav-menu-nested nav">
-		                                <router-link class="nav-link" to="/admin/guardians">All Guardians</router-link>
-		                                <router-link class="nav-link" to="/admin/guardians/add">Add Guardians</router-link>
+		                                <router-link class="nav-link" to="/m/guardians">All Guardians</router-link>
+		                                <router-link class="nav-link" to="/m/guardians/add">Add Guardians</router-link>
 		                            </nav>
 		                        </div>
 
@@ -86,11 +86,11 @@
 		                        </a>
 		                        <div class="collapse" id="collapseAcademics" aria-labelledby="headingOne" data-parent="#sidenavAccordion">
 		                            <nav class="sb-sidenav-menu-nested nav">
-		                                <router-link class="nav-link" to="/admin/subjects">Subjects</router-link>
-		                                <router-link class="nav-link" to="/admin/class">Class</router-link>
-		                                <router-link class="nav-link" to="/admin/fees/timetable">Timetable</router-link>
-		                                <router-link class="nav-link" to="/admin/fees/attendance">Gradebook</router-link>
-		                                <router-link class="nav-link" to="/admin/fees/attendance">Attendance</router-link>
+		                                <router-link class="nav-link" to="/m/subjects">Subjects</router-link>
+		                                <router-link class="nav-link" to="/m/class">Class</router-link>
+		                                <router-link class="nav-link" to="/m/fees/timetable">Timetable</router-link>
+		                                <router-link class="nav-link" to="/m/fees/attendance">Gradebook</router-link>
+		                                <router-link class="nav-link" to="/m/fees/attendance">Attendance</router-link>
 		                            </nav>
 		                        </div>
 
@@ -102,10 +102,10 @@
 		                        </a>
 		                        <div class="collapse" id="collapseFee" aria-labelledby="headingOne" data-parent="#sidenavAccordion">
 		                            <nav class="sb-sidenav-menu-nested nav">
-		                                <router-link class="nav-link" to="/admin/fees/overview">Overview</router-link>
-		                                <router-link class="nav-link" to="/admin/fees">Fees</router-link>
-		                                <router-link class="nav-link" to="/admin/fees/debtors">Debtors</router-link>
-		                                <router-link class="nav-link" to="/admin/fees/transactions">Transactions</router-link>
+		                                <router-link class="nav-link" to="/m/fees/overview">Overview</router-link>
+		                                <router-link class="nav-link" to="/m/fees">Fees</router-link>
+		                                <router-link class="nav-link" to="/m/fees/debtors">Debtors</router-link>
+		                                <router-link class="nav-link" to="/m/fees/transactions">Transactions</router-link>
 		                            </nav>
 		                        </div>
 								

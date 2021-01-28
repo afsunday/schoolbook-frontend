@@ -13,7 +13,7 @@
                             <div class="dropdown">
                                 <a class="btn btn-light btn-sm border" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Options</a>
                                 <div class="dropdown-menu dropdown-menu-right border-0 shadow py-3" aria-labelledby="dropdownMenuLink">
-                                    <router-link class="dropdown-item small font-weight-midi py-2" to="/admin/staffs/add">
+                                    <router-link class="dropdown-item small font-weight-midi py-2" to="/m/staffs/add">
                                     Add Fees</router-link>
                                 </div>
                             </div>
@@ -147,7 +147,7 @@
                                     </th>
                                     <td>
                                         <div class="d-flex justify-content-between">
-                                            <router-link class="text-decoration-none" :to="`/admin/fees/${fee.fee_id}/info`">
+                                            <router-link class="text-decoration-none" :to="`/m/fees/${fee.fee_id}/info`">
                                                 <div class="mr-4">
                                                     <span class="mt-n1">
                                                         <a href="#" class="h7 text-decoration-none text-dark text-break font-weight-midi">

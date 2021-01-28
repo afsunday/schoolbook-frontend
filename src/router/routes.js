@@ -43,9 +43,9 @@ const routes = [
 	*/
 
     {
-        path: '/admin/home',
+        path: '/m/home',
         name: 'Home',
-        component: () => import(/* webpackChunkName: "admin-home" */ '@/views/admin/Home.vue'),
+        component: () => import(/* webpackChunkName: "admin-home" */ '@/views/admin//Home.vue'),
         beforeEnter: adminGate,
         meta: meta.admin
     },
@@ -58,34 +58,34 @@ const routes = [
 	*/
 
     {
-        path: '/admin/students',
+        path: '/m/students',
         name: 'StudentList',
         props: route => ({ query: route.query.page }),
-        component: () => import(/* webpackChunkName: "admin-students" */ '@/views/admin/students/StudentList.vue'),
+        component: () => import(/* webpackChunkName: "admin-students" */ '@/views/admin//students/StudentList.vue'),
         beforeEnter: adminGate,
         meta: meta.admin
     },
 
     {
-        path: '/admin/students/profile/:studentId',
+        path: '/m/students/profile/:studentId',
         name: 'StudentProfile',
-        component: () => import(/* webpackChunkName: "admin-student-view" */ '@/views/admin/students/StudentProfile.vue'),
+        component: () => import(/* webpackChunkName: "admin-student-view" */ '@/views/admin//students/StudentProfile.vue'),
         beforeEnter: adminGate,
         meta: meta.admin
     },
 
     {
-        path: '/admin/students/edit/:studentId',
+        path: '/m/students/edit/:studentId',
         name: 'EditStudent',
-        component: () => import(/* webpackChunkName: "admin-student-edit" */ '@/views/admin/students/EditStudent.vue'),
+        component: () => import(/* webpackChunkName: "admin-student-edit" */ '@/views/admin//students/EditStudent.vue'),
         beforeEnter: adminGate,
         meta: meta.admin
     },
 
     {
-        path: '/admin/students/add',
+        path: '/m/students/add',
         name: 'AddStudent',
-        component: () => import(/* webpackChunkName: "admin-student-view" */ '@/views/admin/students/AddStudent.vue'),
+        component: () => import(/* webpackChunkName: "admin-student-view" */ '@/views/admin//students/AddStudent.vue'),
         beforeEnter: adminGate,
         meta: meta.admin
     },
@@ -99,34 +99,34 @@ const routes = [
 	*/
 
     {
-        path: '/admin/guardians',
+        path: '/m/guardians',
         name: 'GuardianList',
         props: route => ({ query: route.query.page }),
-        component: () => import(/* webpackChunkName: "admin-guardians" */ '@/views/admin/guardians/GuardianList.vue'),
+        component: () => import(/* webpackChunkName: "admin-guardians" */ '@/views/admin//guardians/GuardianList.vue'),
         beforeEnter: adminGate,
         meta: meta.admin
     },
 
     {
-        path: '/admin/guardians/profile/:guardianId',
+        path: '/m/guardians/profile/:guardianId',
         name: 'GuardianProfile',
-        component: () => import(/* webpackChunkName: "admin-student-view" */ '@/views/admin/guardians/GuardianProfile.vue'),
+        component: () => import(/* webpackChunkName: "admin-student-view" */ '@/views/admin//guardians/GuardianProfile.vue'),
         beforeEnter: adminGate,
         meta: meta.admin
     },
 
     {
-        path: '/admin/guardians/edit/:guardianId',
+        path: '/m/guardians/edit/:guardianId',
         name: 'EditGuardian',
-        component: () => import(/* webpackChunkName: "admin-guardian-edit" */ '@/views/admin/guardians/EditGuardian.vue'),
+        component: () => import(/* webpackChunkName: "admin-guardian-edit" */ '@/views/admin//guardians/EditGuardian.vue'),
         beforeEnter: adminGate,
         meta: meta.admin
     },
 
     {
-        path: '/admin/guardians/add',
+        path: '/m/guardians/add',
         name: 'AddGuardian',
-        component: () => import(/* webpackChunkName: "admin-guardian-add" */ '@/views/admin/guardians/AddGuardian.vue'),
+        component: () => import(/* webpackChunkName: "admin-guardian-add" */ '@/views/admin//guardians/AddGuardian.vue'),
         beforeEnter: adminGate,
         meta: meta.admin
     },
@@ -140,26 +140,26 @@ const routes = [
 	*/
 
     {
-        path: '/admin/staffs',
+        path: '/m/staffs',
         name: 'StaffList',
         props: route => ({ query: route.query.page }),
-        component: () => import(/* webpackChunkName: "admin-staffs" */ '@/views/admin/staffs/StaffList.vue'),
+        component: () => import(/* webpackChunkName: "admin-staffs" */ '@/views/admin//staffs/StaffList.vue'),
         beforeEnter: adminGate,
         meta: meta.admin
     },
 
     {
-        path: '/admin/staffs/profile/:staffId',
+        path: '/m/staffs/profile/:staffId',
         name: 'StaffProfile',
-        component: () => import(/* webpackChunkName: "admin-staff-profile" */ '@/views/admin/staffs/StaffProfile.vue'),
+        component: () => import(/* webpackChunkName: "admin-staff-profile" */ '@/views/admin//staffs/StaffProfile.vue'),
         beforeEnter: adminGate,
         meta: meta.admin
     },
 
     {
-        path: '/admin/staffs/add',
+        path: '/m/staffs/add',
         name: 'AddStaff',
-        component: () => import(/* webpackChunkName: "admin-guardian-add" */ '@/views/admin/staffs/AddStaff.vue'),
+        component: () => import(/* webpackChunkName: "admin-guardian-add" */ '@/views/admin//staffs/AddStaff.vue'),
         beforeEnter: adminGate,
         meta: meta.admin
     },
@@ -173,17 +173,17 @@ const routes = [
 	*/
 
     {
-        path: '/admin/fees',
+        path: '/m/fees',
         name: 'FeesList',
-        component: () => import(/* webpackChunkName: "fees-admin" */ '@/views/admin/fees/FeesList.vue'),
+        component: () => import(/* webpackChunkName: "fees-admin" */ '@/views/admin//fees/FeesList.vue'),
         beforeEnter: adminGate,
         meta: meta.admin
     },
 
     {
-        path: '/admin/fees/:feeId/info',
+        path: '/m/fees/:feeId/info',
         name: 'FeeInfo',
-        component: () => import(/* webpackChunkName: "admin-Feeinfo" */ '@/views/admin/fees/FeeInfo.vue'),
+        component: () => import(/* webpackChunkName: "admin-Feeinfo" */ '@/views/admin//fees/FeeInfo.vue'),
         beforeEnter: adminGate,
         meta: meta.admin
     },
@@ -197,9 +197,9 @@ const routes = [
 	*/
 
     {
-        path: '/admin/subjects',
+        path: '/m/subjects',
         name: 'Subjects',
-        component: () => import(/* webpackChunkName: "subject-admin" */ '@/views/admin/Subjects.vue'),
+        component: () => import(/* webpackChunkName: "subject-admin" */ '@/views/admin//Subjects.vue'),
         beforeEnter: adminGate,
         meta: meta.admin
     },
@@ -212,25 +212,25 @@ const routes = [
 	*/
 
     {
-        path: '/admin/class',
+        path: '/m/class',
         name: 'Class',
-        component: () => import(/* webpackChunkName: "admin-class" */ '@/views/admin/Class.vue'),
+        component: () => import(/* webpackChunkName: "admin-class" */ '@/views/admin//Class.vue'),
         beforeEnter: adminGate,
         meta: meta.admin
     },
 
     {
-        path: '/admin/timetable',
+        path: '/m/timetable',
         name: 'Timetable',
-        component: () => import(/* webpackChunkName: "admin-timetable" */ '@/views/admin/Timetable.vue'),
+        component: () => import(/* webpackChunkName: "admin-timetable" */ '@/views/admin//Timetable.vue'),
         beforeEnter: adminGate,
         meta: meta.admin
     },
 
     {
-        path: '/admin/mail',
+        path: '/m/mail',
         name: 'Mail',
-        component: () => import(/* webpackChunkName: "mail-admin" */ '@/views/admin/Mail.vue'),
+        component: () => import(/* webpackChunkName: "mail-admin" */ '@/views/admin//Mail.vue'),
         beforeEnter: adminGate,
         meta: meta.admin
     },

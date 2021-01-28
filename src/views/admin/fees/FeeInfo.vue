@@ -11,7 +11,7 @@
                             <a class="btn btn-light btn-sm small-xs border" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Options</a>
                             <div class="dropdown-menu dropdown-menu-right border-0 shadow py-3" aria-labelledby="dropdownMenuLink">
 
-                                <router-link class="dropdown-item small font-weight-midi py-2" :to="'/admin/guardians/edit/' + route.params.feeId">Edit</router-link>
+                                <router-link class="dropdown-item small font-weight-midi py-2" :to="'/m/guardians/edit/' + route.params.feeId">Edit</router-link>
 
                                 <a class="dropdown-item small font-weight-midi py-2" data-backdrop="static" data-keyboard="false"
                                     data-toggle="modal" data-target="#studentsModal" 
@@ -213,7 +213,7 @@
                         <div v-if="loadingState.modalLoaded && selectedStudents.length <= 0" class="mt-3">
                             <div class="h6 text-center">You dont have any student selected click below to start</div>
 
-                            <router-link class="d-flex justify-content-center" :to="'/admin/students'">
+                            <router-link class="d-flex justify-content-center" :to="'/m/students'">
                                <button class="btn btn-primary d-flex twi-btn mb-2" data-dismiss="modal">
                                    <i class="icon icon-arrow-down icon-lg h4 mb-0"></i>
                                    <h6 class="h7 font-weight-midi pt-1">Click Here</h6>
