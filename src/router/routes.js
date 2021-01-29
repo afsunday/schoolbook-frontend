@@ -45,7 +45,7 @@ const routes = [
     {
         path: '/m/home',
         name: 'Home',
-        component: () => import(/* webpackChunkName: "admin-home" */ '@/views/admin//Home.vue'),
+        component: () => import(/* webpackChunkName: "admin-home" */ '@/views/admin/dashboard/Home.vue'),
         beforeEnter: adminGate,
         meta: meta.admin
     },
@@ -206,8 +206,8 @@ const routes = [
 
     {
         path: '/m/subjects',
-        name: 'Subjects',
-        component: () => import(/* webpackChunkName: "subject-admin" */ '@/views/admin//Subjects.vue'),
+        name: 'SubjectList',
+        component: () => import(/* webpackChunkName: "subject-admin" */ '@/views/admin/subjects/SubjectList.vue'),
         beforeEnter: adminGate,
         meta: meta.admin
     },

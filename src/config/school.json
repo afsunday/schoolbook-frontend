@@ -1,0 +1,7 @@
+{
+    "classLevel": [
+        { "id": 1, "name": "primary" },
+        { "id": 2, "name": "junior" },
+        { "id": 3, "name": "senior" }
+    ]
+}

@@ -8,14 +8,14 @@
                             <small class="text-uppercase">Fee info</small>
                         </div>
                         <div class="dropdown">
-                            <a class="btn btn-light btn-sm small-xs border" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Options</a>
+                            <a class="btn btn-light btn-sm small border" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Options</a>
                             <div class="dropdown-menu dropdown-menu-right border-0 shadow py-3" aria-labelledby="dropdownMenuLink">
 
                                 <router-link class="dropdown-item small font-weight-midi py-2" :to="'/m/guardians/edit/' + route.params.feeId">Edit</router-link>
 
                                 <a class="dropdown-item small font-weight-midi py-2" data-backdrop="static" data-keyboard="false"
                                     data-toggle="modal" data-target="#studentsModal" 
-                                    @click="e => { fetchStudents() }">Add Invoice</a>
+                                    @click="e => { if(selectedStudents.length <= 0) fetchStudents() }">Add Invoice</a>
                                 <a class="dropdown-item small font-weight-midi py-2" href="#">Delete</a>
 
                             </div>
@@ -33,7 +33,7 @@
                         <div class="col-6 col-sm-3 col-md-2 mb-2">
                             <div class="flex flex-column">
                                 <div class="text-muted fz-10">FEE HEAD</div>
-                                <div class="h7 text-dark text-capitalize">{{ feeInfo.info.fee_headname }}</div>
+                                <div class="h7 text-dark text-truncate text-capitalize">{{ feeInfo.info.fee_headname }}</div>
                             </div>
                         </div>
 
@@ -101,7 +101,6 @@
             <!-- invoices card -->
             <div class="card border-0 shadow-sm mt-1 mt-sm-2">
                 <div class="card-header bg-white d-flex justify-content-between rounded-top px-2">
-                    <button class="btn btn-primary" @click="removeSelectedStudent()">demo</button>
                     <div class="mr-auto">
                         <div class="input-group input-group-solid">
                             <div class="input-group-prepend">
@@ -197,7 +196,6 @@
             <modal-left :badge="'studentsModal'">
                 <template v-slot:title>
                     <i class="icon icon-customer icon-lg"></i><span>Invoice student</span>
-                    <button class="btn btn-primary" @click="removeSelectedStudent()">demo</button>
                 </template>
 
                 <template v-slot:preloader><line-preload :loading="loadingState.modalLoading"></line-preload></template>
@@ -210,13 +208,13 @@
                             Oops something went wrong try again.
                         </retry-button>
 
-                        <div v-if="loadingState.modalLoaded && selectedStudents.length <= 0" class="mt-3">
-                            <div class="h6 text-center">You dont have any student selected click below to start</div>
+                        <div v-if="localSelections.length <= 0 || selectedStudents.length <= 0" class="mt-3">
+                            <h6 class="h7 pb-1 text-center">You dont have any student selected click below to start</h6>
 
                             <router-link class="d-flex justify-content-center" :to="'/m/students'">
-                               <button class="btn btn-primary d-flex twi-btn mb-2" data-dismiss="modal">
-                                   <i class="icon icon-arrow-down icon-lg h4 mb-0"></i>
-                                   <h6 class="h7 font-weight-midi pt-1">Click Here</h6>
+                               <button class="btn btn-primary d-flex" data-dismiss="modal">
+                                   <i class="icon icon-arrow-down icon-lg h5 font-weight-midi mb-0"></i>
+                                   <h6 class="small font-weight-midi pt-1">Click Here</h6>
                                </button>
                             </router-link>
                         </div>
@@ -243,7 +241,11 @@
                 </template>
 
                 <template v-slot:footer>
-                    <div></div>
+                    <div class="d-flex justify-content-between px-2 pb-2">
+                        <small class="pt-2">{{ selectedStudents.length }} Student(s) selected</small>
+                        
+                        <button class="btn btn-outline-primary btn-sm">Proceed</button>
+                    </div>
                 </template>
             </modal-left>
             <!--- students list modal -->
@@ -389,19 +391,23 @@ export default {
 
         const fetchStudentsHasError = ref(false)
         const fetchStudents = async () => {
-            loadingState.modalLoading = true
 
-            await Student.selectedBios({selected_students: localSelections.value })
-            .then((res) => {
-                selectedStudents.value = res.data
-                
-                loadingState.modalLoaded = true;
-                loadingState.modalLoading = false;
-            })
-            .catch((err) => {
-                loadingState.modalLoading = false
-                fetchStudentsHasError.value = true
-            })               
+            // only start procedure if there si selection
+            if(localSelections.value.length > 0) {
+                loadingState.modalLoading = true
+
+                await Student.selectedBios({selected_students: localSelections.value })
+                .then((res) => {
+                    selectedStudents.value = res.data
+                    
+                    loadingState.modalLoaded = true;
+                    loadingState.modalLoading = false;
+                })
+                .catch((err) => {
+                    loadingState.modalLoading = false
+                    fetchStudentsHasError.value = true
+                }) 
+            }              
         }
 
 
@@ -426,7 +432,7 @@ export default {
 
             fetchFeeInfo, fetchFeeInvoices, fetchFeesHasError, feeInvoices, feeInfo,  
 
-            fetchStudents, fetchStudentsHasError, selectedStudents, removeSelectedStudent 
+            fetchStudents, fetchStudentsHasError, localSelections, selectedStudents, removeSelectedStudent 
         }
     }
 
@@ -447,15 +453,6 @@ export default {
    margin-right: 2rem;
 }
 
-.btn.twi-btn {
-    border-radius: 30px;
-}
-
-.icon-arrow-down::before {
-    font-weight: 600;
-    padding-bottom: 0px;
-    margin-bottom: 1rem;
-}
 
 #toggle-table .table tr > td:first-child,
 #toggle-table .table tr > th:first-child {

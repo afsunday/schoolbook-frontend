@@ -183,6 +183,14 @@ const selectStudent = (event, student) => {
 
 </script>
 
+<div class="custom-control-lg custom-control custom-checkbox">
+    <input type="checkbox" 
+        :value="true" 
+        v-model="fetchFeesParams.archives" 
+        class="custom-control-input" id="filterHasAchives">
+    <label class="custom-control-label small" for="filterHasAchives">Achives Only</label>
+</div>
+
 <style type="text/css">
   .fade-in {
   animation: fadeIn ease 10s;

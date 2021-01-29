@@ -1,7 +1,7 @@
 <template>
 	<div class="v-admin">
 		<div v-if="store.state.auth.loggedIn && store.state.auth.appReady"  ref="body" class="sb-nav-fixed">
-			<nav class="sb-topnav navbar navbar-expand navbar-light border-bottom shadow-sm bg-white">
+			<nav class="sb-topnav navbar navbar-expand navbar-light border-bottom shadow bg-white">
 				<a class="navbar-brand" href="index.html">School</a>
 				<button class="btn btn-light rounded-circle btn-sm order-1 order-lg-0 my-2 ml-1" @click="navToggle()" id="sidebarToggle" href="#">
 					<i class="fas fa-bars"></i>
@@ -34,6 +34,8 @@
 					<nav class="sb-sidenav accordion sb-sidenav-light bg-white shadow-sm" id="sidenavAccordion">
 						<div class="sb-sidenav-menu">
 							<div class="nav pb-5 pt-4">
+                                
+                                <div class="sb-sidenav-menu-heading py-0">Main</div>
 
 								<router-link class="nav-link" to="/m/home">
 									<div class="sb-nav-link-icon"><i class="fas fa-columns fa-lg"></i></div>
@@ -249,6 +251,14 @@ export default {
 
 <style lang="scss" scoped>
 @import '@/assets/scss/theme/themeone';
+
+.shadow {
+	box-shadow: 0 0.15rem .5rem 0 rgba(33, 40, 50, 0.15) !important;
+}
+
+.sb-sidenav-light .sb-sidenav-menu-nested {
+	border-left: 1px solid #d4dae3
+}
 
 .reload-wrapper {
 	height: 100vh;
