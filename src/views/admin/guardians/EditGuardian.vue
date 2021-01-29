@@ -147,7 +147,7 @@
                                             <h6 href="#" class="small text-decoration-none text-primary">{{ ward.firstname }} {{ ward.surname }} {{ ward.othername }} </h6>
                                             <div class="d-flex flex-wrap">
                                                 <div class="d-inline-flex text-dark mr-2 mr-sm-3">
-                                                    <div class="mr-1"><i class="icon icon-watchlist icon-lg"></i></div>
+                                                    <div class="mr-1"><i class="icon icolist icon-lg"></i></div>
                                                     <div :class="ward.status" class="ml-1 text-break text-capitalize small">{{ ward.status }}</div>
                                                 </div>
                                                 <div class="d-inline-flex text-dark mr-sm-3">
@@ -208,7 +208,7 @@ import useErrorReloadState from '@/composables/useErrorReloadState'
 // library:vue
 import { useStore } from 'vuex'
 import { useRoute } from 'vue-router'
-import { reactive, ref, onMounted } from 'vue'
+import { reactive, ref } from 'vue'
 import { Form as VeeForm, Field} from 'vee-validate'
 
 // apis
@@ -250,7 +250,6 @@ export default {
             let guardianId = route.params.guardianId
 
             await Guardian.me(guardianId).then((res) => {
-                console.log(res)
                 if(res.data.length > 0) {
                     form.value.guardian = res.data[0]
                 }

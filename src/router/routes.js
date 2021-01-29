@@ -67,7 +67,7 @@ const routes = [
     },
 
     {
-        path: '/m/students/profile/:studentId',
+        path: '/m/students/:studentId/profile',
         name: 'StudentProfile',
         component: () => import(/* webpackChunkName: "admin-student-view" */ '@/views/admin//students/StudentProfile.vue'),
         beforeEnter: adminGate,
@@ -75,7 +75,7 @@ const routes = [
     },
 
     {
-        path: '/m/students/edit/:studentId',
+        path: '/m/students/:studentId/edit',
         name: 'EditStudent',
         component: () => import(/* webpackChunkName: "admin-student-edit" */ '@/views/admin//students/EditStudent.vue'),
         beforeEnter: adminGate,
@@ -108,7 +108,7 @@ const routes = [
     },
 
     {
-        path: '/m/guardians/profile/:guardianId',
+        path: '/m/guardians/:guardianId/profile',
         name: 'GuardianProfile',
         component: () => import(/* webpackChunkName: "admin-student-view" */ '@/views/admin//guardians/GuardianProfile.vue'),
         beforeEnter: adminGate,
@@ -116,7 +116,7 @@ const routes = [
     },
 
     {
-        path: '/m/guardians/edit/:guardianId',
+        path: '/m/guardians/:guardianId/edit',
         name: 'EditGuardian',
         component: () => import(/* webpackChunkName: "admin-guardian-edit" */ '@/views/admin//guardians/EditGuardian.vue'),
         beforeEnter: adminGate,
@@ -149,9 +149,17 @@ const routes = [
     },
 
     {
-        path: '/m/staffs/profile/:staffId',
+        path: '/m/staffs/:staffId/profile',
         name: 'StaffProfile',
         component: () => import(/* webpackChunkName: "admin-staff-profile" */ '@/views/admin//staffs/StaffProfile.vue'),
+        beforeEnter: adminGate,
+        meta: meta.admin
+    },
+
+    {
+        path: '/m/staffs/:staffId/edit',
+        name: 'EditStaff',
+        component: () => import(/* webpackChunkName: "admin-guardian-edit" */ '@/views/admin//staffs/EditStaff.vue'),
         beforeEnter: adminGate,
         meta: meta.admin
     },

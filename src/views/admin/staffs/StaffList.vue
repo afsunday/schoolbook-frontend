@@ -128,7 +128,7 @@
                                         <div class="d-inline-flex">
                                             <img src="@/assets/images/user.png" class="rounded-circle mr-2 border bg-light" width="35" height="35" />
                                             <span class="text-break overflow-auto">
-                                                <router-link class="text-decoration-none text-primary" :to="{name: 'StaffProfile', params: { staffId:staff.staff_id }}">{{ staff.firstname }} {{ staff.othername }}
+                                                <router-link class="text-decoration-none text-primary" :to="`/m/staffs/${staff.staff_id}/profile`">{{ staff.firstname }} {{ staff.othername }}
                                                 </router-link>
                                             </span>
                                         </div>

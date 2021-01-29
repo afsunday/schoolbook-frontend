@@ -263,8 +263,8 @@ export default {
             Staff.create(formData).then((res) => {
                 loadingState.loading = loadingState.btnLoading = false
 
-                store.dispatch('general/addSnackbar', 'dummy' /*res.data.message*/)
-                // resetForm('ADD_STAFF_FORM', (res) => form.value = { ...form.value, ...res })
+                store.dispatch('general/addSnackbar', res.data.message)
+                resetForm('ADD_STAFF_FORM', (res) => form.value = { ...form.value, ...res })
             })
             .catch((err) => {
                 loadingState.loading = loadingState.btnLoading = false

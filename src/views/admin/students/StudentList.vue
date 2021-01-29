@@ -217,7 +217,7 @@ import useCheckBox from '@/composables/useCheckBox'
 // library:vue
 import { useStore } from 'vuex'
 import { useRouter, useRoute } from 'vue-router'
-import { reactive, ref, onMounted, onUnmounted, watch } from 'vue'
+import { reactive, ref, watch } from 'vue'
 
 // apis
 import Student from "@/apis/Student"
