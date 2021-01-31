@@ -1,6 +1,6 @@
 <template>
   <button :disabled="loading" @click="$emit('btnEvent', $event)" class="d-flex align-items-center justify-content-center">
-    <div v-if="loading" class="btn-spinner mr-2" />
+    <div v-if="loading" class="btn-spinner me-2" />
     <slot />
   </button>
 </template>

@@ -8,8 +8,8 @@
                             <small class="text-uppercase">Staff Profile</small>
                         </div>
                         <div class="dropdown">
-                            <a class="btn btn-light btn-sm small-xs border" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Options</a>
-                            <div class="dropdown-menu dropdown-menu-right border-0 shadow py-3" aria-labelledby="dropdownMenuLink">
+                            <a class="btn btn-light btn-sm small border" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Options</a>
+                            <div class="dropdown-menu dropdown-menu-right border-0 shadow m-0 py-3" aria-labelledby="dropdownMenuLink">
 
                                 <router-link class="dropdown-item small font-weight-midi py-2" :to="`/m/staffs/${route.params.staffId}/edit`">Edit Staff</router-link>
 
@@ -23,21 +23,21 @@
                     </div>
 
                     <div class="d-flex mt-3 mt-sm-3">
-                        <img class="rounded-lg border bg-light mr-2 mr-sm-3" src="@/assets/images/user1.png" height="70" width="70" alt="">
+                        <img class="rounded-2 border bg-light me-2 me-sm-3" src="@/assets/images/user1.png" height="70" width="70" alt="">
                         <div class="d-flex flex-column align-item-start">
                             <div class="d-inline-flex">
                                 <span class=""><i class="icon icon-users2 icon-lg"></i></span>
-                                <h6 class="h7 text-break font-weight-midi ml-1">
+                                <h6 class="h7 text-break font-weight-midi ms-1">
                                     {{ staff.firstname }} {{ staff.surname }} <span class="d-none d-xs-inline">{{ staff.othername }}</span>
                                 </h6>
                             </div>
                             <div class="d-inline-flex">
                                 <span class=""><i class="icon icon-mail icon-lg"></i></span>
-                                <h6 class="h7 text-break font-weight-midi ml-1">{{ staff.email }}</h6>
+                                <h6 class="h7 text-break font-weight-midi ms-1">{{ staff.email }}</h6>
                             </div>
                             <div class="d-inline-flex">
                                 <span class=""><i class="icon icon-leads1 icon-lg"></i></span>
-                                <h6 class="h7 text-break font-weight-midi ml-1">{{ staff.username }}</h6>
+                                <h6 class="h7 text-break font-weight-midi ms-1">{{ staff.username }}</h6>
                             </div>                           
                         </div>
                     </div>
@@ -45,13 +45,13 @@
                     <div class="border-top mt-2 p-0" style="overflow-x: auto;">
                         <ul class="nav nav-pills mt-2" id="pills-tab" role="tablist" style="flex-wrap: unset;">
                             <li class="nav-item" role="presentation">
-                                <a class="nav-link pl-1 pb-sm-3 pb-3 active" id="pills-bio-tab" data-toggle="pill" href="#pills-bio" role="tab" aria-controls="pills-bio" aria-selected="true">BioData</a>
+                                <a class="nav-link ps-1 pb-sm-3 pb-3 active" id="pills-bio-tab" data-bs-toggle="pill" href="#pills-bio" role="tab" aria-controls="pills-bio" aria-selected="true">BioData</a>
                             </li>
                             <li class="nav-item" role="presentation">
-                                <a class="nav-link px-3 pb-sm-3 pb-3" id="pills-fees-tab" data-toggle="pill" href="#pills-fees" role="tab" aria-controls="pills-fees" aria-selected="false">Wards</a>
+                                <a class="nav-link px-3 pb-sm-3 pb-3" id="pills-fees-tab" data-bs-toggle="pill" href="#pills-fees" role="tab" aria-controls="pills-fees" aria-selected="false">Wards</a>
                             </li>
                             <li class="nav-item" role="presentation">
-                                <a class="nav-link px-3 pb-sm-3 pb-3" id="pills-attendance-tab" data-toggle="pill" href="#pills-attendance" role="tab" aria-controls="pills-attendance" aria-selected="false">Fees</a>
+                                <a class="nav-link px-3 pb-sm-3 pb-3" id="pills-attendance-tab" data-bs-toggle="pill" href="#pills-attendance" role="tab" aria-controls="pills-attendance" aria-selected="false">Fees</a>
                             </li>
                         </ul>
                     </div>

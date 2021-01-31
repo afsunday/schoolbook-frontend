@@ -1,8 +1,7 @@
 <template>
     <div>
         <div class="snackbar-container">
-            <button type="button mr-auto" class="ml-2 close"  @click="removeSnackbar()" aria-label="Close" >
-                <span aria-hidden="true">&times;</span>
+            <button type="button me-auto" class="ms-2 btn-close small"  @click="removeSnackbar()" aria-label="Close" >
             </button>
             <div class="snackbar-body">
                 <div class="text-white">{{ message }}</div>
@@ -50,7 +49,7 @@ export default {
     z-index: 100;
 }
 
-.snackbar-container > .close {
+.snackbar-container > .btn-close {
     outline: 0 !important;
     margin-top: .2rem;
     background-color: #e6f2ff;

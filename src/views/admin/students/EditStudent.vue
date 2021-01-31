@@ -5,18 +5,18 @@
                 <div class="container-lg py-2 pt-sm-3 pb-sm-2">
                     <div class="d-flex justify-content-between">
                         <div class="d-inline-flex mt-1">
-                            <i class="icon icon-user-add icon-lg mr-1"></i> 
+                            <i class="icon icon-user-add icon-lg me-1"></i> 
                             <span class="small">UPDATE STUDENT</span>
                         </div>
                         <div class="dropdown">
-                            <a class="btn btn-light btn-sm border" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Options</a>
-                            <div class="dropdown-menu dropdown-menu-right border-0 shadow py-3" aria-labelledby="dropdownMenuLink">
+                            <a class="btn btn-light btn-sm border" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Options</a>
+                            <div class="dropdown-menu dropdown-menu-right border-0 shadow m-0 py-3" aria-labelledby="dropdownMenuLink">
 
                                 <a class="dropdown-item small font-weight-midi py-2" data-backdrop="static" data-keyboard="false"
-                                 data-toggle="modal" data-target="#deactivate-modal" href="#">Achived Students</a>
+                                 data-bs-toggle="modal" data-bs-target="#deactivate-modal" href="#">Achived Students</a>
 
                                 <a class="dropdown-item small font-weight-midi py-2" data-backdrop="static" data-keyboard="false"
-                                 data-toggle="modal" data-target="#invoice-modal">Add Students</a>
+                                 data-bs-toggle="modal" data-bs-target="#invoice-modal">Add Students</a>
                             </div>
                         </div>
                     </div>
@@ -52,8 +52,8 @@
                         <div v-if="loadingState.loaded && !requiredResourceHasError && Object.keys(student).length > 0" 
                             class="card-body px-2 px-sm-3 pt-2 pb-3">
 
-                            <div class="form-row mt-3">
-                                <div class="form-group  col-md-4">
+                            <div class="row g-3 mt-3">
+                                <div class=" col-md-4">
                                     <label class="small-xs font-weight-midi m-0">FIRSTNAME 
                                         <span class="text-danger">&#42;</span>
                                     </label>
@@ -62,7 +62,7 @@
                                     <small class="text-danger small-xs mt-n3">{{ errors.firstname }}</small>
                                 </div>
 
-                                <div class="form-group col-md-4">
+                                <div class="col-md-4">
                                     <label class="small-xs font-weight-midi m-0">SURNAME 
                                         <span class="text-danger">&#42;</span>
                                     </label>
@@ -71,7 +71,7 @@
                                     <small class="text-danger small-xs mt-n3">{{ errors.surname }}</small>
                                 </div>
 
-                                <div class="form-group col-md-4">
+                                <div class="col-md-4">
                                     <label class="small-xs font-weight-midi m-0">OTHERNAME 
                                         <span class="text-danger">&#42;</span>
                                     </label>
@@ -81,8 +81,8 @@
                                 </div>
                             </div>
 
-                            <div class="form-row">
-                                <div class="form-group col-md-4">
+                            <div class="row g-3">
+                                <div class="col-md-4">
                                     <label class="small-xs font-weight-midi m-0">GENDER <span class="text-danger">&#42;</span></label>
                                     <select class="form-control form-control-lg mb-0" v-model="student.gender">
                                         <option value="male">Male</option>
@@ -91,7 +91,7 @@
                                     <small class="text-danger small-xs mt-n3">{{ errors.gender }}</small>
                                 </div>
 
-                                <div class="form-group col-md-4">
+                                <div class="col-md-4">
                                     <label class="small-xs font-weight-midi m-0">DATE OF BIRTH 
                                         <span class="text-danger">&#42;</span>
                                     </label>
@@ -100,42 +100,42 @@
                                     <small class="text-danger small-xs mt-n3">{{ errors.dob }}</small>
                                 </div>
 
-                                <div class="form-group col-md-4">
+                                <div class="col-md-4">
                                     <label class="small-xs font-weight-midi m-0" for="firstname">BLOOD GROUP</label>
                                     <input type="text" class="form-control form-control-lg mb-0" v-model="student.blood_group">
                                 </div>
                             </div>
 
-                            <div class="form-row">
-                                <div class="form-group col-md-4">
+                            <div class="row g-3">
+                                <div class="col-md-4">
                                     <label class="small-xs font-weight-midi m-0">RELIGION</label>
                                     <input type="text" class="form-control form-control-lg mb-0" v-model="student.religion">
                                 </div>
 
-                                <div class="form-group col-md-4">
+                                <div class="col-md-4">
                                     <label class="small-xs font-weight-midi m-0" for="firstname">NATIONALITY</label>
                                     <select class="form-control form-control-lg mb-0">
                                         <option value="nigerian">NIGRERIAN</option>
                                     </select>
                                 </div>
 
-                                <div class="form-group col-md-4">
+                                <div class="col-md-4">
                                     <label class="small-xs font-weight-midi m-0" for="firstname">STATE OF ORIGIN </label>
                                     <input type="text" class="form-control form-control-lg mb-0" v-model="student.state_origin">
                                 </div>
                             </div>
 
-                            <div class="form-row">
-                                <div class="form-group col-md-4">
+                            <div class="row g-3">
+                                <div class="col-md-4">
                                     <label class="small-xs font-weight-midi m-0" for="firstname">L.G.A OF ORIGIN</label>
                                     <input type="text" class="form-control form-control-lg mb-0" v-model="student.local_govt">
                                 </div>
 
-                                <div class="form-group col-md-4">
+                                <div class="col-md-4">
                                     <label class="small-xs font-weight-midi m-0" for="firstname">ADMISSION CLASS 
                                         <span class="text-danger">&#42;</span>
                                     </label>
-                                    <Field name="class" as="select" class="custom-select custom-select-lg" v-model="student.admission_class" rules="required">
+                                    <Field name="class" as="select" class="form-select form-select-lg" v-model="student.admission_class" rules="required">
                                         <option>--select--</option>
                                         <option v-for="xclass in schoolClasses" :value="xclass.id">
                                             {{ xclass.class_name }} {{ xclass.arm }}
@@ -144,7 +144,7 @@
                                     <small class="text-danger small-xs mt-n3">{{ errors.class }}</small>
                                 </div>
 
-                                <div class="form-group col-md-4">
+                                <div class="col-md-4">
                                     <label class="small-xs font-weight-midi m-0" for="firstname">ADMISSION DATE 
                                         <span class="text-danger">&#42;</span>
                                     </label>
@@ -154,19 +154,19 @@
                                 </div>
                             </div>
 
-                            <div class="form-row">
-                                <div class="form-group col-md-4">
+                            <div class="row g-3">
+                                <div class="col-md-4">
                                     <label class="small-xs font-weight-midi m-0">ADMISSION NUMBER<span class="text-danger">&#42;</span></label>
                                     <input type="text" class="form-control form-control-lg mb-0" :value="student.admission_number" readonly>
                                 </div>
 
-                                <div class="form-group col-md-4">
+                                <div class="col-md-4">
                                     <label class="small-xs font-weight-midi m-0" for="firstname">EMAIL</label>
                                     <Field name="email" as="input" type="text" class="form-control form-control-lg mb-0" rules="email" v-model="student.email" />
                                     <small class="text-danger small-xs mt-n3">{{ errors.email }}</small>
                                 </div>
 
-                                <div class="form-group col-md-4">
+                                <div class="col-md-4">
                                     <label class="small-xs font-weight-midi m-0">PHONE</label>
                                     <Field name="phone" as="input" type="text"
                                         class="form-control form-control-lg mb-0" rules="digits:11" v-model="student.phone" />
@@ -174,20 +174,20 @@
                                 </div>
                             </div>
 
-                            <div class="form-row">
-                                <div class="form-group col-md-4">
+                            <div class="row g-3">
+                                <div class="col-md-4">
                                     <label class="small-xs font-weight-midi m-0">HEALTH INFO/DISABILITY</label>
                                     <textarea class="form-control" rows="2"  v-model="student.health" ></textarea>
                                 </div>
 
-                                <div class="form-group col-md-4">
+                                <div class="col-md-4">
                                     <label class="small-xs font-weight-midi m-0">RESIDENTIAL ADDRESS
                                         <span class="text-danger">&#42;</span>
                                     </label>
                                     <textarea class="form-control" rows="2" v-model="student.residential_address"></textarea>
                                 </div>
 
-                                <div class="form-group col-md-4">
+                                <div class="col-md-4">
                                     <label class="small-xs font-weight-midi m-0" for="firstname">PIC 
                                         <span class="text-danger">&#42;</span>
                                     </label>
@@ -202,11 +202,11 @@
                         <div class="card-header bg-white d-flex align-items-start justify-content-between px-2 px-sm-3">
                             <div class="small-xs font-weight-normal mt-2">STUDENT GUARDIANS</div>
                             <div class="dropdown">
-                                <a class="btn btn-light btn-sm border" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Options</a>
-                                <div class="dropdown-menu dropdown-menu-right border-0 shadow py-3" aria-labelledby="dropdownMenuLink">
+                                <a class="btn btn-light btn-sm border" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Options</a>
+                                <div class="dropdown-menu dropdown-menu-right border-0 shadow m-0 py-3" aria-labelledby="dropdownMenuLink">
 
                                     <a class="dropdown-item small font-weight-midi py-2" data-backdrop="static" data-keyboard="false"
-                                     data-toggle="modal" data-target="#modal" href="#">Assign Guardian</a>                           
+                                     data-bs-toggle="modal" data-bs-target="#modal" href="#">Assign Guardian</a>                           
                                 </div>
                             </div>
                         </div>
@@ -219,20 +219,22 @@
                             Hmm no guardian has been assigned or selected
                         </empty-list>
 
-                        <div class="card-body px-2 px-sm-3">                            
-                            <div class="form-row">
+                        <div class="card-body px-2 px-sm-3">
+                            <div class="row g-3">
+
+                                <!-- guardians already assigned --> 
                                 <div v-for="guard in guardiansAssignedToStudent" :key="guard.guardian_id" class="col-md-4 mb-2">
                                     <div class="border rounded-top rounded-right p-2 pt-3">
-
+                                
                                         <div class="d-flex mt-2">
-                                            <img src="@/assets/images/user.png" class="rounded-circle mr-2 border bg-light" width="35" height="35">
+                                            <img src="@/assets/images/user.png" class="rounded-circle me-2 border bg-light" width="35" height="35">
                                             <span class="text-break overflow-auto mt-n1"> 
                                                 <router-link class="small text-decoration-none text-primary" :to="'/m/guardians/profile/' + guard.guardian_id">{{ guard.firstname }} {{ guard.surname }}</router-link>
                                                 <div class="small text-muted text-pre-wrap mt-n1">{{ guard.email }}</div>
                                             </span>
                                         </div>
 
-                                        <div class="form-group mt-2">
+                                        <div class="mt-2">
                                             <label class="small-xs font-weight-midi m-0">Relationship
                                                 <span class="text-danger">&#42;</span>
                                             </label>
@@ -240,18 +242,18 @@
                                             <small class="text-danger small-xs mt-n3">{{ errors['relationship' + guard.guardian_id] }}</small>
                                         </div>
 
-                                        <div class="form-group mt-2 d-flex justify-content-between">
-                                            <div class="custom-control-lg custom-control custom-checkbox">
-                                                <input type="checkbox" class="custom-control-input" :id="guard.guardian_id" 
+                                        <div class="mt-2 d-flex justify-content-between">
+                                            <div class="form-check-lg form-check">
+                                                <input type="checkbox" class="form-check-input" :id="guard.guardian_id" 
                                                     @click="e => { if (e.currentTarget.checked) guard.emergency = true; else guard.emergency = false }" 
                                                     :checked="!!guard.emergency">
-                                                <label class="custom-control-label" :for="guard.guardian_id">
-                                                    <small class="ml-n2">Emergency contact</small>
+                                                <label class="form-check-label" :for="guard.guardian_id">
+                                                    <small>Emergency contact</small>
                                                 </label>
                                             </div>
                                             <div class="dropdown">
-                                                <a class="text-muted mr-2" href="#" role="button" id="dpLinks" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-ellipsis-v"></i></a>
-                                                <div class="dropdown-menu dropdown-menu-right border-0 shadow py-3" aria-labelledby="dpLinks">
+                                                <a class="text-muted me-2" href="#" role="button" id="dpLinks" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-ellipsis-v"></i></a>
+                                                <div class="dropdown-menu dropdown-menu-right border-0 shadow m-0 py-3" aria-labelledby="dpLinks">
                                                     <a @click="unAssignGuardian($event)" 
                                                         :id="guard.guardian_id " :class="{'disabled': loadingState.unAssign }" 
                                                         class="dropdown-item small font-weight-midi py-2">Unassign Guardian</a>
@@ -262,21 +264,23 @@
                                         </div>
                                     </div>
                                 </div>
+                                <!-- /guardians already assigned --> 
 
+                                <!-- newly selected guardians -->
                                 <div v-for="(guardian, key) in selectedGuardians" :key="guardian.guardian_id" class="col-md-4 mb-2">
                                     <div class="border rounded-top rounded-right p-2 pt-3">
 
                                         <a @click="removeSelectedGuardian(key, guardian.guardian_id)" class="close mt-n3">&times;</a>
 
                                         <div class="d-flex mt-2">
-                                            <img src="@/assets/images/user.png" class="rounded-circle mr-2 border bg-light" width="35" height="35">
+                                            <img src="@/assets/images/user.png" class="rounded-circle me-2 border bg-light" width="35" height="35">
                                             <span class="text-break overflow-auto mt-n1"> 
                                                 <router-link class="small text-decoration-none text-primary" :to="'/m/guardians/profile/' + guardian.guardian_id">{{ guardian.firstname }} {{ guardian.surname }}</router-link>
                                                 <div class="small text-muted text-pre-wrap mt-n1">{{ guardian.email }}</div>
                                             </span>
                                         </div>
 
-                                        <div class="form-group mt-2">
+                                        <div class="mt-2">
                                             <label class="small-xs font-weight-midi m-0">Relationship
                                                 <span class="text-danger">&#42;</span>
                                             </label>
@@ -284,33 +288,33 @@
                                             <small class="text-danger small-xs mt-n3">{{ errors['relationship' + guardian.guardian_id] }}</small>
                                         </div>
 
-                                        <div class="form-group mt-2">
-                                            <div class="custom-control-lg custom-control custom-checkbox">
-                                                <input type="checkbox" class="custom-control-input" :id="guardian.guardian_id" v-model="guardian.emergency" :checked="guardian.emergency">
-                                                <label class="custom-control-label" :for="guardian.guardian_id">
-                                                    <small class="ml-n2">Emergency contact</small>
+                                        <div class="mt-2">
+                                            <div class="form-check-lg form-check">
+                                                <input type="checkbox" class="form-check-input" :id="guardian.guardian_id" v-model="guardian.emergency" :checked="guardian.emergency">
+                                                <label class="form-check-label" :for="guardian.guardian_id">
+                                                    <small>Emergency contact</small>
                                                 </label>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
+                                <!-- newly selected guardians -->
                             </div>
                         </div>
                     </div>
                     <!-- /Assign guardian:student-->
 
                     <!-- submit button -->
-                    <div  v-if="loadingState.loaded && !requiredResourceHasError" class="form-row justify-content-center mt-3">
-                        <div class="col-md-3">
-                            <loading-button type="submit" class="btn btn-ripple ripple btn-block" @btnEvent.prevent="handleSubmit($event, updateStudent)" :loading="loadingState.btnLoading">Update Student
-                            </loading-button>
-                        </div>
+                    <div v-if="loadingState.loaded && !requiredResourceHasError" class="d-flex justify-content-center mt-3">
+                        <loading-button type="submit" class="btn btn-outline-secondary btn- px-3" @btnEvent.prevent="handleSubmit($event, updateStudent)" :loading="loadingState.btnLoading">Update Student
+                        </loading-button>
                     </div>
 
                 </form>
             </VeeForm>
 
 
+            <!-- left-modal -->
             <modal-left :badge="'modal'">
                 <template v-slot:title><i class="icon icon-customer icon-lg"></i><span>Assign Guardian</span></template>
                 <template v-slot:preloader><line-preload :loading="loadingState.modalLoading"></line-preload></template>
@@ -330,26 +334,26 @@
                         </empty-list>
 
                         <div v-if="loadingState.modalLoaded && guardians.length > 0">
-                            <div class="form-group mr-auto px-1">
+                            <div class="me-auto px-1">
                                 <input class="form-control bg-light" type="search" @keyup.enter="filterGuardians()" v-model="guardianFetchParams.search" placeholder="Search names,email or phone" aria-label="Search">
                             </div>
                             
                             <div  v-for="guardian in guardians" class="border-0 px-1 pb-0 mb-2">
                                 <div class="d-flex justify-content-between border rounded-top rounded-right pt-2 pb-3 px-2">
-                                    <div class="d-flex mr-2">
-                                        <img src="assets/images/user.png" class="rounded border mr-2 mr-sm-3" width="45" height="45" alt=" ">
+                                    <div class="d-flex me-2">
+                                        <img src="assets/images/user.png" class="rounded border me-2 me-sm-3" width="45" height="45" alt=" ">
                                         <span class="text-break mt-n1"> 
                                             <div class="small"><a href="#" class="font-weight-midi text-dark mt-n2">{{ guardian.firstname }} {{ guardian.surname }} {{ guardian.othername }}</a></div>
                                             <div class="small text-muted text-pre-wrap">{{ guardian.email }}</div>
                                         </span>
                                     </div>
 
-                                    <div class="custom-control-lg custom-control custom-checkbox mr-n2">
-                                        <input type="checkbox" class="custom-control-input" 
+                                    <div class="form-check-lg form-check me-n2">
+                                        <input type="checkbox" class="form-check-input" 
                                             :checked="selectedGuardians.some(g => g.guardian_id === guardian.guardian_id)"
                                             :disabled="guardiansAssignedToStudent.some(g => g.guardian_id === guardian.guardian_id)"
                                             @click="selectGuardian($event, guardian)" :id="'checkbox'+guardian.guardian_id">
-                                        <label class="custom-control-label" :for="'checkbox'+guardian.guardian_id"></label>
+                                        <label class="form-check-label" :for="'checkbox'+guardian.guardian_id"></label>
                                     </div>
                                 </div>
                             </div>
@@ -365,6 +369,7 @@
                     </pagination-links>
                 </template>
             </modal-left>
+            <!-- /left-modal -->
 
         </template>
     </base-admin>
@@ -663,7 +668,7 @@ export default {
 
             selectGuardian, selectedGuardians, removeSelectedGuardian, requiredResourceHasError,
 
-            guardianFetchParams, fetchGuardians, fetchClasses, fetchStudent, guardians, fetchGuardiansHasError, 
+            guardianFetchParams, fetchGuardians, fetchStudentGuardians,  fetchClasses, fetchStudent, guardians, fetchGuardiansHasError, 
 
             filterGuardians, guardiansAssignedToStudent, paginate, navigate
         }
@@ -681,11 +686,9 @@ export default {
     border-radius: .16rem;
 }
 
-.form-control, .custom-select {
+.form-control, .form-select {
     font-size: 15px;
     font-weight: 500;
-    color: inherit;
-    flex-grow: 1;
     padding-right: .5rem;
     padding-left: .5rem;
 }

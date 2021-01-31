@@ -8,14 +8,14 @@
                             <div class="text-muted small font-weight-midi mt-1">Add Guardian</div>
                         </div>
                         <div class="dropdown">
-                            <a class="btn btn-light btn-sm border" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Options</a>
-                            <div class="dropdown-menu dropdown-menu-right border-0 shadow py-3" aria-labelledby="dropdownMenuLink">
+                            <a class="btn btn-light btn-sm border" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Options</a>
+                            <div class="dropdown-menu dropdown-menu-right border-0 shadow m-0 py-3" aria-labelledby="dropdownMenuLink">
 
                                 <a class="dropdown-item small font-weight-midi py-2" data-backdrop="static" data-keyboard="false"
-                                 data-toggle="modal" data-target="#deactivate-modal" href="#">Achived Students</a>
+                                 data-bs-toggle="modal" data-bs-target="#deactivate-modal" href="#">Achived Students</a>
 
                                 <a class="dropdown-item small font-weight-midi py-2" data-backdrop="static" data-keyboard="false"
-                                 data-toggle="modal" data-target="#invoice-modal">Add Students</a>
+                                 data-bs-toggle="modal" data-bs-target="#invoice-modal">Add Students</a>
                             </div>
                         </div>
                     </div>
@@ -34,123 +34,117 @@
                 <line-preload :loading="loadingState.loading"></line-preload>
 
                 <div class="card-body px-2 px-sm-3 pt-2 pb-3">
-
-                    <!-- form -->
                     <VeeForm v-slot="{ handleSubmit, errors }">
-                        <!-- <form> -->
-                            <div class="form-row mt-3">
-                                <div class="form-group  col-md-4">
-                                    <label class="small-xs font-weight-midi m-0">TITLE <span class="text-danger">&#42;</span></label>
-                                    <select class="custom-select custom-select-lg" v-model="form.title">
-                                         <option value="mr">Mr</option>
-                                        <option value="mrs">Mrs</option>
-                                    </select>
-                                </div>
-
-                                <div class="form-group col-md-4">
-                                        <label class="small-xs font-weight-midi m-0" for="firstname">FIRSTNAME 
-                                            <span class="text-danger">&#42;</span>
-                                        </label>
-                                        <Field name="firstname" as="input" class="form-control form-control-lg mb-0" type="text" rules="required" @input="updateForm('firstname', $event.target.value, form)" v-model="form.firstname" />
-                                        <span class="text-danger small-xs mt-n3">{{ errors.firstname }}</span>
-                                </div>
-
-                                <div class="form-group col-md-4">
-                                        <label class="small-xs font-weight-midi m-0">SURNAME 
-                                            <span class="text-danger">&#42;</span>
-                                        </label>
-                                        <Field name="surname" as="input" class="form-control form-control-lg mb-0" type="text" rules="required" @input="updateForm('surname', $event.target.value, form)" v-model="form.surname" />
-                                        <span class="text-danger small-xs mt-n3">{{ errors.surname }}</span>
-                                </div>
+                        <div class="row g-3 mt-3">
+                            <div class="col-md-4">
+                                <label class="small-xs font-weight-midi m-0">TITLE <span class="text-danger">&#42;</span></label>
+                                <select class="form-select form-select-lg" v-model="form.title">
+                                     <option value="mr">Mr</option>
+                                    <option value="mrs">Mrs</option>
+                                </select>
                             </div>
 
-                            <div class="form-row">
-                                <div class="form-group col-md-4">
-                                        <label class="small-xs font-weight-midi m-0">OTHERNAME 
-                                            <span class="text-danger">&#42;</span>
-                                        </label>
-                                        <Field name="othername" as="input" class="form-control form-control-lg mb-0" type="text" rules="required" @input="updateForm('othername', $event.target.value, form)" v-model="form.othername" />
-                                        <span class="text-danger small-xs mt-n3">{{ errors.othername }}</span>
-                                </div>
+                            <div class="col-md-4">
+                                <label class="small-xs font-weight-midi m-0" for="firstname">FIRSTNAME 
+                                    <span class="text-danger">&#42;</span>
+                                </label>
+                                <Field name="firstname" as="input" class="form-control form-control-lg mb-0" type="text" rules="required" @input="updateForm('firstname', $event.target.value, form)" v-model="form.firstname" />
+                                <span class="text-danger small-xs mt-n3">{{ errors.firstname }}</span>
+                            </div>
 
-                                <div class="form-group col-md-4">
-                                    <label class="small-xs font-weight-midi m-0">GENDER 
+                            <div class="col-md-4">
+                                <label class="small-xs font-weight-midi m-0">SURNAME 
+                                    <span class="text-danger">&#42;</span>
+                                </label>
+                                <Field name="surname" as="input" class="form-control form-control-lg mb-0" type="text" rules="required" @input="updateForm('surname', $event.target.value, form)" v-model="form.surname" />
+                                <span class="text-danger small-xs mt-n3">{{ errors.surname }}</span>
+                            </div>
+                        </div>
+
+                        <div class="row g-3">
+                            <div class="col-md-4">
+                                <label class="small-xs font-weight-midi m-0">OTHERNAME 
+                                    <span class="text-danger">&#42;</span>
+                                </label>
+                                <Field name="othername" as="input" class="form-control form-control-lg mb-0" type="text" rules="required" @input="updateForm('othername', $event.target.value, form)" v-model="form.othername" />
+                                <span class="text-danger small-xs mt-n3">{{ errors.othername }}</span>
+                            </div>
+
+                            <div class="col-md-4">
+                                <label class="small-xs font-weight-midi m-0">GENDER 
+                                    <span class="text-danger">&#42;</span>
+                                </label>
+                                <select class="form-select form-select-lg" v-model="form.gender">
+                                    <option value="male">Male</option>
+                                    <option value="female">Female</option>
+                                </select>
+                            </div> 
+
+                            <div class="col-md-4">
+                                <label class="small-xs font-weight-midi m-0">NATIONALITY 
+                                    <span class="text-danger">&#42;</span>
+                                </label>
+                                <select class="form-select form-select-lg" @change="updateForm('nationality', $event.target.value, form)" >
+                                    <option value="nigerian" selected>NIGERIAN</option>
+                                </select>
+                            </div>                                             
+                        </div>
+
+                        <div class="row g-3">
+                            <div class="col-md-4">
+                                <label class="small-xs font-weight-midi m-0">STATE OF ORIGIN</label>
+                                <input type="text" class="form-control form-control-lg" @input="updateForm('state_origin', $event.target.value, form)" v-model="form.state_origin">
+                            </div>
+
+                            <div class="col-md-4">
+                                <label class="small-xs font-weight-midi m-0">L.G.A OF ORIGIN</label>
+                                <input type="text" class="form-control form-control-lg" @input="updateForm('local_govt', $event.target.value, form)" v-model="form.local_govt" >
+                            </div>
+
+                            <div class="col-md-4">
+                                    <label class="small-xs font-weight-midi m-0">EMAIL 
                                         <span class="text-danger">&#42;</span>
                                     </label>
-                                    <select class="custom-select custom-select-lg" v-model="form.gender">
-                                        <option value="male">Male</option>
-                                        <option value="female">Female</option>
-                                    </select>
-                                </div> 
+                                    <Field name="email" as="input" class="form-control form-control-lg mb-0" type="email" rules="email" @input="updateForm('email', $event.target.value, form)" v-model="form.email" />
+                                    <span class="text-danger small-xs mt-n3">{{ errors.email }}</span>
+                            </div>
+                        </div>
 
-                                <div class="form-group col-md-4">
-                                    <label class="small-xs font-weight-midi m-0">NATIONALITY 
-                                        <span class="text-danger">&#42;</span>
-                                    </label>
-                                    <select class="custom-select custom-select-lg" @change="updateForm('nationality', $event.target.value, form)" >
-                                        <option value="nigerian" selected>NIGERIAN</option>
-                                    </select>
-                                </div>                                             
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label class="small-xs font-weight-midi m-0" for="validate-phone">PHONE 
+                                    <span class="text-danger">&#42;</span>
+                                </label>
+                                <Field name="phone" as="input" class="form-control form-control-lg mb-0" type="text" rules="digits:11" @input="updateForm('phone', $event.target.value, form)" v-model="form.phone" />
+                                <span class="text-danger small-xs mt-n3">{{ errors.phone }}</span>
                             </div>
 
-                            <div class="form-row">
-                                <div class="form-group col-md-4">
-                                    <label class="small-xs font-weight-midi m-0">STATE OF ORIGIN</label>
-                                    <input type="text" class="form-control form-control-lg" @input="updateForm('state_origin', $event.target.value, form)" v-model="form.state_origin">
-                                </div>
+                            
+                            <div class="col-md-6">
+                                <label class="small-xs font-weight-midi m-0">PIC</label>
+                                <Field name="pic" as="input" type="file" class="form-control form-control-lg" @change="form.pic = $event.target.files" />
+                                <span class="text-danger small-xs mt-n3">{{ errors.pic }}</span>
+                            </div>                            
+                        </div>
 
-                                <div class="form-group col-md-4">
-                                    <label class="small-xs font-weight-midi m-0">L.G.A OF ORIGIN</label>
-                                    <input type="text" class="form-control form-control-lg" @input="updateForm('local_govt', $event.target.value, form)" v-model="form.local_govt" >
-                                </div>
-
-                                <div class="form-group col-md-4">
-                                        <label class="small-xs font-weight-midi m-0">EMAIL 
-                                            <span class="text-danger">&#42;</span>
-                                        </label>
-                                        <Field name="email" as="input" class="form-control form-control-lg mb-0" type="email" rules="email" @input="updateForm('email', $event.target.value, form)" v-model="form.email" />
-                                        <span class="text-danger small-xs mt-n3">{{ errors.email }}</span>
-                                </div>
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label class="small-xs font-weight-midi m-0">RESIDENTIAL ADDRESS 
+                                    <span class="text-danger">&#42;</span>
+                                </label>
+                                <Field name="resident" as="textarea" class="form-control form-control-lg mb-0" rules="required" rows="2" @input="updateForm('resident', $event.target.value, form)" v-model="form.resident"></Field>
+                                <span class="text-danger small-xs mt-n3">{{ errors.resident }}</span>
                             </div>
 
-                            <div class="form-row">
-                                <div class="form-group col-md-6">
-                                        <label class="small-xs font-weight-midi m-0" for="validate-phone">PHONE 
-                                            <span class="text-danger">&#42;</span>
-                                        </label>
-                                        <Field name="phone" as="input" class="form-control form-control-lg mb-0" type="text" rules="digits:11" @input="updateForm('phone', $event.target.value, form)" v-model="form.phone" />
-                                        <span class="text-danger small-xs mt-n3">{{ errors.phone }}</span>
-                                </div>
-
-                                
-                                <div class="form-group col-md-6">
-                                        <label class="small-xs font-weight-midi m-0">PIC</label>
-                                        <Field name="pic" as="input"  type="file" class="form-control form-control-lg" @change="form.pic = $event.target.files" />
-                                        <span class="text-danger small-xs mt-n3">{{ errors.pic }}</span>
-                                </div>                            
+                            <div class="col-md-6">
+                                <label class="small-xs font-weight-midi m-0">OCCUPATION</label>
+                                <textarea class="form-control" rows="2" @input="updateForm('occupation', $event.target.value, form)" v-model="form.occupation" ></textarea>
                             </div>
+                        </div>
 
-                            <div class="form-row">
-                                <div class="form-group col-md-6">
-                                        <label class="small-xs font-weight-midi m-0">RESIDENTIAL ADDRESS 
-                                            <span class="text-danger">&#42;</span>
-                                        </label>
-                                        <Field name="resident" as="textarea" class="form-control form-control-lg mb-0" rules="required" rows="2" @input="updateForm('resident', $event.target.value, form)" v-model="form.resident"></Field>
-                                        <span class="text-danger small-xs mt-n3">{{ errors.resident }}</span>
-                                </div>
-
-                                <div class="form-group col-md-6">
-                                        <label class="small-xs font-weight-midi m-0">OCCUPATION</label>
-                                        <textarea class="form-control" rows="2" @input="updateForm('occupation', $event.target.value, form)" v-model="form.occupation" ></textarea>
-                                </div>
-                            </div>
-
-                            <div class="form-row justify-content-center mt-3">
-                                <div class="col-md-3">
-                                    <loading-button class="btn btn-ripple ripple btn-block" :loading="loadingState.btnLoading" @btnEvent.prevent="handleSubmit($event, createGuardian)">Create Guardian</loading-button>
-                                </div>
-                            </div>
-                        <!-- </form> -->
+                        <div class="d-flex justify-content-center mt-3">
+                            <loading-button class="btn btn-secondary btn-block px-3" :loading="loadingState.btnLoading" @btnEvent.prevent="handleSubmit($event, createGuardian)">Create New Guardian</loading-button>
+                        </div>
                     </VeeForm>
                     
                 </div>                
@@ -277,36 +271,19 @@ export default {
 <style scoped>
 
 .form-control, 
-.custom-select,
-.custom-select-lg {
+.form-select,
+.form-select-lg {
     border-radius: .16rem;
 }
 
 .form-control, 
-.custom-select,
-.custom-select-lg {
+.form-select,
+.form-select-lg {
     font-size: 15px;
     font-weight: 500;
-    color: inherit;
-    background: transparent;
-    flex-grow: 1;
     padding-right: .5rem;
     padding-left: .5rem;
     margin-bottom: -0.25rem;
-}
-
-.form-row {
-    margin-right: -10px;
-    margin-left: -10px;
-}
-
-.form-row > .form-group {
-    margin-bottom: .45rem;
-}
-
-.form-row > .col, .form-row > [class*="col-"] {
-    padding-right: 10px;
-    padding-left: 10px;
 }
 
 </style>

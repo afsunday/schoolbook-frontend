@@ -11,7 +11,7 @@
                         </div>
                         <div class="">
                             <div class="dropdown">
-                                <a class="btn btn-light btn-sm border" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Options</a>
+                                <a class="btn btn-light btn-sm border" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Options</a>
                                 <div class="dropdown-menu dropdown-menu-right border-0 shadow py-3" aria-labelledby="dropdownMenuLink">
                                     <router-link class="dropdown-item small font-weight-midi py-2" to="/m/staffs/add">
                                     Add Fees</router-link>
@@ -29,7 +29,7 @@
                     {{ selectedFees.length }} fee(s) selected
                 </div>
                 <div class="dropdown">
-                    <a class="btn btn-secondary btn-sm font-weight-midi small-xs text-nowrap mb-1" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Actions</a>
+                    <a class="btn btn-secondary btn-sm font-weight-midi small-xs text-nowrap mb-1" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Actions</a>
                     <div class="dropdown-menu dropdown-menu-right border-0 shadow py-3" aria-labelledby="dropdownMenuLink">
                         <a class="dropdown-item small font-weight-midi py-2" href="#">Archive</a>
                         <a class="dropdown-item small font-weight-midi py-2" href="#">Email</a>
@@ -44,16 +44,16 @@
 
                 <div class="body-wrapper min-100">
                     <div v-if="!loadingState.filter && !filterResourceHasError ">
-                        <div class="form-group mb-1">
+                        <div class="mb-1">
                             <label class="small-xs font-weight-midi mb-0">STATUS</label>
-                            <select class="custom-select" v-model="fetchFeesParams.status">
+                            <select class="form-select" v-model="fetchFeesParams.status">
                                 <option value="all">All Atatus</option>
                                 <option :value="true">Active</option>
                                 <option :value="false">Inactive</option>
                             </select>
                         </div>
 
-                        <div class="form-group mb-1 mt-3 mb-3">
+                        <div class="mb-1 mt-3 mb-3">
                             <button class="btn btn-outline-secondary btn-sm rounded" @click="filterFees()" type="submit">
                                 Apply Filter
                             </button>
@@ -64,14 +64,12 @@
 
             <div class="card border-0 shadow-sm mt-1 mt-sm-2">
                 <div class="card-header bg-white d-flex justify-content-between rounded-top px-2">
-                    <div class="mr-auto">
-                        <div class="input-group input-group-solid">
-                            <div class="input-group-prepend">
-                                <div class="input-group-text bg-light">
-                                    <a href="" class="dropdown-toggle text-dark text-decoration-none small" data-toggle="modal" data-target="#staticFilterForm">
-                                        <i class="fas fa-filter fa-sm"></i><span class="d-none d-sm-inline"> Filter</span>
-                                    </a>
-                                </div>
+                    <div class="me-auto">
+                        <div class="input-group">
+                            <div class="input-group-text bg-light">
+                                <a href="" class="dropdown-toggle text-dark text-decoration-none small" data-bs-toggle="modal" data-bs-target="#staticFilterForm">
+                                    <i class="fas fa-filter fa-sm"></i><span class="d-none d-sm-inline"> Filter</span>
+                                </a>
                             </div>
                             <input class="form-control bg-light" type="search" @keyup.enter="filterFees()" v-model="fetchFeesParams.search" placeholder="Search name, level" aria-label="Search">
                         </div>

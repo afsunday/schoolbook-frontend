@@ -11,8 +11,8 @@
                         </div>
                         <div class="">
                             <div class="dropdown">
-                                <a class="btn btn-light btn-sm border" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Options</a>
-                                <div class="dropdown-menu dropdown-menu-right border-0 shadow py-3" aria-labelledby="dropdownMenuLink">
+                                <a class="btn btn-light btn-sm border" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Options</a>
+                                <div class="dropdown-menu dropdown-menu-right border-0 shadow m-0 py-3" aria-labelledby="dropdownMenuLink">
                                     <router-link class="dropdown-item small font-weight-midi py-2" :to="'/m/staffs/add'">
                                     Add Staff</router-link>
                                     <a href="#" class="dropdown-item small font-weight-midi py-2">
@@ -31,7 +31,7 @@
                     {{ selectedStaffs.length }} staff(s) selected
                 </div>
                 <div class="dropdown">
-                    <a class="btn btn-secondary btn-sm font-weight-midi small-xs text-nowrap mb-1" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Actions</a>
+                    <a class="btn btn-secondary btn-sm font-weight-midi small-xs text-nowrap mb-1" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Actions</a>
                     <div class="dropdown-menu dropdown-menu-right border-0 shadow py-3" aria-labelledby="dropdownMenuLink">
                         <a class="dropdown-item small font-weight-midi py-2" href="#">Block</a>
                         <a class="dropdown-item small font-weight-midi py-2" href="#">Email</a>
@@ -42,9 +42,9 @@
 
             <!-- filter-Modal -->
             <modal-center :modalBadge="'staticFilterForm'">
-                <div class="form-group mb-1">
+                <div class="mb-1">
                     <label class="small-xs font-weight-midi mb-0">STATUS</label>
-                    <select class="custom-select" v-model="fetchStaffParams.status">
+                    <select class="form-select" v-model="fetchStaffParams.status">
                         <option value="all">All Status</option>
                         <option value="employed">Employed</option>
                         <option value="quit">Quit</option>
@@ -52,41 +52,39 @@
                     </select>
                 </div>
 
-                <div class="form-group mb-1">
+                <div class="mb-1">
                     <label class="small-xs font-weight-midi mb-0">ACCT STATUS</label>
-                    <select class="custom-select" v-model="fetchStaffParams.account_status">
+                    <select class="form-select" v-model="fetchStaffParams.account_status">
                         <option value="all">All Status</option>
                         <option value="active">Active</option>
                         <option value="blocked">Blocked</option>
                     </select>
                 </div>
 
-                <div class="form-group mb-1">
+                <div class="mb-1">
                     <label class="small-xs mb-0">GENDER</label>
-                    <select class="custom-select" v-model="fetchStaffParams.gender">
+                    <select class="form-select" v-model="fetchStaffParams.gender">
                         <option value="all">All Genders</option>
                         <option value="male">Male</option>
                         <option value="female">Female</option>
                     </select>
                 </div>
 
-                <div class="form-group mb-1 mt-2">
-                    <button class="btn btn-outline-primary btn-sm" @click="filterStaffs()" type="submit">
-                        Filter
+                <div class="mb-1 mt-2">
+                    <button class="btn btn-outline-secondary btn-sm" @click="filterStaffs()" type="submit">
+                        Apply Filter
                     </button>
                 </div>
             </modal-center>
 
             <div class="card border-0 shadow-sm mt-1 mt-sm-2">
                 <div class="card-header bg-white d-flex justify-content-between rounded-top px-2">
-                    <div class="mr-auto">
-                        <div class="input-group input-group-solid">
-                            <div class="input-group-prepend">
-                                <div class="input-group-text bg-light">
-                                    <a href="" class="dropdown-toggle text-dark text-decoration-none small" data-toggle="modal" data-target="#staticFilterForm">
-                                        <i class="fas fa-filter fa-sm"></i><span class="d-none d-sm-inline"> Filter</span>
-                                    </a>
-                                </div>
+                    <div class="me-auto">
+                        <div class="input-group">
+                            <div class="input-group-text bg-light">
+                                <a href="" class="dropdown-toggle text-dark text-decoration-none small" data-bs-toggle="modal" data-bs-target="#staticFilterForm">
+                                    <i class="fas fa-filter fa-sm"></i><span class="d-none d-sm-inline"> Filter</span>
+                                </a>
                             </div>
                             <input class="form-control bg-light" type="search" @keyup.enter="filterStaffs()" v-model="fetchStaffParams.search" placeholder="Search" aria-label="Search" />
                         </div>
@@ -100,10 +98,10 @@
                         <table class="table table-striped">
                             <thead class="small-xs font-weight-midi text-muted bg-white">
                                 <tr>
-                                    <th class="wd-30">
-                                        <div class="custom-control-lg custom-control custom-checkbox">
-                                            <input type="checkbox" ref="checkAllCheckBox" @click="checkAll($event)" class="custom-control-input" id="sb-checkall" />
-                                            <label class="custom-control-label" for="sb-checkall"></label>
+                                    <th>
+                                        <div class="form-check-lg form-check">
+                                            <input type="checkbox" ref="checkAllCheckBox" @click="checkAll($event)" class="form-check-input" id="sb-checkall" />
+                                            <label class="form-check-label" for="sb-checkall"></label>
                                         </div>
                                     </th>
                                     <th>NAME</th>
@@ -116,17 +114,17 @@
                             <tbody class="small font-weight-midi">
                                 <tr v-for="(staff, i) in staffs" :key="staff.student_id" class="table-row">
                                     <th>
-                                        <div class="custom-control-lg custom-control custom-checkbox">
-                                            <input type="checkbox" class="custom-control-input" 
+                                        <div class="form-check-lg form-check">
+                                            <input type="checkbox" class="form-check-input" 
                                                 :ref="el => checkBoxElements[i] = el" 
                                                 :checked="selectedStaffs.includes(staff.staff_id.toString())" 
                                                 @click="checkOne($event)" :id="staff.staff_id">
-                                            <label class="custom-control-label" :for="staff.staff_id"></label>
+                                            <label class="form-check-label" :for="staff.staff_id"></label>
                                         </div>
                                     </th>
                                     <td>
                                         <div class="d-inline-flex">
-                                            <img src="@/assets/images/user.png" class="rounded-circle mr-2 border bg-light" width="35" height="35" />
+                                            <img src="@/assets/images/user.png" class="rounded-circle me-2 border bg-light" width="35" height="35" />
                                             <span class="text-break overflow-auto">
                                                 <router-link class="text-decoration-none text-primary" :to="`/m/staffs/${staff.staff_id}/profile`">{{ staff.firstname }} {{ staff.othername }}
                                                 </router-link>
@@ -136,8 +134,8 @@
                                     </td>
                                     <td data-colname="STAFF NO">{{ staff.staff_no }}</td>
                                     <td data-colname="EMAIL">{{ staff.email }}</td>
-                                    <td data-colname="GENDER:">{{ staff.gender }}</td>
-                                    <td class="text-capitalize enrolled" data-colname="DURATION:">{{ staff.status }}</td>
+                                    <td class="text-capitalize" data-colname="GENDER:">{{ staff.gender }}</td>
+                                    <td class="text-capitalize" :class="staff.status.toLowerCase()" data-colname="DURATION:">{{ staff.status }}</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -288,6 +286,10 @@ export default {
 
 <style lang="scss" scoped>
 @import '@/assets/scss/table/table768';
+
+.employed {
+    color: #009900;
+}
 
 @media (max-width: 768px) {
     #toggle-table .table tbody > tr.is-expanded > td:not(:nth-child(1)):not(:nth-child(2)) {

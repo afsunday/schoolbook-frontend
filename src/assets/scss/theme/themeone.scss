@@ -100,7 +100,13 @@
 
 .sb-nav-fixed #layoutSidenav #layoutSidenav_nav .sb-sidenav .sb-sidenav-menu {
   overflow-y: auto;
+  scrollbar-width: none;
 
+}
+
+.sb-nav-fixed #layoutSidenav #layoutSidenav_nav .sb-sidenav .sb-sidenav-menu:hover,
+.sb-nav-fixed #layoutSidenav #layoutSidenav_nav .sb-sidenav .sb-sidenav-menu:focus {
+  scrollbar-width: thin;
 }
 
 .sb-nav-fixed #layoutSidenav #layoutSidenav_content {

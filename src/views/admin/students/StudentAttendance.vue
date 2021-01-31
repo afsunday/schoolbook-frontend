@@ -3,15 +3,13 @@
 		<div class="card border-0 shadow-sm">
 			<div class="card-header bg-white d-flex justify-content-between px-2">
 				<div class="mr-auto">
-	                <div class="input-group input-group-solid">
-	                    <div class="input-group-prepend">
-	                        <div class="input-group-text bg-light">
-	                            <a href="" class="text-dark text-decoration-none small" data-toggle="modal" data-target="">
-	                                <i class="fas fa-calendar-week fa-lg"></i>
-	                            </a>
-	                        </div>
-	                    </div>
-	                    <select class="custom-select">
+	                <div class="input-group">
+                        <div class="input-group-text bg-light">
+                            <a href="" class="text-dark text-decoration-none small" data-bs-toggle="modal" data-bs-target="">
+                                <i class="fas fa-calendar-week fa-lg"></i>
+                            </a>
+                        </div>
+	                    <select class="form-select">
 	                    	<option value="">select</option>
 							<option value="">2020/2021 first term</option>
 							<option value="">2020/2021 second term</option>

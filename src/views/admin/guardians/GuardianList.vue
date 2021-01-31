@@ -9,8 +9,8 @@
                         </div>
                         <div class="">
                             <div class="dropdown">
-                                <a class="btn btn-light btn-sm border" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Options</a>
-                                <div class="dropdown-menu dropdown-menu-right border-0 shadow py-3" aria-labelledby="dropdownMenuLink">
+                                <a class="btn btn-light btn-sm border" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Options</a>
+                                <div class="dropdown-menu dropdown-menu-end border-0 shadow m-0 py-3" aria-labelledby="dropdownMenuLink">
 
                                     <router-link class="dropdown-item small font-weight-midi py-2" to="/m/guardians/achives">
                                     Achived Students</router-link>
@@ -32,8 +32,8 @@
                     {{selectedGuardians.length}} guardians(s) selected
                 </div>
                 <div class="dropdown">
-                    <a class="btn btn-secondary btn-sm font-weight-midi small-xs text-nowrap mb-1" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Actions</a>
-                    <div class="dropdown-menu dropdown-menu-right border-0 shadow py-3" aria-labelledby="dropdownMenuLink">
+                    <a class="btn btn-secondary btn-sm font-weight-midi small-xs text-nowrap mb-1" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Actions</a>
+                    <div class="dropdown-menu dropdown-menu-end border-0 shadow m-0 py-3" aria-labelledby="dropdownMenuLink">
                         <a class="dropdown-item small font-weight-midi py-2" href="#">Block</a>
                         <a class="dropdown-item small font-weight-midi py-2" href="#">Email</a>
                         <a class="dropdown-item small font-weight-midi py-2" href="#">Invoice</a>
@@ -43,32 +43,32 @@
 
             <!-- filter-Modal -->
             <modal-center :modalBadge="'staticFilterForm'">
-                <div class="form-group mb-1">
+                <div class="mb-1">
                     <label class="small-xs font-weight-midi mb-0">ACCOUNT STATUS</label>
-                    <select class="custom-select" v-model="fetchGuardianParams.account_status">
+                    <select class="form-select" v-model="fetchGuardianParams.account_status">
                         <option value="all">All Status</option>
                         <option value="active">Active</option>
                         <option value="blocked">Blocked</option>
                     </select>
                 </div>
-                <div class="form-group mb-1">
+                <div class="mb-1">
                     <label class="small-xs font-weight-midi mb-0">STATUS</label>
-                    <select class="custom-select" v-model="fetchGuardianParams.status">
+                    <select class="form-select" v-model="fetchGuardianParams.status">
                         <option value="all">All Status</option>
                         <option value="listed">Listed</option>
                         <option value="delist">Delist</option>
                     </select>
                 </div>
-                <div class="form-group mb-1">
+                <div class="mb-1">
                     <label class="small-xs mb-0">GENDER</label>
-                    <select class="custom-select" v-model="fetchGuardianParams.gender">
+                    <select class="form-select" v-model="fetchGuardianParams.gender">
                         <option value="all">All Genders</option>
                         <option value="male">Male</option>
                         <option value="female">Female</option>
                     </select>
                 </div>
-                <div class="form-group mb-2 mt-2">
-                    <button class="btn btn-outline-primary btn-sm" 
+                <div class="mb-2 mt-2">
+                    <button class="btn btn-outline-secondary btn-sm" 
                     data-dismiss="modal" aria-label="close" @click="filterGuardians()" type="submit">Apply Filter</button>
                 </div>
             </modal-center>
@@ -76,14 +76,12 @@
 
             <div class="card border-0 shadow-sm mt-1 mt-sm-2">
                 <div class="card-header bg-white d-flex justify-content-between rounded-top px-2">
-                    <div class="mr-auto">
-                        <div class="input-group input-group-solid">
-                            <div class="input-group-prepend">
-                                <div class="input-group-text bg-light">
-                                    <a href="" class="dropdown-toggle text-dark text-decoration-none small" data-toggle="modal" data-target="#staticFilterForm">
-                                        <i class="fas fa-filter fa-sm"></i><span class="d-none d-sm-inline"> Filter</span>
-                                    </a>
-                                </div>
+                    <div class="me-auto">
+                        <div class="input-group">
+                            <div class="input-group-text bg-light">
+                                <a href="" class="dropdown-toggle text-dark text-decoration-none small" data-bs-toggle="modal" data-bs-target="#staticFilterForm">
+                                    <i class="fas fa-filter fa-sm"></i><span class="d-none d-sm-inline"> Filter</span>
+                                </a>
                             </div>
                             <input class="form-control bg-light" type="search" @keyup.enter="filterGuardians()" v-model="fetchGuardianParams.search" placeholder="Search" aria-label="Search">
                         </div>
@@ -98,9 +96,9 @@
                             <thead class="small-xs font-weight-midi text-muted bg-white">
                                 <tr>
                                     <th class="wd-30">
-                                        <div class="custom-control-lg custom-control custom-checkbox">
-                                            <input type="checkbox" ref="checkAllCheckBox" @click="checkAll($event)" class="custom-control-input" id="sb-checkall">
-                                            <label class="custom-control-label" for="sb-checkall"></label>
+                                        <div class="form-check-lg form-check">
+                                            <input type="checkbox" ref="checkAllCheckBox" @click="checkAll($event)" class="form-check-input" id="sb-checkall">
+                                            <label class="form-check-label" for="sb-checkall"></label>
                                         </div>
                                     </th>
                                     <th>NAME</th>
@@ -114,16 +112,16 @@
                             <tbody class="small font-weight-midi">
                                 <tr v-for="(guardian, i) in guardians" :key="guardian.guardian_id" class="table-row">
                                     <th>
-                                        <div class="custom-control-lg custom-control custom-checkbox">
-                                            <input type="checkbox" class="custom-control-input" 
+                                        <div class="form-check-lg form-check">
+                                            <input type="checkbox" class="form-check-input" 
                                                    :ref="el => checkBoxElements[i] = el" :checked="selectedGuardians.includes(guardian.guardian_id.toString())" 
                                                    @click="checkOne($event,)" :id="guardian.guardian_id">
-                                            <label class="custom-control-label" :for="guardian.guardian_id"></label>
+                                            <label class="form-check-label" :for="guardian.guardian_id"></label>
                                         </div>
                                     </th>
                                     <td>
                                         <div class="d-inline-flex">
-                                            <img src="@/assets/images/user.png" class="rounded-circle mr-2 border bg-light" width="35" height="35">
+                                            <img src="@/assets/images/user.png" class="rounded-circle me-2 border bg-light" width="35" height="35">
                                             <span class="text-break overflow-auto"> 
                                                 <router-link class="text-decoration-none text-primary" :to="{ name: 'GuardianProfile', params: { guardianId: guardian.guardian_id }}">{{ guardian.firstname }} {{ guardian.surname }} {{ guardian.othername }}</router-link>
                                             </span>
@@ -132,12 +130,12 @@
                                     </td>
                                     <td data-colname="EMAIL">{{ guardian.email }}</td>
                                     <td data-colname="PHONE">{{ guardian.phone }}</td>
-                                    <td data-colname="GENDER:">{{ guardian.gender }}</td>
-                                    <td class="text-capitalize enrolled" data-colname="DURATION:">{{ guardian.status }}</td>
+                                    <td class="text-capitalize" data-colname="GENDER:">{{ guardian.gender }}</td>
+                                    <td class="text-capitalize" :class="guardian.status.toLowerCase()" data-colname="DURATION:">{{ guardian.status }}</td>
                                     <td>
                                         <div class="dropdown">
-                                            <a class="btn btn-outline-secondary btn-xs rounded" href="#" role="button" id="ddLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Action</a>
-                                            <div class="dropdown-menu dropdown-menu-right border-0 shadow py-3" aria-labelledby="ddLink">
+                                            <a class="btn btn-outline-secondary btn-xs rounded" href="#" role="button" id="ddLink" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Action</a>
+                                            <div class="dropdown-menu dropdown-menu-end border-0 shadow m-0 py-3" aria-labelledby="ddLink">
                                                 <a class="dropdown-item small font-weight-midi py-2" href="#">Block</a>
                                                 <a class="dropdown-item small font-weight-midi py-2" href="#">Email</a>
                                                 <a class="dropdown-item small font-weight-midi py-2" href="#">Invoice</a>

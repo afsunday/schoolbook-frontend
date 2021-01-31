@@ -9,18 +9,18 @@
                         </div>
                         <div class="dropdown">
                             <a class="btn btn-light btn-sm small border" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Options</a>
-                            <div class="dropdown-menu dropdown-menu-right border-0 shadow py-3">
+                            <div class="dropdown-menu dropdown-menu-right border-0 shadow m-0 py-3">
 
-                                <router-link class="dropdown-item small font-weight-midi py-2" :to="'/m/students/edit/' + route.params.studentId">Edit Student</router-link>
+                                <router-link class="dropdown-item small font-weight-midi py-2" :to="`/m/students/${route.params.studentId}/edit`">Edit Student</router-link>
 
-                                <a class="dropdown-item small font-weight-midi py-2" @click.stop data-bs-backdrop="static" data-bs-keyboard="false"
-                                 data-bs-toggle="modal" data-target="#deactivate-modal" href="#">Mail Guardian</a>
+                                <a class="dropdown-item small font-weight-midi py-2" data-bs-backdrop="static" data-bs-keyboard="false"
+                                 data-bs-toggle="modal" data-bs-target="#deactivate-modal" href="#">Mail Guardian</a>
 
-                                <a class="dropdown-item small font-weight-midi py-2" @click.stop data-bs-backdrop="static" data-bs-keyboard="false"
-                                 data-bs-toggle="modal" data-target="#deactivate-modal" href="#">Achive Guardian</a>
+                                <a class="dropdown-item small font-weight-midi py-2" data-bs-backdrop="static" data-bs-keyboard="false"
+                                 data-bs-toggle="modal" data-bs-target="#deactivate-modal" href="#">Achive Guardian</a>
 
-                                <a class="dropdown-item small font-weight-midi py-2" @click.stop data-bs-backdrop="static" data-bs-keyboard="false"
-                                 data-bs-toggle="modal" data-target="#deactivate-modal" href="#">Delete Guardian</a>
+                                <a class="dropdown-item small font-weight-midi py-2" data-bs-backdrop="static" data-bs-keyboard="false"
+                                 data-bs-toggle="modal" data-bs-target="#deactivate-modal" href="#">Delete Guardian</a>
 
                             </div>
                         </div>

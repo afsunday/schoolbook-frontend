@@ -1,10 +1,10 @@
 <template>
 	<div>
         <div class="card border-0 shadow-sm">
-            <div class="card-header bg-white pr-2 pl-1 pb-0 pt-1">
+            <div class="card-header bg-white pr-2 ps-1 pb-0 pt-1">
                 <ul class="nav nav-pills mt-2">
                     <li class="nav-item">
-                        <a class="nav-link pl-2 pb-sm-3 pb-3 active" aria-selected="true">Report Card</a>
+                        <a class="nav-link ps-2 pb-sm-3 pb-3 active" aria-selected="true">Report Card</a>
                     </li>
                 </ul>
             </div>
@@ -15,14 +15,14 @@
                 </div>
 
     			<div class="dropdown">
-                    <a class="btn btn-secondary btn-sm small-xs text-nowrap mb-1 mr-0 mr-sm-1" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Actions</a>
+                    <a class="btn btn-secondary btn-sm small-xs text-nowrap mb-1 me-0 me-sm-1" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Actions</a>
                     <div class="dropdown-menu dropdown-menu-right  border-0 shadow py-3" aria-labelledby="dropdownMenuLink">
 
                         <a class="dropdown-item small font-weight-midi py-2" data-backdrop="static" data-keyboard="false"
-                         data-toggle="modal" data-target="#deactivate-modal" href="#">Pay Selected</a>
+                         data-bs-toggle="modal" data-bs-target="#deactivate-modal" href="#">Pay Selected</a>
 
                         <a class="dropdown-item small font-weight-midi py-2" data-backdrop="static" data-keyboard="false"
-                         data-toggle="modal" data-target="#email-modal"
+                         data-bs-toggle="modal" data-bs-target="#email-modal"
                          href="#">Unassign</a>                    
                     </div>
                 </div>            
@@ -33,8 +33,11 @@
         	        <table class="table table-striped">
         	            <thead class="small-xs font-weight-midi text-muted bg-white">
         	                <tr>
-        	                    <th class="wd-30">
-        	                        <input type="checkbox" @click="selectAll($event)" class="logic-checkbox" name="">
+        	                    <th>
+                                    <div class="form-check-lg form-check">
+                                        <input type="checkbox" ref="checkAllCheckBox" @click="checkAll($event)" class="form-check-input" id="sb-checkall-rpc" />
+                                        <label class="orm-check-label" for="sb-checkall-rpc"></label>
+                                    </div>
         	                    </th>
         	                    <th>DESC</th>
         	                    <th>SESSION</th>
@@ -45,19 +48,21 @@
         	            </thead>
         	            <tbody>
         	                <tr v-for="(fee, key) in activeFees" :key="key" class="table-row">
-        	                    <th class="wd-30">
-        	                        <input type="checkbox" 
-        			                       :id="key" ref="activeFeeCheckBox" 
+        	                    <th>
+                                    <div class="form-check-lg form-check">
+            	                        <input type="checkbox" 
         			                       @click="checked($event)" 
         			                       :checked="selectedCheckBox.includes(key.toString())" 
-        			                       class="logic-checkbox" name="">
+        			                       class="form-check-input" :id="key" ref="activeFeeCheckBox">
+                                        <label class="form-check-label" :for="key"></label>
+                                    </div>
         	                    </th>
         	                    <td>
         	                        <div class="d-flex justify-content-between">
-        	                            <div class="mr-4">
+        	                            <div class="me-4">
         	                                <span><a href="#" class="h7 text-decoration-none text-primary font-weight-midi">John tuition Fee 2019/2020 First Term</a></span>
         	                            </div>
-        	                            <a class="row-toggle text-decoration-none ml-2" @click="collapseRow($event)"></a>
+        	                            <a class="row-toggle text-decoration-none ms-2" @click="collapseRow($event)"></a>
         	                        </div>
         	                    </td>
         	                    <td class="h7 font-weight-midi" data-colname="SESSION:">20000</td>
@@ -65,14 +70,14 @@
         	                    <td class="h7 font-weight-midi" data-colname="DATE:">20/05/2020</td>
         	                    <td>
         	                        <div class="dropdown">
-        	                            <a class="btn btn-outline-secondary btn-xs rounded" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Action</a>
+        	                            <a class="btn btn-outline-secondary btn-xs rounded" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Action</a>
         	                            <div class="dropdown-menu dropdown-menu-right border-0 shadow py-3 " aria-labelledby="dropdownMenuLink">
 
         	                                <a class="dropdown-item small font-weight-midi py-2" data-backdrop="static" data-keyboard="false"
-        	                                 data-toggle="modal" data-target="#deactivate-modal" href="#">Block</a>
+        	                                 data-bs-toggle="modal" data-bs-target="#deactivate-modal" href="#">Block</a>
 
         	                                <a class="dropdown-item small font-weight-midi py-2" data-backdrop="static" data-keyboard="false"
-        	                                 data-toggle="modal" data-target="#email-modal"
+        	                                 data-bs-toggle="modal" data-bs-target="#email-modal"
         	                                 href="#">Email</a>                                            
         	                            </div>
         	                        </div>
@@ -112,6 +117,8 @@ export default {
 	            }
 	        } 
         },
+
+        checkAll() {},
 
         selectAll(event) {
 	        let boxes = this.$refs.activeFeeCheckBox;
