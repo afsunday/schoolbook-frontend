@@ -31,7 +31,7 @@
 			</nav>
 			<div id="layoutSidenav">
 				<div id="layoutSidenav_nav">
-					<nav class="sb-sidenav accordion sb-sidenav-light bg-white shadow-sm" id="sidenavAccordion">
+					<nav class="sb-sidenav accordion sb-sidenav-light bg-white border-end shadow-sm" id="sidenavAccordion">
 						<div class="sb-sidenav-menu">
 							<div class="nav pb-5 pt-4">
                                 

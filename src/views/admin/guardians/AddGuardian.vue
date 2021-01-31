@@ -9,7 +9,7 @@
                         </div>
                         <div class="dropdown">
                             <a class="btn btn-light btn-sm border" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Options</a>
-                            <div class="dropdown-menu dropdown-menu-right border-0 shadow m-0 py-3" aria-labelledby="dropdownMenuLink">
+                            <div class="dropdown-menu dropdown-menu-end border-0 shadow m-0 py-3" aria-labelledby="dropdownMenuLink">
 
                                 <a class="dropdown-item small font-weight-midi py-2" data-backdrop="static" data-keyboard="false"
                                  data-bs-toggle="modal" data-bs-target="#deactivate-modal" href="#">Achived Students</a>

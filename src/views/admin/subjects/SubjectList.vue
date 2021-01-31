@@ -12,9 +12,9 @@
                         <div class="">
                             <div class="dropdown">
                                 <a class="btn btn-light btn-sm border" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Options</a>
-                                <div class="dropdown-menu dropdown-menu-right border-0 shadow py-3" aria-labelledby="dropdownMenuLink">
+                                <div class="dropdown-menu dropdown-menu-end border-0 shadow m-0 py-3" aria-labelledby="dropdownMenuLink">
                                     <router-link class="dropdown-item small font-weight-midi py-2" to="/m/staffs/add">
-                                    Add Fees</router-link>
+                                    Add subjects</router-link>
                                 </div>
                             </div>
                         </div>
@@ -24,19 +24,6 @@
         </template>
 
         <template v-slot:default>
-            <div v-if="selectedFees.length > 0" class="d-flex justify-content-between">
-                <div class="text-dark small font-weight-midi d-inline-flex mt-2">
-                    {{ selectedFees.length }} fee(s) selected
-                </div>
-                <div class="dropdown">
-                    <a class="btn btn-secondary btn-sm font-weight-midi small-xs text-nowrap mb-1" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Actions</a>
-                    <div class="dropdown-menu dropdown-menu-right border-0 shadow py-3" aria-labelledby="dropdownMenuLink">
-                        <a class="dropdown-item small font-weight-midi py-2" href="#">Archive</a>
-                        <a class="dropdown-item small font-weight-midi py-2" href="#">Email</a>
-                    </div>
-                </div>
-            </div>
-
             <!-- filter-Modal -->
             <modal-center :modalBadge="'staticFilterForm'">
 
@@ -61,6 +48,19 @@
                     </div>
                 </div>
             </modal-center>
+            <!-- /filter-Modal -->
+
+            <div v-if="selectedFees.length > 0" class="d-flex justify-content-between">
+                <div class="text-dark small font-weight-midi d-inline-flex mt-2">
+                    {{ selectedFees.length }} subject(s) selected
+                </div>
+                <div class="dropdown">
+                    <a class="btn btn-secondary btn-sm font-weight-midi small-xs text-nowrap mb-1" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Actions</a>
+                    <div class="dropdown-menu dropdown-menu-right border-0 shadow m-0 py-3" aria-labelledby="dropdownMenuLink">
+                        <a class="dropdown-item small font-weight-midi py-2" href="#">Delete</a>
+                    </div>
+                </div>
+            </div>
 
             <div class="card border-0 shadow-sm mt-1 mt-sm-2">
                 <div class="card-header bg-white d-flex justify-content-between rounded-top px-2">
@@ -83,10 +83,10 @@
                         <table class="table table-striped">
                             <thead class="small-xs font-weight-midi text-muted bg-white">
                                 <tr>
-                                    <th class="wd-30">
-                                        <div class="custom-control-lg custom-control custom-checkbox">
-                                            <input type="checkbox" ref="checkAllCheckBox" @click="checkAll($event)" class="custom-control-input" id="sb-checkall-33" />
-                                            <label class="custom-control-label" for="sb-checkall-33"></label>
+                                    <th>
+                                        <div class="form-check-lg form-check">
+                                            <input type="checkbox" ref="checkAllCheckBox" @click="checkAll($event)" class="form-check-input" id="sb-checkall-33" />
+                                            <label class="form-check-label" for="sb-checkall-33"></label>
                                         </div>
                                     </th>
                                     <th>SUBJECT NAME</th>
@@ -96,12 +96,12 @@
                             <tbody>
                                 <tr v-for="(fee, key) in fees" :key="key" class="table-row">
                                     <th class="wd-30">
-                                        <div class="custom-control-lg custom-control custom-checkbox">
-                                            <input type="checkbox" class="custom-control-input" 
+                                        <div class="form-check-lg form-check">
+                                            <input type="checkbox" class="form-check-input" 
                                                 :ref="el => checkBoxElements[key] = el" 
                                                 :checked="selectedFees.includes(fee.fee_id.toString())" 
                                                 @click="checkOne($event)" :id="fee.fee_id">
-                                            <label class="custom-control-label" :for="fee.fee_id"></label>
+                                            <label class="form-check-label" :for="fee.fee_id"></label>
                                         </div>
                                     </th>
                                     <td>
@@ -113,11 +113,11 @@
                         </table>
                     </div><!--/table -->
 
-                    <empty-list :loaded="loadingState.loaded  && !fetchFeesHasError" :items="fees">
+                    <empty-list :loaded="loadingState.loaded && !fetchFeesHasError" :items="fees">
                         Oops we can't find any Fee
                     </empty-list>
 
-                    <retry-button class="my-4" :list="true" :hasRetry="fetchFeesHasError" 
+                    <retry-button class="mb-4 mt-4" :list="true" :hasRetry="fetchFeesHasError" 
                         @retry="e => { 
                             fetchFeesHasError = loadingState.loaded = false; 
                             fetchFees(); 

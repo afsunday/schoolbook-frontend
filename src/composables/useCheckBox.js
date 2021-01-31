@@ -62,6 +62,12 @@ export default (storageKey = '') => {
             if (storageKey.length > 3) {
                localStorage.setItem(storageKey, JSON.stringify(selectedCheckBoxes.value));
             }
+
+            // if checkboxes is 1 check the select all box
+            if (checkBoxElements.value.length === 1) {
+                checkAllCheckBox.value.checked = true
+            }
+
         } else {
 
             let index = selectedCheckBoxes.value.indexOf(checkBox);
@@ -73,8 +79,13 @@ export default (storageKey = '') => {
                 }
             }
 
-            let localBank =  JSON.parse(localStorage.getItem(storageKey))
+             // if checkboxes is 1 uncheck the select all box
+            if (checkBoxElements.value.length === 1) {
+                checkAllCheckBox.value.checked = false
+            }
 
+            // if localstorage array length is empty remove from localstorage
+            let localBank =  JSON.parse(localStorage.getItem(storageKey))
             if (localBank === null || localBank.length <= 0 ) {
                 removeCheckStorage()
             }
@@ -85,5 +96,12 @@ export default (storageKey = '') => {
         localStorage.removeItem(storageKey)
     }
 
-    return { selectedCheckBoxes, checkAll, checkOne, checkBoxElements, checkAllCheckBox, removeCheckStorage }
+    return { 
+        selectedCheckBoxes, 
+        checkAll, 
+        checkOne, 
+        checkBoxElements, 
+        checkAllCheckBox, 
+        removeCheckStorage 
+    }
 }
