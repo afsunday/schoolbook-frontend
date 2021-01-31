@@ -8,40 +8,40 @@
                             <small class="text-uppercase">Student Profile</small>
                         </div>
                         <div class="dropdown">
-                            <a class="btn btn-light btn-sm small-xs border" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Options</a>
-                            <div class="dropdown-menu dropdown-menu-right border-0 shadow py-3" aria-labelledby="dropdownMenuLink">
+                            <a class="btn btn-light btn-sm small border" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Options</a>
+                            <div class="dropdown-menu dropdown-menu-right border-0 shadow py-3">
 
                                 <router-link class="dropdown-item small font-weight-midi py-2" :to="'/m/students/edit/' + route.params.studentId">Edit Student</router-link>
 
-                                <a class="dropdown-item small font-weight-midi py-2" @click.stop data-backdrop="static" data-keyboard="false"
-                                 data-toggle="modal" data-target="#deactivate-modal" href="#">Mail Guardian</a>
+                                <a class="dropdown-item small font-weight-midi py-2" @click.stop data-bs-backdrop="static" data-bs-keyboard="false"
+                                 data-bs-toggle="modal" data-target="#deactivate-modal" href="#">Mail Guardian</a>
 
-                                <a class="dropdown-item small font-weight-midi py-2" @click.stop data-backdrop="static" data-keyboard="false"
-                                 data-toggle="modal" data-target="#deactivate-modal" href="#">Achive Guardian</a>
+                                <a class="dropdown-item small font-weight-midi py-2" @click.stop data-bs-backdrop="static" data-bs-keyboard="false"
+                                 data-bs-toggle="modal" data-target="#deactivate-modal" href="#">Achive Guardian</a>
 
-                                <a class="dropdown-item small font-weight-midi py-2" @click.stop data-backdrop="static" data-keyboard="false"
-                                 data-toggle="modal" data-target="#deactivate-modal" href="#">Delete Guardian</a>
+                                <a class="dropdown-item small font-weight-midi py-2" @click.stop data-bs-backdrop="static" data-bs-keyboard="false"
+                                 data-bs-toggle="modal" data-target="#deactivate-modal" href="#">Delete Guardian</a>
 
                             </div>
                         </div>
                     </div>
 
                     <div class="d-flex mt-3 mt-sm-3">
-                        <img class="rounded-lg border bg-light mr-2 mr-sm-3" src="@/assets/images/user1.png" height="70" width="70" alt="">
+                        <img class="rounded-2 border bg-light me-2 me-sm-3" src="@/assets/images/user1.png" height="70" width="70" alt="">
                         <div class="d-flex flex-column align-item-start">
                             <div class="d-inline-flex">
                                 <span class=""><i class="icon icon-users2 icon-lg"></i></span>
-                                <h6 class="h7 text-break font-weight-midi ml-1">
+                                <h6 class="h7 text-break font-weight-midi ms-1">
                                     {{ student.firstname }} {{ student.surname }} <span class="d-none d-xs-inline">{{ student.othername }}</span>
                                 </h6>
                             </div>
                             <div class="d-inline-flex">
                                 <span class=""><i class="icon icon-mail icon-lg"></i></span>
-                                <h6 class="h7 text-break font-weight-midi ml-1">{{ student.email }}</h6>
+                                <h6 class="h7 text-break font-weight-midi ms-1">{{ student.email }}</h6>
                             </div>
                             <div class="d-inline-flex">
                                 <span class=""><i class="icon icon-leads1 icon-lg"></i></span>
-                                <h6 class="h7 text-break font-weight-midi ml-1">{{ student.username }}</h6>
+                                <h6 class="h7 text-break font-weight-midi ms-1">{{ student.username }}</h6>
                             </div>                           
                         </div>
                     </div>
@@ -49,19 +49,19 @@
                     <div class="border-top mt-2 p-0" style="overflow-x: auto; scrollbar-width:thin;">
                         <ul class="nav nav-pills mt-2" id="pills-tab" role="tablist" style="flex-wrap: unset;">
                             <li class="nav-item" role="presentation">
-                                <a class="nav-link pl-1 pb-sm-3 pb-3 active" id="pills-bio-tab" data-toggle="pill" href="#pills-bio" role="tab" aria-controls="pills-bio" aria-selected="true">BioData</a>
+                                <a class="nav-link ps-1 pb-sm-3 pb-3 active" id="pills-bio-tab" data-bs-toggle="pill" href="#pills-bio" role="tab" aria-controls="pills-bio" aria-selected="true">BioData</a>
                             </li>
                             <li class="nav-item" role="presentation">
-                                <a class="nav-link px-sm-3 px-2 pb-sm-3 pb-3" id="pills-fees-tab" data-toggle="pill" href="#pills-fees" role="tab" aria-controls="pills-fees" aria-selected="false">Fees</a>
+                                <a class="nav-link px-sm-3 px-2 pb-sm-3 pb-3" id="pills-fees-tab" data-bs-toggle="pill" href="#pills-fees" role="tab" aria-controls="pills-fees" aria-selected="false">Fees</a>
                             </li>
                             <li class="nav-item" role="presentation">
-                                <a class="nav-link px-sm-3 px-2 pb-sm-3 pb-3" id="pills-attendance-tab" data-toggle="pill" href="#pills-attendance" role="tab" aria-controls="pills-attendance" aria-selected="false">Attendance</a>
+                                <a class="nav-link px-sm-3 px-2 pb-sm-3 pb-3" id="pills-attendance-tab" data-bs-toggle="pill" href="#pills-attendance" role="tab" aria-controls="pills-attendance" aria-selected="false">Attendance</a>
                             </li>
                             <li class="nav-item" role="presentation">
-                                <a class="nav-link px-sm-3 px-2 pb-sm-3 pb-3" id="pills-reports-tab" data-toggle="pill" href="#pills-reports" role="tab" aria-controls="pills-reports" aria-selected="false">Reports</a>
+                                <a class="nav-link px-sm-3 px-2 pb-sm-3 pb-3" id="pills-reports-tab" data-bs-toggle="pill" href="#pills-reports" role="tab" aria-controls="pills-reports" aria-selected="false">Reports</a>
                             </li>
                             <li class="nav-item" role="presentation">
-                                <a class="nav-link px-sm-3 px-2 pb-sm-3 pb-3 text-nowrap" id="pills-history-tab" data-toggle="pill" href="#pills-history" role="tab" aria-controls="pills-history" aria-selected="false">Class History</a>
+                                <a class="nav-link px-sm-3 px-2 pb-sm-3 pb-3 text-nowrap" id="pills-history-tab" data-bs-toggle="pill" href="#pills-history" role="tab" aria-controls="pills-history" aria-selected="false">Class History</a>
                             </li>
                         </ul>
                     </div>

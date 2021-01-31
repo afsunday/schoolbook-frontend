@@ -91,11 +91,8 @@
                                             <label class="custom-control-label" for="sb-checkall-33"></label>
                                         </div>
                                     </th>
-                                    <th>FEE HEAD/DESC</th>
-                                    <th>AMOUNT</th>
-                                    <th>SESSION</th>
-                                    <th>STATUS</th>
-                                    <th>DATE</th>
+                                    <th>SUBJECT NAME</th>
+                                    <th>SUBJECT LEVEL</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -110,24 +107,9 @@
                                         </div>
                                     </th>
                                     <td>
-                                        <div class="d-flex justify-content-between">
-                                            <router-link class="text-decoration-none" :to="`/m/fees/${fee.fee_id}/info`">
-                                                <div class="mr-4">
-                                                    <span class="mt-n1">
-                                                        <a href="#" class="h7 text-decoration-none text-dark text-break font-weight-midi">
-                                                            {{ fee.fee_headname }}
-                                                        </a>
-                                                    </span>
-                                                    <div class="small text-primary text-wrap text-break">{{ fee.description }}</div>
-                                                </div>
-                                            </router-link>
-                                            <a class="row-toggle text-decoration-none ml-2" @click="tableRowToggle($event)"></a>
-                                        </div>
+                                        <a  class="small text-primary text-capitalize text-wrap text-break" href="#">AGRICULTURAL SCIENCE</a>
                                     </td>
                                     <td class="h7 font-weight-midi" data-colname="AMOUNT:">{{ fee.amount }}</td>
-                                    <td class="h7 font-weight-midi text-capitalize" data-colname="SESSION:">{{ fee.session_year }} {{ fee.session_term }}</td>
-                                    <td class="h7 font-weight-midi" :class="!!fee.status ? 'active':'inactive'" data-colname="STATUS:">{{ !!fee.status ? 'Active' : 'Inactive' }}</td>
-                                    <td class="h7 font-weight-midi" data-colname="DATE:">{{ fee.fee_updated_at }}</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -277,53 +259,21 @@ export default {
         
 
         const filterResourceHasError = ref(false)
-        const sessionTerms = ref([])
-        const fetchSessionTerm = async () => {
-            loadingState.filter = true
-
-            await SessionTerm.all().then((res) => {
-                sessionTerms.value = res.data
-            })
-            .catch((err) => {
-                filterResourceHasError.value = true
-                loadingState.filter = false
-            })
-        }
-
-        const feeHeads = ref([])
-        const fetchFeeHeads = async () => {
-            loadingState.filter = true
-
-            await Fees.heads().then((res) => {
-                feeHeads.value = res.data
-            })
-            .catch((err) => {
-                filterResourceHasError.value = true
-                loadingState.filter = false
-            })
-        }
-
-        // fetch filter resource
-        Promise.all([fetchFeeHeads(), fetchSessionTerm()])
-        .then((v) => { 
-            filterResourceHasError.value = false
-            loadingState.filter = false 
-        })
 
         const { 
             selectedCheckBoxes: selectedFees, 
             checkAll, checkOne, checkBoxElements, 
             checkAllCheckBox
-        } = useCheckBox('ADMIN_FEE_SELECT');
+        } = useCheckBox('ADMIN_SUBJECT_SELECT');
 
         const tableRowToggle = (event) => {
             event.target.closest('.table-row').classList.toggle('is-expanded');
         }
 
         return {
-            loadingState, paginate, navigate, fetchSessionTerm, sessionTerms, filterResourceHasError,
+            loadingState, paginate, navigate, filterResourceHasError,
 
-            fees, fetchFeesParams, fetchFeesHasError, fetchFees, fetchFeeHeads, feeHeads, filterFees, selectedFees, 
+            fees, fetchFeesParams, fetchFeesHasError, fetchFees, filterFees, selectedFees, 
 
             checkAll, checkOne, checkBoxElements, checkAllCheckBox, tableRowToggle
         }
@@ -334,14 +284,6 @@ export default {
 
 <style lang="scss" scoped>
 @import '@/assets/scss/table/table768';
-
-.custom-range::-moz-range-track {
-  border-radius: .01rem;
-}
-
-.custom-range::-webkit-slider-runnable-track {
-  border-radius: .01rem;
-}
 
 .active {
     color: #28a745;

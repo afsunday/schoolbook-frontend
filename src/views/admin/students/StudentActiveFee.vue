@@ -18,14 +18,14 @@
 		            </div>
 
 					<div class="dropdown">
-		                <a class="btn btn-secondary btn-sm small-xs text-nowrap mb-1 mr-0 mr-sm-1" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Actions</a>
+		                <a class="btn btn-secondary btn-sm small-xs text-nowrap mb-1 me-0 me-sm-1" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Actions</a>
 		                <div class="dropdown-menu dropdown-menu-right  border-0 shadow py-3" aria-labelledby="dropdownMenuLink">
 
 		                    <a class="dropdown-item small font-weight-midi py-2" data-backdrop="static" data-keyboard="false"
-		                     data-toggle="modal" data-target="#deactivate-modal" href="#">Pay Selected</a>
+		                     data-bs-toggle="modal" data-bs-target="#deactivate-modal" href="#">Pay Selected</a>
 
 		                    <a class="dropdown-item small font-weight-midi py-2" data-backdrop="static" data-keyboard="false"
-		                     data-toggle="modal" data-target="#email-modal"
+		                     data-bs-toggle="modal" data-bs-target="#email-modal"
 		                     href="#">Unassign</a>                    
 		                </div>
 		            </div>            
@@ -36,9 +36,9 @@
 			            <thead class="small-xs font-weight-midi text-muted bg-white">
 			                <tr>
 			                    <th class="wd-30">
-			                        <div class="custom-control-lg custom-control custom-checkbox">
-		                                <input type="checkbox" ref="checkAllCheckBox" @click="checkAll($event)" class="custom-control-input" id="sb-checkall-33" />
-		                                <label class="custom-control-label" for="sb-checkall-33"></label>
+			                        <div class="form-check-lg form-check">
+		                                <input type="checkbox" ref="checkAllCheckBox" @click="checkAll($event)" class="form-check-input" id="sb-checkall-33" />
+		                                <label class="form-check-label" for="sb-checkall-33"></label>
 		                            </div>
 			                    </th>
 			                    <th>FEE HEAD/DESC</th>
@@ -54,25 +54,25 @@
 			            <tbody>
 			                <tr v-for="(fee, key) in activeFees" :key="key" class="table-row">
 			                    <th class="wd-30">
-					                <div class="custom-control-lg custom-control custom-checkbox">
-		                                <input type="checkbox" class="custom-control-input" 
+					                <div class="form-check-lg form-check">
+		                                <input type="checkbox" class="form-check-input" 
 		                                    :ref="el => checkBoxElements[key] = el" 
 		                                    :checked="selectedActiveFees.includes(fee.invoiced_fee_id.toString())" 
 		                                    @click="checkOne($event)" :id="fee.invoiced_fee_id">
-		                                <label class="custom-control-label" :for="fee.invoiced_fee_id"></label>
+		                                <label class="form-check-label" :for="fee.invoiced_fee_id"></label>
 		                            </div>
 			                    </th>
 			                    <td>
 			                        <div class="d-flex justify-content-between">
-			                            <div class="mr-4">
+			                            <div class="me-4">
 			                                <span>
 			                                	<a href="#" class="h7 text-decoration-none text-dark text-break font-weight-midi">
 				                                	{{ fee.fee_headname }}
 				                                </a>
 			                                </span>
-			                                <div class="small text-muted text-wrap text-break">{{ fee.description }}</div>
+			                                <h6 class="small text-muted text-wrap text-break">{{ fee.description }}</h6>
 			                            </div>
-			                            <a class="row-toggle text-decoration-none ml-2" @click="tableRowToggle($event)"></a>
+			                            <a class="row-toggle text-decoration-none ms-2" @click="tableRowToggle($event)"></a>
 			                        </div>
 			                    </td>
 			                    <td class="h7 font-weight-midi" data-colname="AMOUNT:">{{ fee.amount }}</td>
@@ -83,14 +83,14 @@
 			                    <td class="h7 font-weight-midi" data-colname="DATE:">20/05/2020</td>
 			                    <td>
 			                        <div class="dropdown">
-			                            <a class="btn btn-outline-secondary btn-xs rounded" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Action</a>
-			                            <div class="dropdown-menu dropdown-menu-right border-0 shadow py-3 " aria-labelledby="dropdownMenuLink">
+			                            <a class="btn btn-outline-secondary btn-xs rounded" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">Action</a>
+			                            <div class="dropdown-menu dropdown-menu-end border-0 shadow m-0 py-3" aria-labelledby="dropdownMenuLink">
 
 			                                <a class="dropdown-item small font-weight-midi py-2" data-backdrop="static" data-keyboard="false"
-			                                 data-toggle="modal" data-target="#deactivate-modal" href="#">cashpay</a>
+			                                 data-bs-toggle="modal" data-bs-target="#deactivate-modal" href="#">cashpay</a>
 
 			                                <a class="dropdown-item small font-weight-midi py-2" data-backdrop="static" data-keyboard="false"
-			                                 data-toggle="modal" data-target="#email-modal"
+			                                 data-bs-toggle="modal" data-bs-target="#email-modal"
 			                                 href="#">webpay</a>                                            
 			                            </div>
 			                        </div>
@@ -241,6 +241,7 @@ export default {
         color: #666;
         overflow: hidden;
         width: 32%;
+        min-width: 14%;
         text-overflow: ellipsis;
         white-space: nowrap;
     }

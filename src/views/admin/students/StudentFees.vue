@@ -5,13 +5,13 @@
                 <div class="p-0" style="overflow-x: auto;">
                     <ul class="nav nav-pills mt-2" id="pills-tab" role="tablist" style="flex-wrap: unset;">
                         <li class="nav-item" role="presentation">
-                            <a class="nav-link pl-1 pb-sm-3 pb-3 active" id="pills-active-fee-tab" data-toggle="pill" href="#pills-active-fee" role="tab" aria-controls="pills-bio" aria-selected="true">Active</a>
+                            <a class="nav-link ps-1 pb-sm-3 pb-3 active" id="pills-active-fee-tab" data-bs-toggle="pill" href="#pills-active-fee" role="tab" aria-controls="pills-bio" aria-selected="true">Active</a>
                         </li>
                         <li class="nav-item" role="presentation">
-                            <a class="nav-link px-sm-3 px-2 pb-sm-3 pb-3" id="pills-inactive-fee-tab" data-toggle="pill" href="#pills-inactive-fee" role="tab" aria-controls="pills-fees" aria-selected="false">Settled</a>
+                            <a class="nav-link px-sm-3 px-2 pb-sm-3 pb-3" id="pills-inactive-fee-tab" data-bs-toggle="pill" href="#pills-inactive-fee" role="tab" aria-controls="pills-fees" aria-selected="false">Settled</a>
                         </li>
                         <li class="nav-item" role="presentation">
-                            <a class="nav-link px-sm-3 px-2 pb-sm-3 pb-3" id="pills-transaction-tab" data-toggle="pill" href="#pills-transaction" role="tab" aria-controls="pills-attendance" aria-selected="false">Transactions</a>
+                            <a class="nav-link px-sm-3 px-2 pb-sm-3 pb-3" id="pills-transaction-tab" data-bs-toggle="pill" href="#pills-transaction" role="tab" aria-controls="pills-attendance" aria-selected="false">Transactions</a>
                         </li>
                     </ul>
                 </div>

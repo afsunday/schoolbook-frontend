@@ -14,7 +14,7 @@
         </template>
 
         <ul class="d-flex justify-content-between list-unstyled pb-2 w-100" style="overflow-x: auto;">
-            <li class="flex-fill mr-3 mr-md-4">
+            <li class="flex-fill me-3 me-md-4">
                 <div class="rounded-lg-top rounded-lg-right border bg-white px-3 py-3" style="min-width: 270px;">
                     <div class="d-flex justify-content-between">
                         <div class="">
@@ -25,13 +25,13 @@
                     </div>
                     <div class="border-bottom"></div>
                     <div class="d-flex align-items-start mt-2">
-                        <button class="btn btn-secondary btn-sm text-capitalize mr-2">Fund wallet</button>
+                        <button class="btn btn-secondary btn-sm text-capitalize me-2">Fund wallet</button>
                         <button class="btn btn-light btn-sm border font-weight-midi small text-capitalize">withdraw</button>
                     </div>
                 </div>
             </li>
 
-            <li class="flex-fill mr-3 mr-md-4">
+            <li class="flex-fill me-3 me-md-4">
                 <div class="rounded-lg-top rounded-lg-right bg-white border px-3 py-3" style="min-width: 270px;">
                     <div class="d-flex justify-content-between">
                         <div class="">
@@ -42,7 +42,7 @@
                     </div>
                     <div class="border-bottom"></div>
                     <div class="d-flex align-items-start mt-2">
-                        <button class="btn btn-light btn-sm border text-capitalize mr-2">View All</button>
+                        <button class="btn btn-light btn-sm border text-capitalize me-2">View All</button>
                     </div>
                 </div>
             </li>
@@ -58,7 +58,7 @@
                     </div>
                     <div class="border-bottom"></div>
                     <div class="d-flex align-items-start mt-2">
-                        <button class="btn btn-light btn-sm border text-capitalize mr-2">View All</button>
+                        <button class="btn btn-light btn-sm border text-capitalize me-2">View All</button>
                     </div>
                 </div>
             </li>

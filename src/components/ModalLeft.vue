@@ -8,8 +8,7 @@
                         <slot name="title"></slot>
                     </div>
 
-                    <button type="button" class="close outline-0" data-dismiss="modal" aria-label="close">
-                        <span aria-hidden="true">&times;</span>
+                    <button type="button" class="btn-close outline-0 small" data-bs-dismiss="modal" aria-label="close">
                     </button>
                 </div>
 
@@ -33,6 +32,7 @@ export default {
 </script>
 
 <style scoped>
+
 .modal.show {
     padding: 0px !important;
 }

@@ -1,21 +1,21 @@
 <template>
 	<div class="v-admin">
 		<div v-if="store.state.auth.loggedIn && store.state.auth.appReady"  ref="body" class="sb-nav-fixed">
-			<nav class="sb-topnav navbar navbar-expand navbar-light border-bottom shadow bg-white">
-				<a class="navbar-brand" href="index.html">School</a>
-				<button class="btn btn-light rounded-circle btn-sm order-1 order-lg-0 my-2 ml-1" @click="navToggle()" id="sidebarToggle" href="#">
-					<i class="fas fa-bars"></i>
+			<nav class="sb-topnav navbar navbar-expand navbar-light border-bottom shadow bg-white pe-2">
+				<a class="navbar-brand" href="#">School</a>
+				<button class="btn btn-light rounded-circle btn-sm order-1 order-lg-0 my-2 ms-1 me-2" @click="navToggle()" id="sidebarToggle" href="#">
+					<i class="fas fa-bars fa-sm"></i>
 				</button>
-				<ul class="navbar-nav align-items-center ml-auto">
-					<li class="nav-item dropdown no-caret mr-2">
-						<a class="btn btn-light btn-sm border rounded-circle" id="navbarDropdownAlerts" href="javascript:void(0);" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-bell"></i></a>
-						<div class="dropdown-menu dropdown-menu-right border-0 mt-3 shadow-sm" aria-labelledby="navbarDropdownAlerts">
+				<ul class="navbar-nav align-items-center ms-auto">
+					<li class="nav-item dropdown no-caret me-2">
+						<a class="btn btn-light btn-sm border rounded-circle" id="navbarDropdownAlerts" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-bell"></i></a>
+						<div class="dropdown-menu dropdown-menu-end border-0 mt-3 shadow-sm">
 							<a class="dropdown-item" href="#">Settings</a>
 						</div>
 					</li>
-					<li class="nav-item dropdown mr-1">
-						<a class="btn btn-light border rounded-circle my-2 p-0" id="userDropdown" href="javascript:void" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img class="rounded-circle p-0" src="assets/img/noimage.jpg" height="30" width="30"></a>
-						<div class="dropdown-menu dropdown-menu-right shadow-sm mt-3 border-0" aria-labelledby="userDropdown" style="width: 200px">
+					<li class="nav-item dropdown me-2">
+						<a class="btn btn-light border rounded-circle my-2 p-0" id="userDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><img class="rounded-circle p-0" src="assets/img/noimage.jpg" height="30" width="30"></a>
+						<div class="dropdown-menu dropdown-menu-end shadow-lg mt-3 border-0">
 							<div class="d-flex justify-content-center pt-2">
 								<img src="" class="rounded-circle border border-info bg-white" height="65" width="65" alt=" ">
 							</div>
@@ -44,7 +44,7 @@
 
 								<div class="sb-sidenav-menu-heading">Interface</div>
 
-								<a class="nav-link collapsed" data-toggle="collapse" data-target="#collapseStd" aria-expanded="false" aria-controls="collapseLayouts">
+								<a class="nav-link collapsed" data-bs-toggle="collapse" data-bs-target="#collapseStd" aria-expanded="false" aria-controls="collapseLayouts">
 		                            <div class="sb-nav-link-icon"><i class="fas fa-users fa-lg"></i></div>
 		                            Students
 		                            <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
@@ -56,7 +56,7 @@
 		                            </nav>
 		                        </div>							
 
-								<a class="nav-link collapsed" data-toggle="collapse" data-target="#collapseStaff" aria-expanded="false" aria-controls="collapseLayouts">
+								<a class="nav-link collapsed" data-bs-toggle="collapse" data-bs-target="#collapseStaff" aria-expanded="false" aria-controls="collapseLayouts">
 		                            <div class="sb-nav-link-icon"><i class="fas fa-chalkboard-teacher fa-lg"></i></div>
 		                            Staffs
 		                            <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
@@ -68,7 +68,7 @@
 		                            </nav>
 		                        </div>
 
-								<a class="nav-link collapsed" data-toggle="collapse" data-target="#collapseG1" aria-expanded="false" aria-controls="collapseLayouts">
+								<a class="nav-link collapsed" data-bs-toggle="collapse" data-bs-target="#collapseG1" aria-expanded="false" aria-controls="collapseLayouts">
 		                            <div class="sb-nav-link-icon"><i class="fas fa-users fa-lg"></i></div>
 		                            Guardians
 		                            <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
@@ -81,7 +81,7 @@
 		                        </div>
 
 
-								<a class="nav-link collapsed" data-toggle="collapse" data-target="#collapseAcademics" aria-expanded="false" aria-controls="collapseLayouts">
+								<a class="nav-link collapsed" data-bs-toggle="collapse" data-bs-target="#collapseAcademics" aria-expanded="false" aria-controls="collapseLayouts">
 		                            <div class="sb-nav-link-icon"><i class="fas fa-chalkboard-teacher fa-lg"></i></div>
 		                            Academics
 		                            <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
@@ -97,7 +97,7 @@
 		                        </div>
 
 
-								<a class="nav-link collapsed" data-toggle="collapse" data-target="#collapseFee" aria-expanded="false" aria-controls="collapseLayouts">
+								<a class="nav-link collapsed" data-bs-toggle="collapse" data-bs-target="#collapseFee" aria-expanded="false" aria-controls="collapseLayouts">
 		                            <div class="sb-nav-link-icon"><i class="fas fa-chalkboard-teacher fa-lg"></i></div>
 		                            Bursary
 		                            <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>

@@ -4,9 +4,7 @@
             <div class="modal-content border-0">
                 <div class="modal-header py-2">
                     <h6 class="modal-title mt-1" :id="modalBadge">Filter</h6>
-                    <button type="button" class="close outline-0" data-dismiss="modal" aria-label="close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+                    <button type="button" class="btn-close outline-0 small" data-bs-dismiss="modal" aria-label="close"></button>
                 </div>
                 <div class="modal-body">
                 	<slot/>

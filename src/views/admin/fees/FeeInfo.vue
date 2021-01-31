@@ -225,7 +225,7 @@
                             </div>
                             
                             <div  v-for="student in selectedStudents" class="border-0 px-1 pb-0 mb-2">
-                                <div class="d-flex justify-content-between border rounded-top rounded-right pt-2 pb-3 px-2">
+                                <div class="d-flex justify-content-between border rounded-top rounded-end pt-2 pb-3 px-2">
                                     <div class="d-flex mr-2">
                                         <img src="@/assets/images/user.png" class="rounded border mr-2 mr-sm-3" width="45" height="45" alt=" ">
                                         <span class="text-break mt-n1"> 

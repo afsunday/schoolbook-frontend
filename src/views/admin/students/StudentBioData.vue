@@ -1,16 +1,16 @@
 <template>
     <div class="mt-n1">
-        <div class="form-row">
+        <div class="row g-3">
             <div class="col-sm-6 col-md-6 mb-2">
                 <div class="card-alt">
                     <div class="d-inline-flex border-bottom w-100 px-2 pb-2 pt-3">
-                        <div class="mr-1"><i class="icon icon-description icon-lg"></i></div>
-                        <div class="ml-1 font-weight-midi text-break h7">Basic Info</div>
+                        <div class="me-1"><i class="icon icon-description icon-lg"></i></div>
+                        <div class="ms-1 font-weight-midi text-break h7">Basic Info</div>
                     </div>
 
                     <div class="card-body px-2 pt-2">
                         <div class="d-flex border-bottom py-3">
-                            <div class="small-xs font-weight-bold mr-3 mr-sm-4">ACCOUNT STATUS</div>
+                            <div class="small-xs font-weight-bold me-3 me-sm-4">ACCOUNT STATUS</div>
                             <div class="small">Listed</div>
                         </div>
                     </div>
@@ -18,8 +18,8 @@
 
                 <div class="card-alt mt-2">
                     <div class="d-inline-flex px-2 pt-3">
-                        <div class="mr-1"><i class="icon icon-info icon-lg"></i></div>
-                        <div class="ml-1 font-weight-midi text-break h7">Bio Info</div>
+                        <div class="me-1"><i class="icon icon-info icon-lg"></i></div>
+                        <div class="ms-1 font-weight-midi text-break h7">Bio Info</div>
                     </div>
 
                     <div class="card-body px-2 pt-2">
@@ -49,8 +49,8 @@
             <div class="col-sm-6 col-md-6 mb-4">
                 <div class="card-alt">
                     <div class="d-inline-flex px-2 pt-3">
-                        <div class="mr-1"><i class="icon icon-contacts icon-lg"></i></div>
-                        <div class="ml-1 font-weight-midi text-break h7">contact Info</div>
+                        <div class="me-1"><i class="icon icon-contacts icon-lg"></i></div>
+                        <div class="ms-1 font-weight-midi text-break h7">contact Info</div>
                     </div>
 
                     <div class="card-body px-2 pt-2">
@@ -73,8 +73,8 @@
 
                 <div class="card-alt mt-2">
                     <div class="d-inline-flex px-2 pt-3">
-                        <div class="mr-1"><i class="icon icon-influence icon-lg"></i></div>
-                        <div class="ml-1 font-weight-midi text-break h7">Other Info</div>
+                        <div class="me-1"><i class="icon icon-influence icon-lg"></i></div>
+                        <div class="ms-1 font-weight-midi text-break h7">Other Info</div>
                     </div>
 
                     <div class="card-body px-2 py-2">                       

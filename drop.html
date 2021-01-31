@@ -82,6 +82,56 @@
     width: 500px;
     left: 6px;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.custom-control-lg .custom-control-label::before,
+.custom-control-lg .custom-control-label::after {
+  top: 0.1rem !important;
+  left: -2rem !important;
+  width: 1.20rem !important;
+  height:  1.20rem !important;
+  border-radius: 3px !important;
+  outline: none !important;
+  box-shadow: none !important;
+  font-size: 15px !important;
+}
+
+.custom-control-lg .custom-control-label {
+  margin-left: 0.5rem !important;
+  font-size: 1rem !important;
+}
+
+.custom-control-lg .custom-control-label::before {
+  border: 1px solid #cccccc !important;
+}
+
+.custom-control-lg .custom-control-input:checked ~ .custom-control-label::after {
+  color: #fff;
+  border-color: #007bff;
+  background-color: #007bff;
+  transition-delay: 0s !important;
+}
 */
 
 
@@ -274,3 +324,9 @@ const selectStudent = (event, student) => {
         @click="selectStudent($event, student)" :id="'checkbox'+student.student_id">
     <label class="custom-control-label" :for="'checkbox'+student.student_id"></label>
 </div> -->
+
+
+
+
+
+

@@ -75,7 +75,7 @@ export default (storageKey = '') => {
 
             let localBank =  JSON.parse(localStorage.getItem(storageKey))
 
-            if (localBank.length <=0) {
+            if (localBank === null || localBank.length <= 0 ) {
                 removeCheckStorage()
             }
         } 

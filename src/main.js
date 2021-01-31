@@ -5,7 +5,7 @@ import router from './router'
 import store from './store'
 
 import 'bootstrap'
-import $ from 'jquery'
+
 import { defineRule } from 'vee-validate';
 
 import 'bootstrap/dist/css/bootstrap.min.css'
