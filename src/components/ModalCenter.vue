@@ -26,7 +26,7 @@ export default {
 @media (max-width: 500px) {
 	.modal-dialog {
 		position: absolute !important;
-		bottom: 0;
+		bottom: 0 !important;
 		margin: 0;
 		width: 100% !important;
 	}
@@ -36,6 +36,9 @@ export default {
 		border-bottom-right-radius: 0px;
 		border-top-right-radius: 0.5rem;
 		border-top-left-radius: 0.5rem;
+        position: fixed;
+        bottom: 0;
+        
 	}
 
 }

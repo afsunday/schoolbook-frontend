@@ -105,13 +105,13 @@
 
 @media (min-width: 992px) {
   .sb-nav-fixed #layoutSidenav #layoutSidenav_nav .sb-sidenav .sb-sidenav-menu {
-    scrollbar-width: none;
-  }
-
-  .sb-nav-fixed #layoutSidenav #layoutSidenav_nav .sb-sidenav .sb-sidenav-menu:hover,
-  .sb-nav-fixed #layoutSidenav #layoutSidenav_nav .sb-sidenav .sb-sidenav-menu:focus {
     scrollbar-width: thin;
   }
+
+  // .sb-nav-fixed #layoutSidenav #layoutSidenav_nav .sb-sidenav .sb-sidenav-menu:hover,
+  // .sb-nav-fixed #layoutSidenav #layoutSidenav_nav .sb-sidenav .sb-sidenav-menu:focus {
+  //   scrollbar-width: thin;
+  // }
 }
 
 

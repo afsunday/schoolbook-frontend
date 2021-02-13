@@ -79,7 +79,7 @@
                 <line-preload :loading="loadingState.loading"></line-preload>
 
                 <div class="card-body px-0 pt-0 min-100">
-                    <div v-if="loadingState.loaded && !fetchFeesHasError" id="toggle-table">
+                    <div v-if="loadingState.loaded && !fetchFeesHasError" id="toggle-tablexxx">
                         <table class="table table-striped">
                             <thead class="small-xs font-weight-midi text-muted bg-white">
                                 <tr>
@@ -91,6 +91,7 @@
                                     </th>
                                     <th>SUBJECT NAME</th>
                                     <th>SUBJECT LEVEL</th>
+                                    <th></th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -107,7 +108,8 @@
                                     <td>
                                         <a  class="small text-primary text-capitalize text-wrap text-break" href="#">AGRICULTURAL SCIENCE</a>
                                     </td>
-                                    <td class="h7 font-weight-midi" data-colname="AMOUNT:">{{ fee.amount }}</td>
+                                    <td class="h7 font-weight-midi text-capitalize" data-colname="AMOUNT:">Senior</td>
+                                    <td></td>
                                 </tr>
                             </tbody>
                         </table>
@@ -131,6 +133,17 @@
                         @changePage="navigate($event)">
                     </pagination-links>
                 </div>
+            </div>
+
+            <div class="row g-3 mt-4">
+                <div class="col-md-8">
+                    <div class="card border-0 shadow-sm">
+                        <div class="card-header bg-white"></div>
+                        <div class="card-body px-2"></div>
+                    </div>
+                </div>
+
+                <div class="col-md-4"></div>
             </div>
         </template>
 
@@ -289,6 +302,12 @@ export default {
 
 .inactive {
     color: #dc3545;
+}
+
+.table thead > tr > th:first-child,
+.table tbody > tr > th {
+    padding-right: 0px;
+    width: 10px;
 }
 
 @media (max-width: 768px) {

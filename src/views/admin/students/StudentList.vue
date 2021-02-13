@@ -12,14 +12,12 @@
                         <div class="">
                             <div class="dropdown">
                                 <a class="btn btn-light btn-sm border" href="#" role="button" id="dpLK" data-bs-toggle="dropdown" aria-expanded="false">Options</a>
-                                <div class="dropdown-menu dropdown-menu-end border-0 shadow">
-                                    <div class="py-3">
-                                        <router-link class="dropdown-item small font-weight-midi py-2" :to="'/m/students/add'">
-                                        Add Student</router-link>
+                                <div class="dropdown-menu dropdown-menu-end border-0 shadow m-0 py-3">
+                                    <router-link class="dropdown-item small font-weight-midi py-2" :to="'/m/students/add'">
+                                    Add Student</router-link>
 
-                                        <a @click="clearSelections()" class="dropdown-item small font-weight-midi py-2">
-                                        Clear Selections</a>
-                                    </div>
+                                    <a @click="clearSelections()" class="dropdown-item small font-weight-midi py-2">
+                                    Clear Selections</a>
                                 </div>
                             </div>
                         </div>
@@ -194,6 +192,13 @@
 
                 </div><!--/card-body-->
             </div><!--/card-->
+
+
+
+
+
+
+            
         </template>
 
     </base-admin>

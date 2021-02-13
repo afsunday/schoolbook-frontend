@@ -2,25 +2,25 @@
     <div class="body-bg">
         <div class="container">
             <div class="d-flex justify-content-center">
-                <div class="form-card bg-white">
+                <div class="form-card bg-white shadow">
                     <div class="px-3 pt-3 pb-4">
                         <form @submit.prevent="submit()">
-                            <div class="form-group">
+                            <div class="mb-1">
                                 <label class="small">Username</label>
                                 <input type="text" class="form-control form-control-lg" v-model="form.username" name="" />
                                 <span class="text-danger small" v-if="errors.username">{{ errors.username[0] }}</span>
                             </div>
-                            <div class="form-group">
+                            <div class="mb-1">
                                 <label class="small">Password</label>
                                 <input type="password" class="form-control form-control-lg" v-model="form.password" name="" />
                                 <span class="text-danger small" v-if="errors.password">{{ errors.password[0] }}</span>
                             </div>
-                            <div class="form-group">
+                            <div class="mt-4">
                                 <loading-button :loading="sending" class="btn btn-secondary btn-lg btn-block" type="submit">Login</loading-button>
                             </div>
                         </form>
                     </div>
-                    <div class="card-footer">
+                    <div class="card-footer py-3">
                     </div>
                 </div>
             </div>
