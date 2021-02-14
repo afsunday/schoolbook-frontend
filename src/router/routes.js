@@ -61,15 +61,39 @@ const routes = [
         path: '/m/students',
         name: 'StudentList',
         props: route => ({ query: route.query.page }),
-        component: () => import(/* webpackChunkName: "admin-students" */ '@/views/admin//students/StudentList.vue'),
+        component: () => import(/* webpackChunkName: "admin-students" */ '@/views/admin/students/StudentList.vue'),
+        beforeEnter: adminGate,
+        meta: meta.admin
+    },
+   
+    {
+        path: '/m/students/:studentId/profile',
+        name: 'StudentProfile',
+        component: () => import(/* webpackChunkName: "admin-student-view" */ '@/views/admin/students/StudentProfile.vue'),
         beforeEnter: adminGate,
         meta: meta.admin
     },
 
     {
-        path: '/m/students/:studentId/profile',
-        name: 'StudentProfile',
-        component: () => import(/* webpackChunkName: "admin-student-view" */ '@/views/admin//students/StudentProfile.vue'),
+        path: '/m/students/:studentId/fees',
+        name: 'StudentFees',
+        component: () => import(/* webpackChunkName: "admin-student-fees" */ '@/views/admin/students/fees/StudentFees.vue'),
+        beforeEnter: adminGate,
+        meta: meta.admin
+    },
+
+    {
+        path: '/m/students/:studentId/fees/transactions',
+        name: 'StudentFeeTransaction',
+        component: () => import(/* webpackChunkName: "admin-student-fees" */ '@/views/admin/students/fees/StudentFeeTransaction.vue'),
+        beforeEnter: adminGate,
+        meta: meta.admin
+    },
+
+    {
+        path: '/m/students/:studentId/reports',
+        name: 'StudentReports',
+        component: () => import(/* webpackChunkName: "admin-student-fees" */ '@/views/admin/students/StudentReports.vue'),
         beforeEnter: adminGate,
         meta: meta.admin
     },
@@ -77,7 +101,7 @@ const routes = [
     {
         path: '/m/students/:studentId/edit',
         name: 'EditStudent',
-        component: () => import(/* webpackChunkName: "admin-student-edit" */ '@/views/admin//students/EditStudent.vue'),
+        component: () => import(/* webpackChunkName: "admin-student-edit" */ '@/views/admin/students/EditStudent.vue'),
         beforeEnter: adminGate,
         meta: meta.admin
     },
@@ -85,7 +109,7 @@ const routes = [
     {
         path: '/m/students/add',
         name: 'AddStudent',
-        component: () => import(/* webpackChunkName: "admin-student-view" */ '@/views/admin//students/AddStudent.vue'),
+        component: () => import(/* webpackChunkName: "admin-student-view" */ '@/views/admin/students/AddStudent.vue'),
         beforeEnter: adminGate,
         meta: meta.admin
     },

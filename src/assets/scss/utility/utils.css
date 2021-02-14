@@ -132,18 +132,6 @@ a {
   font-size: 0.90rem;
 }
 
-/*.enrolled { 
-    color:  #009900; 
-}
-
-.dropped { 
-    color: #ff3300;  
-}
-
-.graduated { 
-    color: #0066cc; 
-}*/
-
 @media (min-width: 400px) {
    .d-xs-inline {
       display: inline !important;
@@ -172,6 +160,10 @@ a {
 
 .bg-light-success {
   background-color: rgba(0,153,0,0.15) !important;
+}
+
+.bg-gray-light {
+  background-color: rgb(250, 251, 252) !important;
 }
 
 /* ==================================================
