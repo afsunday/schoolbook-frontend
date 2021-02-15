@@ -19,7 +19,7 @@ export default {
 		    })
 		    .catch((err) => {
 
-	      	    if (err.response.status === 401 || err.response.status === 403) {
+	      	    if (err.response.status > 400 && err.response.status < 500) {
 	      	    	store.commit('SET_LOGIN_STATUS', false)
 	      	    	return callback(false)
 	      	    } else {
@@ -36,5 +36,23 @@ export default {
 		    store.commit('SET_LOGIN_STATUS', false)
 		    callback(false)
 	    }
+	},
+
+	async authed(callback) {
+		if (store.getters.user === null || store.getters.user.length <= 0) {
+	        await User.me().then((res) => {
+		    	store.commit('SET_USER', res.data)
+
+		    	return callback(true)
+		    })
+		    .catch((err) => {
+	      	    if (err.response.status > 400 && err.response.status < 500) {
+	      	    	return callback(false)
+	      	    } else {
+	      	    	store.commit('SET_APP_LOAD_RETRY', true)
+	      	    	return callback('retry')	      
+	      	    }
+		    })
+		}
 	}
 }

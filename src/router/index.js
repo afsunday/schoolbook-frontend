@@ -3,6 +3,8 @@ import routes from './routes'
 import NProgress from 'nprogress'
 import store from '../store'
 
+import middleware from '@/middleware'
+
 
 NProgress.configure({
   easing: 'ease',
@@ -53,9 +55,44 @@ router.beforeEach(async (to, from) => {
 })
 
 
-router.beforeResolve((to) => {
+router.beforeResolve(async (to, from) => {
     if (to.name) {
         NProgress.start()  
+    }
+
+    await middleware.authed((res) => {
+        if (res === false) {
+            return router.push({
+                path: '/login',
+                query: { redirect: 'forbidden' }
+            })
+        } else if (res === true) {
+            store.commit('SET_APP_READY', true)
+        } else if (res === 'retry') {
+            store.commit('SET_APP_READY', false)                   
+        }
+    })
+
+    if(store.state.auth.appReady === false) {
+        return false
+    } 
+
+    if (to.meta.adminAuth) {
+        if (store.getters.user.type !== 'admin') {
+            return false
+        } 
+    } else if (to.meta.staffAuth) {
+        if (store.getters.user.type !== 'teacher') {
+            return false
+        } 
+    } else if (to.meta.studentAuth) {
+        if (store.getters.user.type !== 'student') {
+            return false
+        } 
+    } else if (to.meta.guardianAuth) {
+        if (store.getters.user.type !== 'guardian') {
+            return false
+        } 
     }
 })
 

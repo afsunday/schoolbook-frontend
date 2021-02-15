@@ -70,7 +70,7 @@ const routes = [
         path: '/m/students/:studentId/profile',
         name: 'StudentProfile',
         component: () => import(/* webpackChunkName: "admin-student-view" */ '@/views/admin/students/StudentProfile.vue'),
-        beforeEnter: adminGate,
+        // beforeEnter: adminGate,
         meta: meta.admin
     },
 

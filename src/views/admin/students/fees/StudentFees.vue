@@ -55,7 +55,7 @@
         <template v-slot:default>
             <div class="px-0">
                 <div class="card border-0 shadow-sm mt-n1">
-                    <div class="card-header bg-white py-0 px-2">
+                    <div class="card-header bg-white py-0 ps-1 pe-2">
                         <div class="p-0" style="overflow-x: auto;">
                             <ul class="nav nav-pills mt-2" id="pills-tab" role="tablist" style="flex-wrap: unset;">
                                 <li class="nav-item" role="presentation">

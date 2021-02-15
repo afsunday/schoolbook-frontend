@@ -3,14 +3,6 @@
 		<line-preload :loading="loadingState.loading"></line-preload>
 
         <div class="min-100">
-        	<error-reload :hasError="errState.hasError" :netError="errState.netError" :reqError="errState.reqError" 
-				@retry="e => {errState.reqError = errState.netError = errState.hasError = false; fetchActiveFees()}">
-			</error-reload>
-
-        	<empty-list :loaded="loadingState.loaded" :items="activeFees" :errState="errState.hasError">
-        		This student doesn't have an active fee.
-        	</empty-list>
-
 	        <div v-show="activeFees.length >= 1">
 				<div v-if="selectedActiveFees.length > 0" class="d-flex justify-content-between px-2 mt-2 mb-2">
 					<div class="text-dark small font-weight-midi d-inline-flex mt-1">
@@ -77,7 +69,7 @@
 			                    </td>
 			                    <td class="h7 font-weight-midi" data-colname="AMOUNT:">{{ fee.amount }}</td>
 			                    <td class="h7 font-weight-midi" data-colname="DISCOUNT:">{{ fee.discount }}</td>
-			                    <td class="h7 font-weight-midi" data-colname="PAYBASIS:">{{ !!fee.installment ? 'available' : 'unavailable' }}</td>
+			                    <td class="h7 font-weight-midi" data-colname="PAYBASIS:">{{ !!fee.installment ? 'Installment' : 'Onetime' }}</td>
 			                    <td class="h7 font-weight-midi" data-colname="PAID:">{{ fee.paid_amount }}</td>
 			                    <td class="h7 font-weight-midi" data-colname="DUE:">{{ fee.due_amount }}</td>
 			                    <td class="h7 font-weight-midi" data-colname="DATE:">20/05/2020</td>
@@ -99,6 +91,14 @@
 			            </tbody>
 			        </table>
 			    </div><!--/table-wrapper -->
+
+			    <error-reload :hasError="errState.hasError" :netError="errState.netError" :reqError="errState.reqError" 
+					@retry="e => {errState.reqError = errState.netError = errState.hasError = false; fetchActiveFees()}">
+				</error-reload>
+
+	        	<empty-list :loaded="loadingState.loaded" :items="activeFees" :errState="errState.hasError">
+	        		This student doesn't have an active fee.
+	        	</empty-list>
 
 			    <!-- Pagination -->
 		        <pagination-links

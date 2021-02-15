@@ -3,17 +3,6 @@
 		<line-preload :loading="loadingState.loading"></line-preload>
 
         <div class="min-100">
-			
-	        <error-reload :hasError="errState.hasError" :netError="errState.netError" :reqError="errState.reqError" 
-				@retry="e => {
-                    errState.reqError = errState.netError = errState.hasError = false; fetchFeeTransactions()
-                }">
-			</error-reload>
-
-        	<empty-list :loaded="loadingState.loaded" :items="feeTransactions" :errState="errState.hasError">
-        		This Student doesnt have fee transaction 
-        	</empty-list>
-
 	        <div v-show="feeTransactions.length >= 1">
 				<div class="card-header bg-white d-flex justify-content-between px-2">
 		            <div class="me-auto">
@@ -104,6 +93,16 @@
 			            </tbody>
 			        </table>
 			    </div><!--/table-wrapper -->
+
+			    <error-reload :hasError="errState.hasError" 
+				    :netError="errState.netError" 
+				    :reqError="errState.reqError" 
+					@retry="e => { errState.reqError = errState.netError = errState.hasError = false; fetchFeeTransactions() }">
+				</error-reload>
+
+	        	<empty-list :loaded="loadingState.loaded" :items="feeTransactions" :errState="errState.hasError">
+	        		This Student doesnt have fee transaction 
+	        	</empty-list>
 
 			    <!-- Pagination -->
 		        <pagination-links
@@ -261,5 +260,4 @@ export default {
         white-space: nowrap;
     }
 }
-
 </style>
