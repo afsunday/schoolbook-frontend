@@ -91,12 +91,13 @@
                                     </th>
                                     <th>SUBJECT NAME</th>
                                     <th>SUBJECT LEVEL</th>
+                                    <th>ELECTIVE</th>
                                     <th></th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr v-for="(fee, key) in fees" :key="key" class="table-row">
-                                    <th class="wd-30">
+                                    <th>
                                         <div class="form-check-lg form-check">
                                             <input type="checkbox" class="form-check-input" 
                                                 :ref="el => checkBoxElements[key] = el" 
@@ -108,7 +109,8 @@
                                     <td>
                                         <a  class="small text-primary text-capitalize text-wrap text-break" href="#">AGRICULTURAL SCIENCE</a>
                                     </td>
-                                    <td class="h7 font-weight-midi text-capitalize" data-colname="AMOUNT:">Senior</td>
+                                    <td class="small font-weight-midi text-capitalize" data-colname="AMOUNT:">Senior</td>
+                                    <td class="small font-weight-midi text-uppercase" data-colname="ELECTIVE:">YES</td>
                                     <td></td>
                                 </tr>
                             </tbody>
@@ -135,16 +137,6 @@
                 </div>
             </div>
 
-            <div class="row g-3 mt-4">
-                <div class="col-md-8">
-                    <div class="card border-0 shadow-sm">
-                        <div class="card-header bg-white"></div>
-                        <div class="card-body px-2"></div>
-                    </div>
-                </div>
-
-                <div class="col-md-4"></div>
-            </div>
         </template>
 
     </base-admin>
