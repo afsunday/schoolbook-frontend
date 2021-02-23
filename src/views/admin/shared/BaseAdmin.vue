@@ -119,11 +119,6 @@
 									Mail center
 								</router-link>
 
-								<router-link class="nav-link" to="class">
-									<div class="sb-nav-link-icon"><i class="fas fa-list-alt fa-lg"></i></div>
-									Stream
-								</router-link>
-
 								<div class="sb-sidenav-menu-heading">Tools</div>
 
 								<router-link class="nav-link" to="class">

@@ -1,13 +1,18 @@
 import { createStore } from 'vuex'
 import auth from './modules/auth'
 import general from './modules/general'
-import studentFeeStore from './modules/student/studentFeeStore'
+
+import adminSubjectStore from './modules/admin/adminSubjectStore'
+import adminStudentStore from './modules/admin/adminStudentStore'
+
 
 export default createStore({
 	modules: {
 		general,
 		auth,
-		studentFeeStore
+
+		adminSubjectStore,
+		adminStudentStore
 	}
 })
 

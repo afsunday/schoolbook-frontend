@@ -14,8 +14,8 @@
                     </a>
                 </li>
                 <li :class="{'page-item dropup': true, 'disabled': (ListNextPage === false && ListPrevPage === false) }">
-                    <a class="page-link no-outline text-muted" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expaneded="false"><i class="fas fa-ellipsis-h fa-sm"></i></a>
-                    <div class="dropdown-menu dropdown-menu-right text-center border-0 shadow">
+                    <a class="page-link no-outline text-muted" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expaneded="false"><i class="fas fa-ellipsis-h fa-sm"></i></a>
+                    <div class="dropdown-menu dropdown-menu-right text-center m-0 border-0 shadow">
                         <a v-for="page in ListPagesLength" :id="page" :class="{'dropdown-item': true, 'disabled': (page === ListCurrentPage) }" @click="$emit('changePage', $event)" >{{ page }}</a>
                     </div>
                 </li>

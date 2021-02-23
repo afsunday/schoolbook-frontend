@@ -33,7 +33,7 @@
                     <div v-if="!loadingState.filter && !filterResourceHasError ">
                         <div class="mb-1">
                             <label class="small-xs font-weight-midi mb-0">STATUS</label>
-                            <select class="form-select" v-model="fetchFeesParams.status">
+                            <select class="form-select" v-model="fetchSubjectsParams.status">
                                 <option value="all">All Atatus</option>
                                 <option :value="true">Active</option>
                                 <option :value="false">Inactive</option>
@@ -41,7 +41,7 @@
                         </div>
 
                         <div class="mb-1 mt-3 mb-3">
-                            <button class="btn btn-outline-secondary btn-sm rounded" @click="filterFees()" type="submit">
+                            <button class="btn btn-outline-secondary btn-sm rounded" @click="filterSubjects()" type="submit">
                                 Apply Filter
                             </button>
                         </div>
@@ -50,9 +50,9 @@
             </modal-center>
             <!-- /filter-Modal -->
 
-            <div v-if="selectedFees.length > 0" class="d-flex justify-content-between">
+            <div v-if="selectedSubjects.length > 0" class="d-flex justify-content-between">
                 <div class="text-dark small font-weight-midi d-inline-flex mt-2">
-                    {{ selectedFees.length }} subject(s) selected
+                    {{ selectedSubjects.length }} subject(s) selected
                 </div>
                 <div class="dropdown">
                     <a class="btn btn-secondary btn-sm font-weight-midi small-xs text-nowrap mb-1" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Actions</a>
@@ -71,7 +71,7 @@
                                     <i class="fas fa-filter fa-sm"></i><span class="d-none d-sm-inline"> Filter</span>
                                 </a>
                             </div>
-                            <input class="form-control bg-light" type="search" @keyup.enter="filterFees()" v-model="fetchFeesParams.search" placeholder="Search name, level" aria-label="Search">
+                            <input class="form-control bg-light" type="search" @keyup.enter="filterSubjects()" v-model="fetchSubjectsParams.search" placeholder="Search name, level" aria-label="Search">
                         </div>
                     </div>
                 </div>
@@ -79,7 +79,8 @@
                 <line-preload :loading="loadingState.loading"></line-preload>
 
                 <div class="card-body px-0 pt-0 min-100">
-                    <div v-if="loadingState.loaded && !fetchFeesHasError" id="toggle-tablexxx">
+                    <!-- <div v-if="loadingState.loaded && !fetchSubjectsHasError" id="toggle-tablexxx"> -->
+                    <div v-if="!fetchSubjectsHasError" id="toggle-tablexxx">
                         <table class="table table-striped">
                             <thead class="small-xs font-weight-midi text-muted bg-white">
                                 <tr>
@@ -91,49 +92,51 @@
                                     </th>
                                     <th>SUBJECT NAME</th>
                                     <th>SUBJECT LEVEL</th>
+                                    <th>REGISTRANTS</th>
                                     <th>ELECTIVE</th>
                                     <th></th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr v-for="(fee, key) in fees" :key="key" class="table-row">
+                                <tr v-for="(subject, key) in subjects" :key="key" class="table-row">
                                     <th>
                                         <div class="form-check-lg form-check">
                                             <input type="checkbox" class="form-check-input" 
                                                 :ref="el => checkBoxElements[key] = el" 
-                                                :checked="selectedFees.includes(fee.fee_id.toString())" 
-                                                @click="checkOne($event)" :id="fee.fee_id">
-                                            <label class="form-check-label" :for="fee.fee_id"></label>
+                                                :checked="selectedSubjects.includes(subject.subject_id.toString())" 
+                                                @click="checkOne($event)" :id="subject.subject_id">
+                                            <label class="form-check-label" :for="subject.subject_id"></label>
                                         </div>
                                     </th>
                                     <td>
-                                        <a  class="small text-primary text-capitalize text-wrap text-break" href="#">AGRICULTURAL SCIENCE</a>
+                                        <a  class="small text-capitalize text-wrap text-break" href="#">{{ subject.subject_name }}</a>
                                     </td>
-                                    <td class="small font-weight-midi text-capitalize" data-colname="AMOUNT:">Senior</td>
-                                    <td class="small font-weight-midi text-uppercase" data-colname="ELECTIVE:">YES</td>
+                                    <td class="small font-weight-midi text-capitalize" data-colname="LEVEL:"> {{ subject.level_name }} </td>
+                                    <td class="small font-weight-midi text-capitalize" data-colname="REIGISTRANTS:"> {{ subject.registrants }} </td>
+                                    <td class="small font-weight-midi text-uppercase" data-colname="ELECTIVE:">{{ !!subject.is_elective ? 'yes' : 'no' }}</td>
                                     <td></td>
                                 </tr>
                             </tbody>
                         </table>
                     </div><!--/table -->
 
-                    <empty-list :loaded="loadingState.loaded && !fetchFeesHasError" :items="fees">
+                    <empty-list :loaded="loadingState.loaded && !fetchSubjectsHasError" :items="subjects">
                         Oops we can't find any Fee
                     </empty-list>
 
-                    <retry-button class="mb-4 mt-4" :list="true" :hasRetry="fetchFeesHasError" 
+                    <retry-button class="mb-4 mt-4" :list="true" :hasRetry="fetchSubjectsHasError" 
                         @retry="e => { 
-                            fetchFeesHasError = loadingState.loaded = false; 
-                            fetchFees(); 
+                            fetchSubjectsHasError = loadingState.loaded = false; 
+                            fetchSubjects(); 
                         }">
                         Oops something went wrong try again.
                     </retry-button>
 
                     <!-- Pagination -->
-                    <pagination-links class="mt-3" :ListTotalPage="paginate.totalPage" :ListCurrentPage="paginate.currentPage"
+                    <!-- <pagination-links class="mt-3" :ListTotalPage="paginate.totalPage" :ListCurrentPage="paginate.currentPage"
                         :ListPrevPage="paginate.prevPage" :ListNextPage="paginate.nextPage" :ListPagesLength="paginate.pagesLength"
                         @changePage="navigate($event)">
-                    </pagination-links>
+                    </pagination-links> -->
                 </div>
             </div>
 
@@ -162,8 +165,9 @@ import { useRouter, useRoute } from 'vue-router'
 import { reactive, ref, watch } from 'vue'
 
 // apis
-import Fees from '@/apis/Fees'
 import SessionTerm from '@/apis/SessionTerm'
+import Subject from '@/apis/Subject'
+
 
 export default {
     name: "SubjectList",
@@ -206,57 +210,52 @@ export default {
 
 
         // student fetch request params
-        let fetchFeesParams = reactive({
+        let fetchSubjectsParams = reactive({
             search: '',
             status: 'all',
-            session_term: 'all',
-            fee_head: 'all',
-            greater: 0,
-            lesser: 0,
-            archives: false,
             page: 1
         })
 
 
-        const fees = ref([])
-        const fetchFeesHasError = ref(false)
+        const subjects = ref(store.state.adminSubjectStore.subjectList)
+        const fetchSubjectsHasError = ref(false)
 
-        const fetchFees = async () => {
+        const fetchSubjects = async () => {
             loadingState.loading = true
-            fetchFeesHasError.value = false
+            fetchSubjectsHasError.value = false
 
             if (typeof route.query.page !== 'undefined' && route.query.page !== null ) {
-                fetchFeesParams.page = route.query.page;
+                fetchSubjectsParams.page = route.query.page;
             }
 
-            await Fees.all(fetchFeesParams)
-            .then((res) => {
-                fees.value = res.data.data
+            await Subject.list().then((res) => {
+                subjects.value = res.data.data
+                store.commit('adminSubjectStore/SET_SUBJECT_LIST', res.data.data)
 
-                const { paging } = usePaginate(res);
-                paginate.value = { ...paginate.value, ...paging }
+                // const { paging } = usePaginate(res);
+                // paginate.value = { ...paginate.value, ...paging }
                 
                 loadingState.loading = false
                 loadingState.loaded = true
-                fetchFeesHasError.value = false
+                fetchSubjectsHasError.value = false
             })
             .catch((err) => {
                 loadingState.loading = false
                 loadingState.loaded = true
-                fetchFeesHasError.value = true
+                fetchSubjectsHasError.value = true
             })
         }
 
-        const filterFees = async () => {
+        const filterSubjects = async () => {
             router.push({ query: { page : 1 } });
-            await fetchFees()
+            await fetchSubjects()
         } 
 
         // OnCreated fetch list of fee & apply filter result base on route changes
-        fetchFees()
+        fetchSubjects()
         watch(() => route.query.page, async (value, old) => {
             if (typeof value !== 'undefined' && value !== null ) {
-                await fetchFees() 
+                await fetchSubjects() 
             }
         })
         
@@ -264,10 +263,10 @@ export default {
         const filterResourceHasError = ref(false)
 
         const { 
-            selectedCheckBoxes: selectedFees, 
+            selectedCheckBoxes: selectedSubjects, 
             checkAll, checkOne, checkBoxElements, 
             checkAllCheckBox
-        } = useCheckBox('ADMIN_SUBJECT_SELECT');
+        } = useCheckBox('ADMIN_SUBJECT_SELECTS');
 
         const tableRowToggle = (event) => {
             event.target.closest('.table-row').classList.toggle('is-expanded');
@@ -276,7 +275,7 @@ export default {
         return {
             loadingState, paginate, navigate, filterResourceHasError,
 
-            fees, fetchFeesParams, fetchFeesHasError, fetchFees, filterFees, selectedFees, 
+            subjects, fetchSubjectsParams, fetchSubjectsHasError, fetchSubjects, filterSubjects, selectedSubjects, 
 
             checkAll, checkOne, checkBoxElements, checkAllCheckBox, tableRowToggle
         }

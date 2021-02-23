@@ -28,11 +28,11 @@
 }
 
 #layoutSidenav #layoutSidenav_nav {
-  flex-basis: 235px;
+  flex-basis: 256px;
   flex-shrink: 0;
   transition: transform 0.15s ease-in-out;
   z-index: 1038;
-  transform: translateX(-235px);
+  transform: translateX(-256px);
 }
 
 #layoutSidenav #layoutSidenav_content {
@@ -43,7 +43,7 @@
   min-width: 0;
   flex-grow: 1;
   min-height: calc(100vh - 56px);
-  margin-left: -235px;
+  margin-left: -256px;
 }
 
 .sb-sidenav-toggled #layoutSidenav #layoutSidenav_nav {
@@ -74,10 +74,10 @@
     }
 
     .sb-sidenav-toggled #layoutSidenav #layoutSidenav_nav {
-      transform: translateX(-235px);
+      transform: translateX(-256px);
     }
     .sb-sidenav-toggled #layoutSidenav #layoutSidenav_content {
-      margin-left: -235px;
+      margin-left: -256px;
     }
     .sb-sidenav-toggled #layoutSidenav #layoutSidenav_content:before {
       display: none;
@@ -89,7 +89,7 @@
 }
 
 .sb-nav-fixed #layoutSidenav #layoutSidenav_nav {
-  width: 235px;
+  width: 256px;
   height: 100vh;
   z-index: 1038;
 }
@@ -116,7 +116,7 @@
 
 
 .sb-nav-fixed #layoutSidenav #layoutSidenav_content {
-  padding-left: 235px;
+  padding-left: 256px;
   top: 56px;
 }
 
@@ -133,7 +133,7 @@
 }
 
 .sb-topnav .navbar-brand {
-  width: 235px;
+  width: 256px;
   padding-left: 1rem;
   padding-right: 1rem;
   margin: 0;
