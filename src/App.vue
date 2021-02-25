@@ -1,6 +1,6 @@
 <template>
     <div id="app">
-        <router-view :key="route.fullPath"></router-view>
+        <router-view></router-view>
 
         <div v-if="store.state.auth.appLoadRetry" class="reload-wrapper fade-in">
             <div class="d-flex flex-column align-items-center reload-container">

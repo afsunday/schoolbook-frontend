@@ -35,6 +35,7 @@
                         </div>
                     </div>
                 </div>
+                <button class="btn btn-primary" @click="clickme()">click</button>
             </div><!--/.col1-->
 
             <div class="col-xl-8 col-md-8 col-sm-7">
@@ -106,6 +107,8 @@ import Chart from 'chart.js'
 
 // const Chart = () => import( webpackChunkName: "classes-analytics"  'chart.js');
 
+import Class from "@/apis/Class"
+
 export default {
   name: 'Students',
   components: {
@@ -119,11 +122,25 @@ export default {
   },
   mounted () {
     this.classAnalytics()
+    this.demo()
   },
   methods: {
   	collapseRow (event) {
   		event.target.closest('.table-row').classList.toggle('is-expanded')
   	},
+
+    clickme () {
+        this.$router.push({ query:{ page: 2, name: "sunday", passion: "dxsa" } })
+    },
+
+    demo () {
+
+        Class.classes().then((res) => {
+        }).catch((err) => {
+        })
+
+    },
+
     classAnalytics () {
       var ctx = document.getElementById('myPieChart')
       var myPieChart = new Chart(ctx, {

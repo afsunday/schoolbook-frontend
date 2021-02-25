@@ -17,7 +17,7 @@
                                     Add Student</router-link>
 
                                     <a @click="clearSelections()" class="dropdown-item small font-weight-midi py-2">
-                                    Clear Selections</a>
+                                    Clear Selections</a> 
                                 </div>
                             </div>
                         </div>
@@ -80,7 +80,7 @@
                         </div>
 
                         <div class="mb-1 mt-3 mb-3">
-                            <button class="btn btn-outline-secondary btn-sm" @click="filterStudents()" type="submit">
+                            <button class="btn btn-outline-secondary btn-sm" data-bs-dismiss="modal" @click="filterStudents()" type="submit">
                                 Apply Filter
                             </button>
                         </div>
@@ -169,7 +169,7 @@
                     </div><!--/table-->
 
                     <empty-list class="my-4" :loaded="loadingState.loaded  && !fetchStudentHasError" :items="students">
-                        Oops we can't find any Fee
+                        Oops we can't find any Student Record
                     </empty-list>
 
                     <retry-button class="my-4" :list="true" :hasRetry="fetchStudentHasError" 
@@ -270,12 +270,6 @@ export default {
             page: 1
         })
 
-        // navigate the guardian reseult list on modal
-        const navigate = (event) => {
-            let toPage = event.currentTarget.attributes.id.value;
-            router.push({ query: { page : toPage } })
-        }
-
         const fetchStudentHasError = ref(false)
         const students = ref([])
 
@@ -312,6 +306,12 @@ export default {
             }
         })
 
+        // navigate the guardian reseult list on modal
+        const navigate = (event) => {
+            let toPage = event.currentTarget.attributes.id.value;
+            router.push({query: { page : toPage } })
+        }
+
 
         const filterResourceHasError = ref(false)
         const classes = ref([])
@@ -334,10 +334,12 @@ export default {
         // on created fetch classes  
         fetchClasses()
 
-        
         const filterStudents = async () => {
-            router.push({ query: { page : 1 } });
-            await fetchStudents()
+            if(parseInt(route.query.page) !== 1) {
+                router.push({ query: { page : 1 } })
+            } else {
+                await fetchStudents()
+            }
         }        
 
         const { 

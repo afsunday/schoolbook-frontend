@@ -206,153 +206,9 @@
 
 
 
+<script type="text/javascript">
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+</script>
 
 
 
@@ -588,7 +444,7 @@ import useCheckBox from '@/composables/useCheckBox'
 
 // library:vue
 import { useStore } from 'vuex'
-import { useRouter, useRoute } from 'vue-router'
+import { useRouter, useRoute, onBeforeRouteUpdate } from 'vue-router'
 import { reactive, ref, watch } from 'vue'
 
 // apis
@@ -617,6 +473,15 @@ export default {
             loaded: false,
             filter: false
         })
+
+        onBeforeRouteUpdate((to, from) => {
+            if(parseInt(store.state.adminStudentStore.studentListParams.page) > 1) {
+                router.push({ 
+                    query: { page : store.state.adminStudentStore.studentListParams.page } 
+                })
+                // console.log(to)
+            }
+        })
         
         // 07043961126
         // navigate the guardian reseult list on modal
@@ -636,11 +501,10 @@ export default {
             if (typeof route.query.page !== 'undefined' && route.query.page !== null ) {
                 fetchStudentParams.page = route.query.page;
             } else {
-                router.push({ query: { page : fetchStudentParams.page } })
+                // router.push({ query: { page : fetchStudentParams.page } })
             }
-
-            await Student.all(fetchStudentParams)
-            .then((res) => {
+            
+            await Student.all(fetchStudentParams).then((res) => {
                 students.value = res.data.data
 
                 const { paging } = usePaginate(res);
@@ -653,8 +517,8 @@ export default {
                 loadingState.loading = false
                 loadingState.loaded = true
                 fetchStudentHasError.value = false
-            })
-            .catch((err) => {
+
+            }).catch((err) => {
                 loadingState.loading = false
                 loadingState.loaded = true
                 fetchStudentHasError.value = true
