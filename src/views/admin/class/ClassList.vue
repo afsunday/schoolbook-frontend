@@ -102,15 +102,16 @@
 </template>
 
 <script>
+// components
 import BaseAdmin from '@/views/admin/shared/BaseAdmin'
-import Chart from 'chart.js'
 
-// const Chart = () => import( webpackChunkName: "classes-analytics"  'chart.js');
+// library:vue
+import Chart from 'chart.js'
 
 import Class from "@/apis/Class"
 
 export default {
-  name: 'Students',
+  name: 'ClassList',
   components: {
     BaseAdmin
   },
@@ -122,25 +123,12 @@ export default {
   },
   mounted () {
     this.classAnalytics()
-    this.demo()
   },
   methods: {
   	collapseRow (event) {
   		event.target.closest('.table-row').classList.toggle('is-expanded')
-  	},
-
-    clickme () {
-        this.$router.push({ query:{ page: 2, name: "sunday", passion: "dxsa" } })
-    },
-
-    demo () {
-
-        Class.classes().then((res) => {
-        }).catch((err) => {
-        })
-
-    },
-
+  	}
+,
     classAnalytics () {
       var ctx = document.getElementById('myPieChart')
       var myPieChart = new Chart(ctx, {

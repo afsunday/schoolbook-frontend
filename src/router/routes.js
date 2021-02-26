@@ -267,8 +267,8 @@ const routes = [
 
     {
         path: '/m/class',
-        name: 'Class',
-        component: () => import(/* webpackChunkName: "school-class" */ '@/views/admin//Class.vue'),
+        name: 'ClassList',
+        component: () => import(/* webpackChunkName: "school-class" */ '@/views/admin/class/ClassList.vue'),
         beforeEnter: permitGate,
         meta: meta.admin
     },

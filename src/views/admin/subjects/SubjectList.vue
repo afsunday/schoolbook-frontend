@@ -34,7 +34,7 @@
                         <div class="mb-1">
                             <label class="small-xs font-weight-midi mb-0">STATUS</label>
                             <select class="form-select" v-model="fetchSubjectsParams.status">
-                                <option value="all">All Atatus</option>
+                                <option value="all">All Status</option>
                                 <option :value="true">Active</option>
                                 <option :value="false">Inactive</option>
                             </select>
@@ -121,7 +121,7 @@
                     </div><!--/table -->
 
                     <empty-list :loaded="loadingState.loaded && !fetchSubjectsHasError" :items="subjects">
-                        Oops we can't find any Fee
+                       We cant find a record of fee to show
                     </empty-list>
 
                     <retry-button class="mb-4 mt-4" :list="true" :hasRetry="fetchSubjectsHasError" 
@@ -133,10 +133,10 @@
                     </retry-button>
 
                     <!-- Pagination -->
-                    <!-- <pagination-links class="mt-3" :ListTotalPage="paginate.totalPage" :ListCurrentPage="paginate.currentPage"
+                    <pagination-links class="mt-3" :ListTotalPage="paginate.totalPage" :ListCurrentPage="paginate.currentPage"
                         :ListPrevPage="paginate.prevPage" :ListNextPage="paginate.nextPage" :ListPagesLength="paginate.pagesLength"
                         @changePage="navigate($event)">
-                    </pagination-links> -->
+                    </pagination-links>
                 </div>
             </div>
 
@@ -165,7 +165,6 @@ import { useRouter, useRoute } from 'vue-router'
 import { reactive, ref, watch } from 'vue'
 
 // apis
-import SessionTerm from '@/apis/SessionTerm'
 import Subject from '@/apis/Subject'
 
 
@@ -232,8 +231,8 @@ export default {
                 subjects.value = res.data.data
                 store.commit('adminSubjectStore/SET_SUBJECT_LIST', res.data.data)
 
-                // const { paging } = usePaginate(res);
-                // paginate.value = { ...paginate.value, ...paging }
+                const { paging } = usePaginate(res);
+                paginate.value = { ...paginate.value, ...paging }
                 
                 loadingState.loading = false
                 loadingState.loaded = true
@@ -246,21 +245,24 @@ export default {
             })
         }
 
+        // subject list filter
+        const filterResourceHasError = ref(false)
         const filterSubjects = async () => {
-            router.push({ query: { page : 1 } });
-            await fetchSubjects()
+            if(parseInt(route.query.page) !== 1) {
+                router.push({ query: { page : 1 } })
+            } else {
+                await fetchSubjects()
+            }
         } 
 
-        // OnCreated fetch list of fee & apply filter result base on route changes
+        // onCreated fetch subjects
+        // watch for route change and fetch subjects
         fetchSubjects()
         watch(() => route.query.page, async (value, old) => {
             if (typeof value !== 'undefined' && value !== null ) {
                 await fetchSubjects() 
             }
         })
-        
-
-        const filterResourceHasError = ref(false)
 
         const { 
             selectedCheckBoxes: selectedSubjects, 

@@ -191,14 +191,7 @@
                     </pagination-links>
 
                 </div><!--/card-body-->
-            </div><!--/card-->
-
-
-
-
-
-
-            
+            </div><!--/card-->       
         </template>
 
     </base-admin>
