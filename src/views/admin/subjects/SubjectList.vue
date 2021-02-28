@@ -130,7 +130,7 @@
                             fetchSubjects(); 
                         }">
                         Oops something went wrong try again.
-                    </retry-button>
+                    </retry-button>                    
 
                     <!-- Pagination -->
                     <pagination-links class="mt-3" :ListTotalPage="paginate.totalPage" :ListCurrentPage="paginate.currentPage"

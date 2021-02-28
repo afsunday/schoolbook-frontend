@@ -8,7 +8,7 @@ export default {
     },
 
     me (id) {
-  	    return Api.get(`/admin/students/bio/${id}`)
+  	    return Api.get(`/admin/students/${id}/bio`)
     },
 
     studentFees(form) {
