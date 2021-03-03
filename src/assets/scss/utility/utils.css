@@ -3,31 +3,22 @@
     # Myschoolbook student Management
     # <afuwapesunday12@gmail.com>
 ==================================================== */
-/*html,
+html,
 body, {
   height: 100%;
   width: 100%
-}*/
-
-.container,
-.container-fluid,
-.container-sm,
-.container-md,
-.container-lg,
-.container-xl {
-  padding-left: 1.875rem;
-  padding-right: 1.875rem;
 }
 
-@media (max-width: 768px) {
+
+@media (min-width: 1200px) {
   .container,
   .container-fluid,
   .container-sm,
   .container-md,
   .container-lg,
   .container-xl {
-    padding-left: 0.9rem;
-    padding-right: 0.9rem;
+    padding-left: 1.875rem;
+    padding-right: 1.875rem;
   }
 }
 
@@ -64,16 +55,16 @@ a {
 /*====================================================
       Table
 ====================================================== */
-
-.table-lg th,
-.table-lg td {
-  padding: 0.7rem 1rem 1.2rem 0.6rem !important;
-}
-
 .table thead th {
   border-bottom: 1px solid #cccccc !important;
   padding-bottom: 0.5rem !important;
   padding-top: 1rem !important;
+}
+
+.table td {
+    font-size: 13px !important;
+    font-family: Lato,sans-serif !important;
+    font-weight: 500 !important;
 }
 
 /*===================================================

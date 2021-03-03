@@ -2,11 +2,11 @@ import Api from './Api'
 
 export default {
 
-  classes() {
-    return Api.get('/classes')
-  }
+ classArms() {
+    return Api.get('/class-arms')
+  },
 
-  classWithArms() {
-  	return Api.get('/class')
+  allClass() {
+  	return Api.get('/classes')
   }
 }

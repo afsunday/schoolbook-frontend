@@ -26,26 +26,45 @@
             <div class="wrapper">
                 <div class="row g-3 flex-md-row-reverse">
                     <div class="col-md-4 col-lg-4">
-                        <div class="border rounded p-2">
-                            <h5>column  2</h5>
+                        <div class="card border-0 shadow-sm">
+                            <div class="card-header bg-white d-flex px-2">
+                                <small class="text-muted">Class Overview</small>
+                            </div>
+                            <div class="card-body px-2 pt-2 pb-3">
+                                <div class="w-100">
+                                    <div class="">
+                                    </div>
+                                    <div class="progress">
+                                        <div class="progress-bar progress-bar-striped bg-warning" role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">25%</div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
                     <div class="col-md-8 col-lg-8">
-                        <div class="accordion" id="accordionExample">
+                        <div v-for="(klass, key) in schoolClasses" class="accordion" :id="`accordion${klass.class_id}`">
                             <div class="accordion-item">
                                 <h2 class="accordion-header" id="headingOne">
-                                    <button class="accordion-button px-2" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                                        Accordion Item #1
+                                    <button class="accordion-button px-2 text-capitalize" type="button" data-bs-toggle="collapse" :data-bs-target="`#accord${klass.class_id}`" aria-expanded="true" aria-controls="collapseOne">
+                                        {{ klass.class_fullname }}
                                     </button>
                                 </h2>
-                                <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                                <div :id="`accord${klass.class_id}`" :class="{'show': (key === 0)}" class="accordion-collapse collapse" aria-labelledby="headingOne" :data-bs-parent="`#accordion${klass.class_id}`">
                                     <div class="accordion-body ps-2 pe-0 pb-1">
                                         <ul class="d-flex justify-content-start align-items-start overflow-auto list-unstyled pb-3 w-100">
-                                            <li v-for="i in [1,2,3]" class="me-3 me-md-4" style="width:210px;">
-                                                <div class="rounded-lg-top rounded-lg-right shadow-sm bg-white px-5 py-3">
+                                            <li v-for="arm in JSON.parse(klass.arm_branch)" class="me-2 me-md-3" style="width:210px;">
+                                                <div class="rounded-lg-top rounded-lg-right shadow-sm bg-white px-2 pt-2 pb-5 h-auto position-relative">
                                                     <div class="d-flex justify-content-between">
-                                                        row card 1
+                                                        <a href="" class="text-truncate text-dark pe-2 small">{{ arm.arm_name }}</a>
+
+                                                        <div class="dropdown position-relative">
+                                                            <a class="text-dark font-weight-light" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-ellipsis-h"></i></a>
+                                                            <div class="dropdown-menu dropdown-menu-end border-0 shadow m-0 py-3" aria-labelledby="dropdownMenuLink">
+                                                                <a class="dropdown-item small font-weight-normal py-2" href="#">
+                                                                    Add Class</a>
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </li>                                            
@@ -75,8 +94,6 @@ import EmptyList from '@/components/EmptyList'
 import { useStore } from 'vuex'
 import { useRouter, useRoute } from 'vue-router'
 import { reactive, ref, watch } from 'vue'
-// import Chart from 'chart.js'
-
 
 // apis
 import Class from "@/apis/Class"
@@ -102,14 +119,45 @@ export default {
             loaded: false,
         })
 
-        return {}
+        const schoolClasses = ref(store.state.adminSubjectStore.subjectList)
+        const fetchClassHasError = ref(false)
+
+        const fetchClasses = async () => {
+            loadingState.loading = true
+            fetchClassHasError.value = false
+
+           
+            await Class.allClass().then((res) => {
+                schoolClasses.value = res.data
+
+                loadingState.loading = false
+                loadingState.loaded = true
+                fetchClassHasError.value = false
+            })
+            .catch((err) => {
+                loadingState.loading = false
+                loadingState.loaded = true
+                fetchClassHasError.value = true
+            })
+        }
+
+        // onCreated call func to fetch school classes
+        fetchClasses()
+
+        return {
+            schoolClasses
+        }
     }
 }
 </script>
 
 <style scoped>
+.fa, .fas {
+    font-weight: 700;
+}
+
 .accordion-item {
-    margin-bottom: 0.40rem;
+    margin-bottom: 0.5rem;
     border: 0px;
 }
 
@@ -121,11 +169,12 @@ export default {
 }
 
 .accordion-body {
-    background-color: rgba(250, 251, 252, 0.15);
+    background-color: rgba(250, 251, 252, 0.65);
+    border: 0px;
 }
 
 .accordion-collapse {
-    border-width: 1px;
+    border-width: 0px;
 }
 
 .accordion-button {
@@ -146,7 +195,7 @@ export default {
 }
 
 .accordion-button:not(.collapsed) {
-    color: #0c63e4;
+    color: #212529;
     background-color: unset;
 }
 </style>

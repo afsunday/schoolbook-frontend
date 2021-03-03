@@ -383,12 +383,11 @@ export default {
 
         const fetchClasses = async () => {
             reqState.loading = true
-            await Class.classes()
-            .then((res) => {
+            await Class.classArms().then((res) => {
+                
                 schoolClasses.value = res.data;
                 reqState.loading = false
-            })
-            .catch((err) => {
+            }).catch((err) => {
                 console.log(err)
             })
         } 

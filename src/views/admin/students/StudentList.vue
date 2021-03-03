@@ -118,12 +118,12 @@
 
                 <line-preload :loading="loadingState.loading"></line-preload>
 
-                <div class="card-body px-0 pt-0 min-100">
+                <div v-if="toggleListFace" class="card-body px-0 pt-0 min-100">
                     <div v-if="loadingState.loaded && !fetchStudentHasError" id="toggle-table">
                         <table class="table table-striped">
                             <thead class="small-xs font-weight-midi text-muted bg-white">
                                 <tr>
-                                    <th class="wd-30">
+                                    <th>
                                         <div class="form-check-lg form-check">
                                             <input type="checkbox" ref="checkAllCheckBox" @click="checkAll($event)" class="form-check-input" id="sb-checkall" />
                                             <label class="orm-check-label" for="sb-checkall"></label>
@@ -137,7 +137,7 @@
                                     <th>STATUS</th>
                                 </tr>
                             </thead>
-                            <tbody class="small font-weight-midi">
+                            <tbody class="text-capitalize">
                                 <tr v-for="(student, i) in students" :key="student.student_id" class="table-row">
                                     <th>
                                         <div class="form-check-lg form-check">
@@ -312,7 +312,7 @@ export default {
         const fetchClasses = () => {
             loadingState.filter = true
 
-            Class.classes().then((res) => {
+            Class.classArms().then((res) => {
                 classes.value = res.data
 
                 loadingState.filter = false
@@ -342,22 +342,40 @@ export default {
         } = useCheckBox('ADMIN_STUDENTS_SELECT')
 
 
-        // clear checkboxes from locally and var
+        // clear checkboxes from local storage and var
         const clearSelections = () => {
             selectedStudents.value = []
             removeCheckStorage()
         }
 
+        // page styling vars funcs
         const tableRowToggle = (event) => {
             event.target.closest('.table-row').classList.toggle('is-expanded');
         }
+
+
+        const toggleListFace = ref(true)
+
+        // const handleListFace = (e) => {
+        //     if (e.matches) {
+        //         toggleListFace.value = true
+        //     } else {
+        //         toggleListFace.value = false
+        //     }
+        // }
+
+        // let pageMediaQuery = window.matchMedia("(max-width: 700px)")
+
+        // pageMediaQuery.addListener(handleListFace)
+
+        // handleListFace(pageMediaQuery)
 
         return {
             loadingState, paginate, navigate, students, classes, fetchClasses, fetchStudents, fetchStudentParams, 
 
             filterStudents, filterResourceHasError, fetchStudentHasError, selectedStudents, checkAll, checkOne, 
 
-            checkBoxElements, checkAllCheckBox, clearSelections, tableRowToggle
+            checkBoxElements, checkAllCheckBox, clearSelections, tableRowToggle, toggleListFace
         }
     }
 }
